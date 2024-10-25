@@ -1,0 +1,2 @@
+Weekly contents update:
+- [Eric Nguyen] I used spring boot to create the foundations for the project and implemented the logic for the log in authorization page. Also worked on integrating MongoDB as our database instead of H2 to start streaming data on the cloud.
