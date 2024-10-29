@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+
+
+.custom-sidebar {
+    background-color: #deccfc;
+    position: fixed;
+    top: 129px; /* Adjust this value to match the height of your header */
+    left: 0;
+    height: calc(100vh - 60px); /* Full viewport height minus header height */
+    width: 260px; /* Set a fixed width for your sidebar */
+    overflow-y: auto; /* Allows scrolling within the sidebar if content overflows */
+    z-index: 900; /* Ensures it stays below the header */
+  }
+
+  .sidebarNav .nav-link {
+    font-family: 'Amatic SC', cursive;
+    font-size: 30px;
+  }
+
+  .sidebarNav .nav-link.active {
+    background-color: #A886DE !important; /* Your desired hex color */
+    color: #ffffff !important; /* Ensure text is readable */
+    font-family: 'Amatic SC', cursive;
+  }
+
