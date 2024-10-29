@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -36,3 +36,82 @@
     transform: rotate(360deg);
   }
 }
+/* .app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f2f5;
+  font-family: Arial, sans-serif;
+}
+
+.home-container {
+  text-align: center;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logout-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.logout-button:hover {
+  background-color: #0056b3;
+} */ */
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #4b2e83; /* Husky Purple */
+  font-family: Arial, sans-serif;
+  color: #ffffff; /* White text for contrast */
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #4b2e83; /* Husky Purple text */
+}
+
+.welcome-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.events-section {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.events-section h2 {
+  color: #b7a57a; /* Husky Gold */
+}
+
+.logout-button {
+  background-color: #b7a57a; /* Husky Gold */
+  color: #4b2e83; /* Husky Purple */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.logout-button:hover {
+  background-color: #a67c00; /* Darker gold for hover effect */
+}
+

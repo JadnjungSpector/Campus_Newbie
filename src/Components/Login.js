@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import './stlyes.css'; // Import the CSS file
+import { useNavigate } from 'react-router-dom';
+import './styles.css';
 
-const Login = ({ onRegisterClick }) => {
+const Login = ({ onLoginSuccess }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -26,16 +27,12 @@ const Login = ({ onRegisterClick }) => {
 
             const data = await response.text();
             setMessage(data);
-            setIsLoggedIn(true);
+            onLoginSuccess(username);
         } catch (error) {
             console.error('Error logging in:', error);
             setMessage('Login failed: ' + error.message);
         }
     };
-
-    if (isLoggedIn) {
-        return <h2>Welcome {username}!</h2>;
-    }
 
     return (
         <div className="container">
@@ -66,7 +63,7 @@ const Login = ({ onRegisterClick }) => {
                     <button type="submit">Login</button>
                 </form>
                 {message && <p>{message}</p>}
-                <button onClick={onRegisterClick}>First time user? Create an account</button>
+                <button onClick={() => navigate('/register')}>First time user? Create an account</button>
             </div>
         </div>
     );

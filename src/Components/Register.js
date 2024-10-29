@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import './stlyes.css';
+import { useNavigate } from 'react-router-dom';
+import './styles.css';
 
-const Register = ({ onLoginClick }) => {
+const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        setMessage(''); // Clear previous messages
+        setMessage('');
 
         try {
             const response = await fetch('http://localhost:8080/api/auth/register', {
@@ -24,11 +26,10 @@ const Register = ({ onLoginClick }) => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            // const data = await response.text();
-            setMessage('Account created successfully!'); // Success message
+            setMessage('Account created successfully!');
         } catch (error) {
             console.error('Error creating account:', error);
-            setMessage('Registration failed: ' + error.message); // Error message
+            setMessage('Registration failed: ' + error.message);
         }
     };
 
@@ -68,8 +69,8 @@ const Register = ({ onLoginClick }) => {
                 </div>
                 <button type="submit" className="register-button">Create Account</button>
             </form>
-            {message && <p className="register-message">{message}</p>} {/* Success or error message */}
-            <button onClick={onLoginClick} className="switch-button">Already have an account? Log in</button>
+            {message && <p className="register-message">{message}</p>}
+            <button onClick={() => navigate('/login')} className="switch-button">Already have an account? Log in</button>
         </div>
     );
 };
