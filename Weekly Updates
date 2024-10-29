@@ -1,0 +1,4 @@
+Weekly contents update:
+- [Eric Nguyen] I used spring boot to create the foundations for the project and implemented the logic for the log in authorization page. Also worked on integrating MongoDB as our database instead of H2 to start streaming data on the cloud.
+
+- [Jaden Jung] I worked on two different login authorization pages that have different styles, both back and front-end. I also developed a feature for the website (blank and white version) and set up MongoDB from scratch. Additionally, I took on the responsibility of preparing the team’s documents for each weekly deliverable, ensuring everything was submitted on time and up to the required standards while working closely with teammates to incorporate their input.
