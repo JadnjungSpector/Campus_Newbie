@@ -38,3 +38,4 @@ jobs:
       # Step 4: Run tests
       - name: Run tests
         run: mvn -f CampusNewbie/pom.xml test
+  
