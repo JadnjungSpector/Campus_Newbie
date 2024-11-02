@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardImg,
@@ -14,78 +15,28 @@ import Blog from "../../components/dashboard/Blog";
 import bg1 from "../../assets/images/bg/bg1.jpg";
 import bg2 from "../../assets/images/bg/bg2.jpg";
 import bg3 from "../../assets/images/bg/bg3.jpg";
-import bg4 from "../../assets/images/bg/bg4.jpg";
-import bg5 from "../../assets/images/bg/suzzalo.jpeg";
-
-const BlogData = [
-  {
-    image: bg5,
-    title: "This is simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg2,
-    title: "Lets be simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg3,
-    title: "Don't Lamp blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg4,
-    title: "Simple is beautiful",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg4,
-    title: "TESTING is beautiful",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg4,
-    title: "Simple is beautiful",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg4,
-    title: "Simple is beautiful",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg4,
-    title: "Simple is beautiful",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-];
-
 
 const Cards = () => {
+
+  const [activities, setActivities] = useState([]);
+
+  // Fetch activities from the backend
+  useEffect(() => {
+      const fetchActivities = async () => {
+        try {
+          const response = await fetch('http://localhost:5001/activities');
+          const data = await response.json();
+          setActivities(data);
+        } catch (error) {
+          console.error('Error fetching activities:', error);
+        }
+      };
+
+      fetchActivities();
+    }, []);
+
+    // Log activities before rendering
+    console.log("Activities in render:", activities);
 
   return (
     <div>
@@ -94,14 +45,14 @@ const Cards = () => {
       {/* --------------------------------------------------------------------------------*/}
       <h5 className="mb-3">Basic Card</h5>
       <Row>
-        {BlogData.map((blg, index) => ( // MADE A CHANGE HERE JORDYN
+        {activities.map((activity, index) => (
           <Col sm="6" lg="6" xl="3" key={index}>
             <Blog
-              image={blg.image}
-              title={blg.title}
-              subtitle={blg.subtitle}
-              text={blg.description}
-              color={blg.btnbg}
+              image={activity.activity_home_image}
+              title={activity.activity_title}
+              subtitle={activity.activity_summary} 
+              text={activity.description}           
+              color="primary"
             />
           </Col>
         ))}
