@@ -28,6 +28,7 @@ const Buttons = () => {
   };
 
   return (
+
     <div>
       {/* --------------------------------------------------------------------------------*/}
       {/* Start Inner Div*/}
@@ -274,6 +275,19 @@ const Buttons = () => {
                 </Button>
               </ButtonGroup>
               <p className="mb-0">Selected: {rSelected}</p>
+            </CardBody>
+          </Card>
+        </Col>
+        {/* New Submit Activity Button */}
+        <Col xs="12" md="6">
+          <Card>
+            <CardTitle tag="h6" className="border-bottom p-3 mb-0">
+              Submit Activity
+            </CardTitle>
+            <CardBody className="">
+              <Button color="primary" size="lg">
+                Submit Activity
+              </Button>
             </CardBody>
           </Card>
         </Col>
