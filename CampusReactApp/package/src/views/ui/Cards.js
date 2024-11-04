@@ -43,7 +43,7 @@ const Cards = () => {
       {/* --------------------------------------------------------------------------------*/}
       {/* Card-1*/}
       {/* --------------------------------------------------------------------------------*/}
-      <h5 className="mb-3">Basic Card</h5>
+      <h5 className="mb-3">Results</h5>
       <Row>
         {activities.map((activity, index) => (
           <Col sm="6" lg="6" xl="3" key={index}>
@@ -51,8 +51,8 @@ const Cards = () => {
               image={activity.activity_home_image}
               title={activity.activity_title}
               subtitle={activity.activity_summary} 
-              text={activity.description}           
-              color="primary"
+              text={activity.description}  
+              color="darkerPurple" // Double ensure color         
             />
           </Col>
         ))}
