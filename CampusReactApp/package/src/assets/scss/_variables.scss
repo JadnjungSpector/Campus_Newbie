@@ -14,9 +14,10 @@ $warning: #ffbc34;
 $dark: #343a40;
 $light: #eaf2fb;
 $secondary: #35363b;
+$darkerPurple: #A886DE;
 
 $theme-colors: (
-  "primary": $primary,
+  "": $primary,
   "secondary": $secondary,
   "success": $success,
   "info": $info,
@@ -29,6 +30,7 @@ $theme-colors: (
   "light-info": #d3edfa,
   "light-warning": #f8ecdc,
   "light-danger": #f8dddd,
+  "darkerPurple": $darkerPurple,
 );
 // scss-docs-start gray-color-variables
 $white: #fff !default;
