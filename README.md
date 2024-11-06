@@ -75,7 +75,7 @@ Expected and actual results.
 
 Screenshots or logs if applicable.
 
-##Known Bugs
+## Known Bugs
 Refer to the GitHub Issues tracker for an up-to-date list of known issues. This is regularly updated to reflect the latest development and testing feedback.
 
 
