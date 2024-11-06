@@ -3,6 +3,8 @@
 **Project Information**
 
 Campus Newbie is a student-focused platform that provides personalized activity recommendations, campus hotspots, and event listings with safety ratings and user reviews. It uses a points-based system to encourage student exploration and engagement, while offering filters for tailored suggestions based on group type. By emphasizing community integration and verified events, Campus Newbie aims to enhance the college experience through safe, engaging, and inclusive campus discovery.
+**Most functionalities work in progress**
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -15,7 +17,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 **Functionality**
 User can look at current events as well as register one. However, for the time being, we are missing on the functionality of capable of handling multiple campus other than University of Washington. 
-## Installation
+## Installation (Necessary for User and Developer)
 **Prerequisites**
 
 Node.js (v16.x or higher) and npm (v8.x or higher): Required for running both the frontend (React.js) and backend (Express).
@@ -162,6 +164,8 @@ Complex setup; paid beyond free tier
 Azure Pipelines
 Extensive language support, scalable
 Complex UI; less intuitive interface
+
+**Reference project design document for further testing information**
 
 ## Tests Executed in CI Build
 All backend tests
