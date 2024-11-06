@@ -11,6 +11,7 @@ app.use(express.json()); // For parsing application/json
 const uri = "mongodb+srv://jordym2:KWeCDwrZq8RPAAFM@activityinfo.s2cr2.mongodb.net/ActivityData?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 
+//Hi
 app.get('/activities', async (req, res) => {
     try {
         await client.connect();
