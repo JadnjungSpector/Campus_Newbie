@@ -13,20 +13,21 @@ Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 
-Functionality
+**Functionality**
 User can look at current events as well as register one. However, for the time being, we are missing on the functionality of capable of handling multiple campus other than University of Washington. 
-Installation
-Prerequisites:
+## Installation
+**Prerequisites**
+
 Node.js (v16.x or higher) and npm (v8.x or higher): Required for running both the frontend (React.js) and backend (Express).
 MongoDB: For local development, MongoDB must be installed and running. Version 5.0+ is recommended.
 Git: Necessary for cloning the repository and managing code.
-Installation Steps:
+##Installation Steps:
 Clone the GitLab repository: Bash copy code
 git clone https://github.com/JadnjungSpector/Campus_Newbie.git
 Navigate to the project folder: bash copy code
 cd Campus_Newbie
 
-Backend Setup:
+## Backend Setup:
 Install backend dependencies: bash copy code
 cd CampusNewbie
 npm install
@@ -35,7 +36,7 @@ Start the backend server: bash copy code
 	./node server.js
 
 
-Frontend Setup:
+## Frontend Setup:
 Install frontend dependencies: bash copy code
 cd CampusReactApp
 npm install
@@ -109,13 +110,13 @@ To run the server to connect to MongoDB, you must cd into CampusReactApp -> pack
 
 
 
-Obtaining the Source Code
+## Obtaining the Source Code
 Clone the repository from GitLab:
 bash
 Copy code
 git clone https://github.com/JadnjungSpector/Campus_Newbie.git
 
-Directory Structure
+## Directory Structure
 src/main/java: Main application code for business logic, controllers, models, etc.
 src/test/java: Test cases for each component, organized by package structure.
 frontend: Contains the React.js files and components for the user interface.
@@ -136,7 +137,7 @@ Update version numbers in code and documentation if required.
 Run a full test suite to ensure stability.
 Confirm any changes in the README or user documentation.
 
-Test-Automation Infrastructure
+## Test-Automation Infrastructure
 Tools:
 JUnit: Standard testing framework for Java with Maven integration.
 Mocha: For Node.js backend testing.
@@ -162,7 +163,7 @@ Azure Pipelines
 Extensive language support, scalable
 Complex UI; less intuitive interface
 
-Tests Executed in CI Build
+## Tests Executed in CI Build
 All backend tests
 
 
