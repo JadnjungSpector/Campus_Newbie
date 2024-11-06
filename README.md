@@ -13,6 +13,55 @@ Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 
+Functionality
+User can look at current events as well as register one. However, for the time being, we are missing on the functionality of capable of handling multiple campus other than University of Washington. 
+Installation
+Prerequisites:
+Node.js (v16.x or higher) and npm (v8.x or higher): Required for running both the frontend (React.js) and backend (Express).
+MongoDB: For local development, MongoDB must be installed and running. Version 5.0+ is recommended.
+Git: Necessary for cloning the repository and managing code.
+Installation Steps:
+Clone the GitLab repository: Bash copy code
+git clone https://github.com/JadnjungSpector/Campus_Newbie.git
+Navigate to the project folder: bash copy code
+cd Campus_Newbie
+
+Backend Setup:
+Install backend dependencies: bash copy code
+cd CampusNewbie
+npm install
+Configure MongoDB by updating the .env file with the MongoDB URI and JWT secret.
+Start the backend server: bash copy code
+	./node server.js
+
+
+Frontend Setup:
+Install frontend dependencies: bash copy code
+cd CampusReactApp
+npm install
+Start the frontend server: bash copy code
+npm start
+Running the Software
+To start the software:
+Start MongoDB, backend, and frontend servers as detailed in the installation section.
+Open a web browser and navigate to http://localhost:3000 to access the app interface.
+Using the Software
+Login/Register: Access through the login page, using either OAuth or campus credentials (e.g., UW login).
+Explore Events: Use filters on the events page to find relevant campus activities.
+Submit Events: Event organizers can submit events for review from their profile.
+Track Activities: Access the profile page to see bookmarked activities and request completion review for points.
+Reporting Bugs
+Go to the GitHub Issues tracker (link provided on the project’s GitHub page).
+Provide details, including:
+Description of the issue.
+Steps to reproduce.
+Expected and actual results.
+Screenshots or logs if applicable.
+Known Bugs
+Refer to the GitHub Issues tracker for an up-to-date list of known issues. This is regularly updated to reflect the latest development and testing feedback.
+
+
+
 ---------------------------------------------------------------------------------------------------------------
 
 # Developer Information
@@ -57,3 +106,63 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 **Note: This is only to run the backend server to connect with the MongoDB database**
 
 To run the server to connect to MongoDB, you must cd into CampusReactApp -> package -> backend then run the command to run the server.js file.
+
+
+
+Obtaining the Source Code
+Clone the repository from GitLab:
+bash
+Copy code
+git clone https://github.com/JadnjungSpector/Campus_Newbie.git
+
+Directory Structure
+src/main/java: Main application code for business logic, controllers, models, etc.
+src/test/java: Test cases for each component, organized by package structure.
+frontend: Contains the React.js files and components for the user interface.
+backend: Node.js backend with Express API endpoints.
+Building the Software
+Backend: Use ./node server.js in the backend directory to start the server.
+Frontend: Use npm start in the frontend directory to launch the app interface.
+Testing the Software
+Unit Tests: Located in src/test/java, with tests for individual classes and components.
+System Testing: Use Postman or Selenium for testing interactions between frontend and backend.
+Usability Testing: Conduct user testing sessions and gather feedback.
+Adding New Tests
+Navigate to src/test/java.
+Create a new test file in the appropriate package (e.g., controller, model).
+Follow naming conventions (<ComponentName>Test.java) and structure.
+Building a Release
+Update version numbers in code and documentation if required.
+Run a full test suite to ensure stability.
+Confirm any changes in the README or user documentation.
+
+Test-Automation Infrastructure
+Tools:
+JUnit: Standard testing framework for Java with Maven integration.
+Mocha: For Node.js backend testing.
+Selenium: For integration testing between frontend and backend.
+Adding a New Test:
+Navigate to src/test/java.
+Create a new class in the corresponding package.
+Follow conventions to maintain organization and alignment with the project structure.
+Continuous Integration (CI) Service: GitHub Actions
+Why GitHub Actions: Integrated with GitHub, large action library, free usage limits.
+CI Build Triggers: Any push to the main branch or new pull request.
+CI Service Comparison
+Service
+Pros
+Cons
+GitHub Actions
+Integrated with GitHub; free usage
+Limited monitoring options
+CircleCI
+High scalability, detailed insights
+Complex setup; paid beyond free tier
+Azure Pipelines
+Extensive language support, scalable
+Complex UI; less intuitive interface
+
+Tests Executed in CI Build
+All backend tests
+
+
