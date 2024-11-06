@@ -133,8 +133,10 @@ Copy code
 git clone https://github.com/JadnjungSpector/Campus_Newbie.git
 
 ## Directory Structure
-src/main/java: Main application code for business logic, controllers, models, etc.
-src/test/java: Test cases for each component, organized by package structure.
+## Directory Structure
+Campus_Newbie/CampusNewbie/src/main: Main application code for business logic, controllers, models, login infrastructure, etc.
+Campus_Newbie/CampusNewbie/CampusReactApp/package: React application with backend server to mongoDb
+Campus_Newbie/CampusNewbie/src/test: Test cases for each component, organized by package structure.
 frontend: Contains the React.js files and components for the user interface.
 backend: Node.js backend with Express API endpoints.
 Building the Software
