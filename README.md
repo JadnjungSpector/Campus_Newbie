@@ -63,6 +63,20 @@ Screenshots or logs if applicable.
 Known Bugs
 Refer to the GitHub Issues tracker for an up-to-date list of known issues. This is regularly updated to reflect the latest development and testing feedback.
 
+## Reporting Bugs
+Go to the GitHub Issues tracker (link provided on the project’s GitHub page).
+Provide details, including:
+
+Description of the issue.
+
+Steps to reproduce.
+
+Expected and actual results.
+
+Screenshots or logs if applicable.
+
+##Known Bugs
+Refer to the GitHub Issues tracker for an up-to-date list of known issues. This is regularly updated to reflect the latest development and testing feedback.
 
 
 ---------------------------------------------------------------------------------------------------------------
