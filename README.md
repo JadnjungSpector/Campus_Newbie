@@ -1,6 +1,6 @@
 # User Information
 
-**Prohect Information**
+**Project Information**
 
 Campus Newbie is a student-focused platform that provides personalized activity recommendations, campus hotspots, and event listings with safety ratings and user reviews. It uses a points-based system to encourage student exploration and engagement, while offering filters for tailored suggestions based on group type. By emphasizing community integration and verified events, Campus Newbie aims to enhance the college experience through safe, engaging, and inclusive campus discovery.
 ## Available Scripts
