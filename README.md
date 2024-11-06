@@ -167,6 +167,12 @@ Complex UI; less intuitive interface
 
 **Reference project design document for further testing information**
 
+## Building a Release
+Update version numbers in code and documentation if required.
+Run a full test suite to ensure stability.
+Confirm any changes in the README or user documentation.
+
+
 ## Tests Executed in CI Build
 All backend tests
 
