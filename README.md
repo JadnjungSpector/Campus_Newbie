@@ -122,7 +122,7 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 **Note: This is only to run the backend server to connect with the MongoDB database**
 
-To run the server to connect to MongoDB, you must cd into CampusReactApp -> package -> backend then run the command to run the server.js file.
+To run the server to connect to MongoDB, you must cd into CampusReactApp -> package -> backend then run the command to run the app.
 
 ### `mvn spring-boot:run`
 
