@@ -29,8 +29,8 @@ const navigation = [
     icon: "bi bi-patch-check",
   },
   {
-    title: "Buttons",
-    href: "/buttons",
+    title: "Submit Activity",
+    href: "/submitActivity",
     icon: "bi bi-hdd-stack",
   },
   // {
