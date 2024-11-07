@@ -126,9 +126,9 @@ To run the server to connect to MongoDB, you must cd into CampusReactApp -> pack
 
 ### `mvn spring-boot:run`
 
-**Note: This is only to run the MongoDB database**
+**Note: This is only to compile the whole files and run pom.xml**
 
-To run the MongoDB database, you must cd into CampusNewbie/CampusNewbie and then run the command to run the server.js file.
+To run the app, you must cd into CampusNewbie/CampusNewbie and then run the command to run the server.js file.
 
 ## Obtaining the Source Code
 Clone the repository from GitLab:
