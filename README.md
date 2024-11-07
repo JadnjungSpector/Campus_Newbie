@@ -7,7 +7,7 @@ Campus Newbie is a student-focused platform that provides personalized activity 
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory(CampusNewbie/CampusNewbie/Front_end_app), you can run:
 
 ### `npm start`
 
@@ -124,7 +124,11 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 To run the server to connect to MongoDB, you must cd into CampusReactApp -> package -> backend then run the command to run the server.js file.
 
+### `mvn spring-boot:run`
 
+**Note: This is only to run the MongoDB database**
+
+To run the MongoDB database, you must cd into CampusNewbie/CampusNewbie and then run the command to run the server.js file.
 
 ## Obtaining the Source Code
 Clone the repository from GitLab:
