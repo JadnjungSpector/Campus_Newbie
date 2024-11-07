@@ -1,9 +1,0 @@
-.custom-mynavbar {
-    background-color: #deccfc; /* Your desired hex color */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000; /* Ensures it stays above other content */
-  }
-
