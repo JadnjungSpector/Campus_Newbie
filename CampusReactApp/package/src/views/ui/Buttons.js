@@ -9,7 +9,7 @@ import {
   Col,
 } from "reactstrap";
 
-const Buttons = () => {
+const Buttons1 = () => {
   const [cSelected, setCSelected] = useState([]);
   const [rSelected, setRSelected] = useState(null);
 
@@ -289,4 +289,4 @@ const Buttons = () => {
   );
 };
 
-export default Buttons;
+export default Buttons1;

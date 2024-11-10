@@ -1,306 +1,262 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
-  Button,
-  ButtonGroup,
   Card,
+  CardImg,
+  CardText,
   CardBody,
   CardTitle,
+  CardSubtitle,
+  CardGroup,
+  Button,
   Row,
   Col,
 } from "reactstrap";
+import Blog from "../../components/dashboard/Blog";
+import bg1 from "../../assets/images/bg/bg1.jpg";
+import bg2 from "../../assets/images/bg/bg2.jpg";
+import bg3 from "../../assets/images/bg/bg3.jpg";
 
-const Buttons = () => {
-  const [cSelected, setCSelected] = useState([]);
-  const [rSelected, setRSelected] = useState(null);
+const Cards = () => {
 
-  const onRadioBtnClick = (rSelected) => {
-    setRSelected(rSelected);
-  };
+  const [activities, setActivities] = useState([]);
 
-  const onCheckboxBtnClick = (selected) => {
-    const index = cSelected.indexOf(selected);
-    if (index < 0) {
-      cSelected.push(selected);
-    } else {
-      cSelected.splice(index, 1);
-    }
-    setCSelected([...cSelected]);
-  };
+  // Fetch activities from the backend
+  useEffect(() => {
+      const fetchActivities = async () => {
+        try {
+          const response = await fetch('http://localhost:5001/activities');
+          const data = await response.json();
+          setActivities(data);
+        } catch (error) {
+          console.error('Error fetching activities:', error);
+        }
+      };
+
+      fetchActivities();
+    }, []);
+
+    // Log activities before rendering
+    console.log("Activities in render:", activities);
 
   return (
-
     <div>
       {/* --------------------------------------------------------------------------------*/}
-      {/* Start Inner Div*/}
+      {/* Card-1*/}
       {/* --------------------------------------------------------------------------------*/}
+      <h5 className="mb-3">Results</h5>
+      <Row>
+        {activities.map((activity, index) => (
+          <Col sm="6" lg="6" xl="3" key={index}>
+            <Blog
+              image={activity.activity_home_image}
+              title={activity.activity_title}
+              subtitle={activity.activity_summary} 
+              text={activity.description}  
+              color="darkerPurple" // Double ensure color         
+            />
+          </Col>
+        ))}
+      </Row>
       {/* --------------------------------------------------------------------------------*/}
-      {/* Row*/}
+      {/* Card-2*/}
       {/* --------------------------------------------------------------------------------*/}
       <Row>
-        <Col xs="12" md="6">
-          {/* --------------------------------------------------------------------------------*/}
-          {/* Card-1*/}
-          {/* --------------------------------------------------------------------------------*/}
-          <Card>
-            <CardTitle tag="h6" className="border-bottom p-3 mb-0">
-              Buttons
-            </CardTitle>
-            <CardBody className="">
-              <div className="button-group">
-                <Button className="btn" color="primary">
-                  primary
-                </Button>
-                <Button className="btn" color="secondary">
-                  secondary
-                </Button>
-                <Button className="btn" color="success">
-                  success
-                </Button>
-                <Button className="btn" color="info">
-                  info
-                </Button>
-                <Button className="btn" color="warning">
-                  warning
-                </Button>
-                <Button className="btn" color="danger">
-                  danger
-                </Button>
-                <Button className="btn" color="link">
-                  link
-                </Button>
-              </div>
-            </CardBody>
+        <h5 className="mb-3 mt-3">Alignment Text</h5>
+        <Col md="6" lg="4">
+          <Card body>
+            <CardTitle tag="h5">Special Title Treatment</CardTitle>
+            <CardText>
+              With supporting text below as a natural lead-in to additional
+              content.
+            </CardText>
+            <div>
+              <Button color="light-warning">Go somewhere</Button>
+            </div>
           </Card>
         </Col>
-        <Col xs="12" md="6">
-          {/* --------------------------------------------------------------------------------*/}
-          {/* Card-2*/}
-          {/* --------------------------------------------------------------------------------*/}
-          <Card>
-            <CardTitle tag="h6" className="border-bottom p-3 mb-0">
-              Outline Buttons
-            </CardTitle>
-            <CardBody className="">
-              <div className="button-group">
-                <Button className="btn" outline color="primary">
-                  primary
-                </Button>
-                <Button className="btn" outline color="secondary">
-                  secondary
-                </Button>
-                <Button className="btn" outline color="success">
-                  success
-                </Button>
-                <Button className="btn" outline color="info">
-                  info
-                </Button>
-                <Button className="btn" outline color="warning">
-                  warning
-                </Button>
-                <Button className="btn" outline color="danger">
-                  danger
-                </Button>
-              </div>
-            </CardBody>
+        <Col md="6" lg="4">
+          <Card body className="text-center">
+            <CardTitle tag="h5">Special Title Treatment</CardTitle>
+            <CardText>
+              With supporting text below as a natural lead-in to additional
+              content.
+            </CardText>
+            <div>
+              <Button color="light-danger">Go somewhere</Button>
+            </div>
           </Card>
         </Col>
-        <Col xs="12" md="6">
-          {/* --------------------------------------------------------------------------------*/}
-          {/* Card-3*/}
-          {/* --------------------------------------------------------------------------------*/}
-          <Card>
-            <CardTitle tag="h6" className="border-bottom p-3 mb-0">
-              Large Size Buttons
-            </CardTitle>
-            <CardBody className="">
-              <div className="button-group">
-                <Button className="btn" color="primary" size="lg">
-                  Large Button
-                </Button>
-                <Button className="btn" color="secondary" size="lg">
-                  Large Button
-                </Button>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col xs="12" md="6">
-          {/* --------------------------------------------------------------------------------*/}
-          {/* Card-4*/}
-          {/* --------------------------------------------------------------------------------*/}
-          <Card>
-            <CardTitle tag="h6" className="border-bottom p-3 mb-0">
-              Small Size Buttons
-            </CardTitle>
-            <CardBody className="">
-              <div className="button-group">
-                <Button className="btn" color="primary" size="sm">
-                  Small Button
-                </Button>
-                <Button className="btn" color="secondary" size="sm">
-                  Small Button
-                </Button>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col xs="12" md="6">
-          {/* --------------------------------------------------------------------------------*/}
-          {/* Card-6*/}
-          {/* --------------------------------------------------------------------------------*/}
-          <Card>
-            <CardTitle tag="h6" className="border-bottom p-3 mb-0">
-              Active State Buttons
-            </CardTitle>
-            <CardBody className="">
-              <div className="button-group">
-                <Button className="btn" color="primary" size="lg" active>
-                  Primary link
-                </Button>
-                <Button className="btn" color="secondary" size="lg" active>
-                  Link
-                </Button>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col xs="12" md="6">
-          {/* --------------------------------------------------------------------------------*/}
-          {/* Card-7*/}
-          {/* --------------------------------------------------------------------------------*/}
-          <Card>
-            <CardTitle tag="h6" className="border-bottom p-3 mb-0">
-              Disabled State Buttons
-            </CardTitle>
-            <CardBody className="">
-              <div className="button-group">
-                <Button className="btn" color="primary" size="lg" disabled>
-                  Primary button
-                </Button>
-                <Button className="btn" color="secondary" size="lg" disabled>
-                  Button
-                </Button>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col xs="12" md="6">
-          {/* --------------------------------------------------------------------------------*/}
-          {/* Card-5*/}
-          {/* --------------------------------------------------------------------------------*/}
-          <Card>
-            <CardTitle tag="h6" className="border-bottom p-3 mb-0">
-              Block Buttons
-            </CardTitle>
-            <CardBody className="">
-              <div className="button-group">
-                <Button className="btn" color="primary" size="lg" block>
-                  Block level button
-                </Button>
-                <Button className="btn" color="secondary" size="lg" block>
-                  Block level button
-                </Button>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col xs="12" md="6">
-          {/* --------------------------------------------------------------------------------*/}
-          {/* Card-6*/}
-          {/* --------------------------------------------------------------------------------*/}
-          <Card>
-            <CardTitle tag="h6" className="border-bottom p-3 mb-0">
-              Checkbox(Stateful Buttons)
-            </CardTitle>
-            <CardBody className="">
-              <h5>Checkbox Buttons</h5>
-              <ButtonGroup>
-                <Button
-                  color="primary"
-                  onClick={() => onCheckboxBtnClick(1)}
-                  active={cSelected.includes(1)}
-                >
-                  One
-                </Button>
-                <Button
-                  color="primary"
-                  onClick={() => onCheckboxBtnClick(2)}
-                  active={cSelected.includes(2)}
-                >
-                  Two
-                </Button>
-                <Button
-                  color="primary"
-                  onClick={() => onCheckboxBtnClick(3)}
-                  active={cSelected.includes(3)}
-                >
-                  Three
-                </Button>
-              </ButtonGroup>
-              <p className="mb-0">Selected: {JSON.stringify(cSelected)}</p>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col xs="12" md="6">
-          {/* --------------------------------------------------------------------------------*/}
-          {/* Card-6*/}
-          {/* --------------------------------------------------------------------------------*/}
-          <Card>
-            <CardTitle tag="h6" className="border-bottom p-3 mb-0">
-              Radio Buttons (Stateful Buttons)
-            </CardTitle>
-            <CardBody className="">
-              <h5>Radio Buttons</h5>
-              <ButtonGroup>
-                <Button
-                  color="primary"
-                  onClick={() => onRadioBtnClick(1)}
-                  active={rSelected === 1}
-                >
-                  One
-                </Button>
-                <Button
-                  color="primary"
-                  onClick={() => onRadioBtnClick(2)}
-                  active={rSelected === 2}
-                >
-                  Two
-                </Button>
-                <Button
-                  color="primary"
-                  onClick={() => onRadioBtnClick(3)}
-                  active={rSelected === 3}
-                >
-                  Three
-                </Button>
-              </ButtonGroup>
-              <p className="mb-0">Selected: {rSelected}</p>
-            </CardBody>
-          </Card>
-        </Col>
-        {/* New Submit Activity Button */}
-        <Col xs="12" md="6">
-          <Card>
-            <CardTitle tag="h6" className="border-bottom p-3 mb-0">
-              Submit Activity
-            </CardTitle>
-            <CardBody className="">
-              <Button color="primary" size="lg">
-                Submit Activity
-              </Button>
-            </CardBody>
+        <Col md="6" lg="4">
+          <Card body className="text-end">
+            <CardTitle tag="h5">Special Title Treatment</CardTitle>
+            <CardText>
+              With supporting text below as a natural lead-in to additional
+              content.
+            </CardText>
+            <div>
+              <Button color="light-success">Go somewhere</Button>
+            </div>
           </Card>
         </Col>
       </Row>
       {/* --------------------------------------------------------------------------------*/}
-      {/* Row*/}
+      {/* Card-2*/}
       {/* --------------------------------------------------------------------------------*/}
-
+      <Row>
+        <h5 className="mb-3 mt-3">Colored Card</h5>
+        <Col md="6" lg="3">
+          <Card body color="primary" inverse>
+            <CardTitle tag="h5">Special Title Treatment</CardTitle>
+            <CardText>
+              With supporting text below as a natural lead-in to additional
+              content.
+            </CardText>
+            <div>
+              <Button>Button</Button>
+            </div>
+          </Card>
+        </Col>
+        <Col md="6" lg="3">
+          <Card body color="info" inverse>
+            <CardTitle tag="h5">Special Title Treatment</CardTitle>
+            <CardText>
+              With supporting text below as a natural lead-in to additional
+              content.
+            </CardText>
+            <div>
+              <Button>Button</Button>
+            </div>
+          </Card>
+        </Col>
+        <Col md="6" lg="3">
+          <Card body color="success" inverse>
+            <CardTitle tag="h5">Special Title Treatment</CardTitle>
+            <CardText>
+              With supporting text below as a natural lead-in to additional
+              content.
+            </CardText>
+            <div>
+              <Button>Button</Button>
+            </div>
+          </Card>
+        </Col>
+        <Col md="6" lg="3">
+          <Card body color="danger" inverse>
+            <CardTitle tag="h5">Special Title Treatment</CardTitle>
+            <CardText>
+              With supporting text below as a natural lead-in to additional
+              content.
+            </CardText>
+            <div>
+              <Button>Button</Button>
+            </div>
+          </Card>
+        </Col>
+        <Col md="6" lg="3">
+          <Card body color="light-warning">
+            <CardTitle tag="h5">Special Title Treatment</CardTitle>
+            <CardText>
+              With supporting text below as a natural lead-in to additional
+              content.
+            </CardText>
+            <div>
+              <Button>Button</Button>
+            </div>
+          </Card>
+        </Col>
+        <Col md="6" lg="3">
+          <Card body color="light-info">
+            <CardTitle tag="h5">Special Title Treatment</CardTitle>
+            <CardText>
+              With supporting text below as a natural lead-in to additional
+              content.
+            </CardText>
+            <div>
+              <Button>Button</Button>
+            </div>
+          </Card>
+        </Col>
+        <Col md="6" lg="3">
+          <Card body color="light-success">
+            <CardTitle tag="h5">Special Title Treatment</CardTitle>
+            <CardText>
+              With supporting text below as a natural lead-in to additional
+              content.
+            </CardText>
+            <div>
+              <Button>Button</Button>
+            </div>
+          </Card>
+        </Col>
+        <Col md="6" lg="3">
+          <Card body color="light-danger">
+            <CardTitle tag="h5">Special Title Treatment</CardTitle>
+            <CardText>
+              With supporting text below as a natural lead-in to additional
+              content.
+            </CardText>
+            <div>
+              <Button>Button</Button>
+            </div>
+          </Card>
+        </Col>
+      </Row>
       {/* --------------------------------------------------------------------------------*/}
-      {/* End Inner Div*/}
+      {/* Card-Group*/}
       {/* --------------------------------------------------------------------------------*/}
+      <Row>
+        <h5 className="mb-3 mt-3">Card Group</h5>
+        <Col>
+          <CardGroup>
+            <Card>
+              <CardImg alt="Card image cap" src={bg1} top width="100%" />
+              <CardBody>
+                <CardTitle tag="h5">Card title</CardTitle>
+                <CardSubtitle className="mb-2 text-muted" tag="h6">
+                  Card subtitle
+                </CardSubtitle>
+                <CardText>
+                  This is a wider card with supporting text below as a natural
+                  lead-in to additional content. This content is a little bit
+                  longer.
+                </CardText>
+                <Button>Button</Button>
+              </CardBody>
+            </Card>
+            <Card>
+              <CardImg alt="Card image cap" src={bg2} top width="100%" />
+              <CardBody>
+                <CardTitle tag="h5">Card title</CardTitle>
+                <CardSubtitle className="mb-2 text-muted" tag="h6">
+                  Card subtitle
+                </CardSubtitle>
+                <CardText>
+                  This card has supporting text below as a natural lead-in to
+                  additional content.
+                </CardText>
+                <Button>Button</Button>
+              </CardBody>
+            </Card>
+            <Card>
+              <CardImg alt="Card image cap" src={bg3} top width="100%" />
+              <CardBody>
+                <CardTitle tag="h5">Card title</CardTitle>
+                <CardSubtitle className="mb-2 text-muted" tag="h6">
+                  Card subtitle
+                </CardSubtitle>
+                <CardText>
+                  This is a wider card with supporting text below as a natural
+                  lead-in to additional content. This card has even longer
+                  content than the first to show that equal height action.
+                </CardText>
+                <Button>Button</Button>
+              </CardBody>
+            </Card>
+          </CardGroup>
+        </Col>
+      </Row>
     </div>
   );
 };
 
-export default Buttons;
+export default Cards;
