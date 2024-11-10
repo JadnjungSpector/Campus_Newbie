@@ -15,7 +15,7 @@ import {
 } from "reactstrap";
 import Logo from "./Logo";
 import { ReactComponent as LogoWhite } from "../assets/images/logos/materialprowhite.svg";
-import user1 from "../assets/images/users/user4.jpg";
+import profile_icon from "../assets/images/logos/profile-icon.png";
 
 // Import the CSS file
 import './css/./Header.css';
@@ -91,19 +91,19 @@ const Header = () => {
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle color="transparent">
             <img
-              src={user1}
+              src={profile_icon}
               alt="profile"
               className="rounded-circle"
-              width="60"
+              width="30"
             ></img>
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem header>Info</DropdownItem>
-            <DropdownItem>My Account</DropdownItem>
-            <DropdownItem>Edit Profile</DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem>My Balance</DropdownItem>
-            <DropdownItem>Inbox</DropdownItem>
+            {/* <DropdownItem header>Info</DropdownItem> */}
+            {/* <DropdownItem>My Account</DropdownItem> */}
+            {/* <DropdownItem>Edit Profile</DropdownItem> */}
+            {/* <DropdownItem divider /> */}
+            {/* <DropdownItem>My Balance</DropdownItem> */}
+            {/* <DropdownItem>Inbox</DropdownItem> */}
             <DropdownItem>Logout</DropdownItem>
           </DropdownMenu>
         </Dropdown>
