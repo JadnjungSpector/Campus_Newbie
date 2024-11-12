@@ -1,7 +1,7 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
-const bcrypt = require('bcrypt'); // For password hashing
+const bcrypt = require('bcryptjs');// For password hashing
 const jwt = require('jsonwebtoken'); // For generating JWT tokens
 
 const app = express();
@@ -30,6 +30,35 @@ app.get('/activities', async (req, res) => {
     } finally {
         await client.close();
     }
+});
+
+// POST endpoint to add a new activity (used by SubmitActivity.js)
+app.post('/api/activities', async (req, res) => {
+  try {
+      await client.connect();
+      const database = client.db('ActivityData');
+      const collection = database.collection('home_screen');
+      
+      const { studentName, activityTitle, description, targetAudience, eventCategories, image } = req.body;
+
+      const newActivity = {
+          student_name: studentName,
+          activity_title: activityTitle,
+          activity_summary: description,
+          activity_home_image: image, // Store the image URL or base64 string here
+          activity_type: eventCategories,
+          audience: targetAudience,
+      };
+
+      const result = await collection.insertOne(newActivity);
+
+      res.status(201).json({ message: 'Activity created successfully', data: result.ops[0] });
+  } catch (error) {
+      console.error('Error creating activity:', error);
+      res.status(500).json({ message: 'Failed to create activity' });
+  } finally {
+      await client.close();
+  }
 });
 
 // new login endpoint
