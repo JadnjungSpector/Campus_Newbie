@@ -35,7 +35,7 @@ const navigation = [
   },
   {
     title: "Submit Activity",
-    href: "/buttons",
+    href: "/submitActivity",
     icon: "bi bi-hdd-stack",
   },
   // {

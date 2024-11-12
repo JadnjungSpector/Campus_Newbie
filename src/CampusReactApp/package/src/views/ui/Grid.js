@@ -1,6 +1,6 @@
 import { Container, Col, Row, Card, CardBody, CardTitle } from "reactstrap";
 
-const Grid = () => {
+const ActivityIndividual = () => {
   return (
     <div>
       {/* --------------------------------------------------------------------------------*/}
@@ -128,4 +128,4 @@ const Grid = () => {
   );
 };
 
-export default Grid;
+export default ActivityIndividual;
