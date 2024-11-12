@@ -1,4 +1,5 @@
 import { Col, Row } from "reactstrap";
+import React, { useEffect, useState } from 'react';
 import SalesChart from "../components/dashboard/SalesChart";
 import Feeds from "../components/dashboard/Feeds";
 import ProjectTables from "../components/dashboard/ProjectTable";
@@ -9,93 +10,100 @@ import bg2 from "../assets/images/bg/bg2.jpg";
 import bg3 from "../assets/images/bg/bg3.jpg";
 import bg4 from "../assets/images/bg/bg4.jpg";
 
-const BlogData = [
-  {
-    image: bg1,
-    title: "This is simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg2,
-    title: "Lets be simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg3,
-    title: "Don't Lamp blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg4,
-    title: "Simple is beautiful",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg4,
-    title: "TESTING is beautiful",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg4,
-    title: "TESTING2 is beautiful",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-];
+import background from "../assets/images/bg/UWCity.jpg";
+import userpic from "../assets/images/users/IMG_1874.jpeg";
 
 const Profile = () => {
-  return (
-    <div>
-      {/***Top Cards***/}
+  const [activities, setActivities] = useState([]);
 
-      {/***Sales & Feed***/}
-      <Row>
-        <Col sm="6" lg="6" xl="7" xxl="8">
-          <SalesChart />
-        </Col>
-        <Col sm="6" lg="6" xl="5" xxl="4">
-          <Feeds />
+  // Fetch activities from the backend
+  useEffect(() => {
+      const fetchActivities = async () => {
+        try {
+          const response = await fetch('http://localhost:5001/activities');
+          const data = await response.json();
+          setActivities(data);
+        } catch (error) {
+          console.error('Error fetching activities:', error);
+        }
+      };
+
+      fetchActivities();
+    }, []);
+
+    // Log activities before rendering
+    console.log("Activities in render:", activities);
+  return (
+    <div
+    style={{
+      fontFamily: "'Amatic SC', cursive", // Set font family here for all text
+      color: "black", // Set a base color for all text if needed
+    }}>
+      {/*** Background Photo w Profile Photo ***/}
+      <Row className="mb-4"> {}
+        <Col lg="12" className="text-center">
+          <img
+            src={background} 
+            alt="Profile"
+            style={{
+              width: "100%",           
+              height: "200px",          
+              objectFit: "cover",       
+              objectPosition: "top",
+              borderRadius: "10px",
+            }}
+          />
+      
+          {/* Profile picture on top of the background */}
+          <img
+            src={userpic}  
+            alt="Profile"
+            style={{
+              transform: "translate(-450px, -75px)", 
+              width: "200px",        
+              height: "200px",
+              borderRadius: "50%",    
+              border: "8px solid white",  
+            }}
+          />
+          <div style= {{ 
+            transform: "translate(-200px, -200px)", 
+            color: "black", 
+            fontSize: "60px", 
+            }}>
+            <p>Your Name</p>
+
+          </div>
         </Col>
       </Row>
-      {/***Table ***/}
-      <Row>
-        <Col lg="12">
-          <ProjectTables />
-        </Col>
-      </Row>
-      {/***Blog Cards***/}
-      <Row>
-        {BlogData.map((blg, index) => (
+      
+
+
+
+      <h5 className="mb-3">BookMarked Activities</h5>
+      <Row style={{ marginTop: "-130px" }}>
+        {activities.map((activity, index) => (
           <Col sm="6" lg="6" xl="3" key={index}>
             <Blog
-              image={blg.image}
-              title={blg.title}
-              subtitle={blg.subtitle}
-              text={blg.description}
-              color={blg.btnbg}
+              image={activity.activity_home_image}
+              title={activity.activity_title}
+              subtitle={activity.activity_summary} 
+              text={activity.description}  
+              color="darkerPurple" // Double ensure color         
             />
           </Col>
         ))}
       </Row>
+
+      <Row >
+        <Col lg="12">
+        <div style={{ fontSize: "1.2em" }}>
+          <ProjectTables />
+        </div>
+        </Col>
+      </Row>
+
     </div>
   );
 };
-
 export default Profile;
