@@ -25,7 +25,7 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         login(data.token);
-        navigate('/starter');
+        navigate('/profile');
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Login failed');

@@ -26,7 +26,7 @@ const CreateAccount = () => {
       if (response.ok) {
         // Account created successfully
         alert('Account created successfully! Please log in.');
-        navigate('/table');
+        navigate('/login');
       } else {
         // Handle errors
         setError(data.message || 'Failed to create account');

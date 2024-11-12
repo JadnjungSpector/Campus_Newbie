@@ -14,7 +14,7 @@ import logoDark from '../assets/images/logos/NewCampusNewbieLogoTransparent.png'
 
   const Logo = () => {
     return (
-      <Link to="/">
+      <Link to="/about">
         <img src={logoDark} alt="Campus Newbie Logo" style={{ width: '145px', height: 'auto' }} />
       </Link>
     );
