@@ -3,3 +3,6 @@ Weekly contents update:
 - Week 1 - 5: I used spring boot to create the foundations for the project and implemented the logic for the log in authorization page. Also worked on integrating MongoDB as our database instead of H2 to start streaming data on the cloud.
 - Week 6: Pushed code that implements a working connection between the MongoDB database, and changed the logical requirements for the User and AuthController classes to ensure it is Mongo compatiable. Also added 8 Junit tests to ensure correct functionality for the log in and register states.
 - [Jaden Jung] I worked on two different login authorization pages that have different styles, both back and front-end. I also developed a feature for the website (blank and white version) and set up MongoDB from scratch. Additionally, I took on the responsibility of preparing the team’s documents for each weekly deliverable, ensuring everything was submitted on time and up to the required standards while working closely with teammates to incorporate their input.
+- Week 7:
+  . [Jordyn Manning] I created a working front-end general application with a home screen that displays the different activities. The activity data is sourced
+  from MongoDb which I fetched through an API that I created.
