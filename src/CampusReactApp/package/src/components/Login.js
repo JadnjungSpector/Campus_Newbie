@@ -14,7 +14,7 @@ const Login = () => {
     // Implement your login logic here
     // For this example, we'll just simulate a successful login
     login();
-    navigate('/starter');
+    navigate('/profile');
   };
 
   return (

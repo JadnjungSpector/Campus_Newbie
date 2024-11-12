@@ -10,7 +10,7 @@ import './css/Sidebar.css';
 const navigation = [
   {
     title: "Profile",
-    href: "/table",
+    href: "/login",
     icon: "bi bi-person-vcard",
   },
   {
@@ -20,23 +20,23 @@ const navigation = [
   },
   // {
   //   title: "Profile Hidden",
-  //   href: "/starter",
+  //   href: "/profile",
   //   icon: "bi bi-shield-lock",
   // },
-  {
-    title: "Alert",
-    href: "/alerts",
-    icon: "bi bi-bell",
-  },
-  {
-    title: "Badges",
-    href: "/badges",
-    icon: "bi bi-patch-check",
-  },
+  // {
+  //   title: "Alert",
+  //   href: "/alerts",
+  //   icon: "bi bi-bell",
+  // },
+  // {
+  //   title: "Badges",
+  //   href: "/badges",
+  //   icon: "bi bi-patch-check",
+  // },
   {
     title: "Submit Activity",
     href: "/submitActivity",
-    icon: "bi bi-hdd-stack",
+    icon: "bi bi-lightbulb",
   },
   // {
   //   title: "Grid",

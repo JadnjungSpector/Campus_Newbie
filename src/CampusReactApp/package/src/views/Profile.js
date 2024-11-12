@@ -60,7 +60,7 @@ const BlogData = [
   },
 ];
 
-const Starter = () => {
+const Profile = () => {
   return (
     <div>
       {/***Top Cards***/}
@@ -98,4 +98,4 @@ const Starter = () => {
   );
 };
 
-export default Starter;
+export default Profile;
