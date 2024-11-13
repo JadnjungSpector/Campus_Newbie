@@ -33,31 +33,57 @@ app.get('/activities', async (req, res) => {
 });
 
 // POST endpoint to add a new activity (used by SubmitActivity.js)
+// app.post('/api/activities', async (req, res) => {
+//   try {
+//       await client.connect();
+//       const database = client.db('ActivityData');
+//       const collection = database.collection('home_screen');
+      
+//       const { studentName, activityTitle, description, targetAudience, eventCategories, image } = req.body;
+
+//       const newActivity = {
+//           student_name: studentName,
+//           activity_title: activityTitle,
+//           activity_summary: description,
+//           activity_home_image: image, // Store the image URL or base64 string here
+//           activity_type: eventCategories,
+//           audience: targetAudience,
+//       };
+
+//       const result = await collection.insertOne(newActivity);
+
+//       res.status(201).json({ message: 'Activity created successfully', data: result.ops[0] });
+//   } catch (error) {
+//       console.error('Error creating activity:', error);
+//       res.status(500).json({ message: 'Failed to create activity' });
+//   } finally {
+//       await client.close();
+//   }
+// });
 app.post('/api/activities', async (req, res) => {
   try {
-      await client.connect();
-      const database = client.db('ActivityData');
-      const collection = database.collection('home_screen');
-      
-      const { studentName, activityTitle, description, targetAudience, eventCategories, image } = req.body;
+    await client.connect();
+    const database = client.db('ActivityData');
+    const collection = database.collection('home_screen');
 
-      const newActivity = {
-          student_name: studentName,
-          activity_title: activityTitle,
-          activity_summary: description,
-          activity_home_image: image, // Store the image URL or base64 string here
-          activity_type: eventCategories,
-          audience: targetAudience,
-      };
+    const { studentName, activityTitle, description, targetAudience, eventCategories, image } = req.body;
 
-      const result = await collection.insertOne(newActivity);
+    const newActivity = {
+      student_name: studentName,
+      activity_title: activityTitle,
+      activity_summary: description,
+      activity_home_image: image, // Save the Base64 image string
+      activity_type: eventCategories,
+      audience: targetAudience,
+    };
 
-      res.status(201).json({ message: 'Activity created successfully', data: result.ops[0] });
+    const result = await collection.insertOne(newActivity);
+    res.status(201).json({ message: 'Activity created successfully', data: result.ops[0] });
   } catch (error) {
-      console.error('Error creating activity:', error);
-      res.status(500).json({ message: 'Failed to create activity' });
+    console.error('Error creating activity:', error);
+    res.status(500).json({ message: 'Failed to create activity' });
   } finally {
-      await client.close();
+    await client.close();
   }
 });
 

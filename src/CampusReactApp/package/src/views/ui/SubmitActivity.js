@@ -30,18 +30,13 @@ const SubmitActivity = () => {
     description: '',
     targetAudience: [],
     eventCategories: [],
-    image: null,
+    imageUrl: '', // Use imageUrl instead of image file
   });
 
   // Handle input changes for text fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  };
-
-  // Handle image upload separately
-  const handleImageChange = (e) => {
-    setFormData({ ...formData, image: e.target.files[0] });
   };
 
   // Handle multi-select changes for Target Audience
@@ -60,95 +55,41 @@ const SubmitActivity = () => {
     });
   };
 
-  // // Handle form submission
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-    
-  //   // Prepare data to send to the backend
-  //   const activityData = {
-  //     studentName: formData.studentName,
-  //     activityTitle: formData.activityTitle,
-  //     description: formData.description,
-  //     targetAudience: formData.targetAudience,
-  //     eventCategories: formData.eventCategories,
-  //     image: formData.image ? URL.createObjectURL(formData.image) : null, // Convert image to URL if necessary
-  //   };
-
-  //   try {
-  //     const response = await axios.post('http://localhost:5001/api/activities', activityData, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-  //     console.log('Activity created:', response.data);
-
-  //     // Reset form data
-  //     setFormData({
-  //       studentName: '',
-  //       activityTitle: '',
-  //       description: '',
-  //       targetAudience: [],
-  //       eventCategories: [],
-  //       image: null,
-  //     });
-  //   } catch (error) {
-  //     console.error('Error creating activity:', error);
-  //   }
-  // };
-  
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Prepare form data for submission
-    const data = new FormData();
-    data.append('studentName', formData.studentName);
-    data.append('activityTitle', formData.activityTitle);
-    data.append('description', formData.description);
-    data.append('targetAudience', JSON.stringify(formData.targetAudience));
-    data.append('eventCategories', JSON.stringify(formData.eventCategories));
-
-    // If there's an image, include it in the request
-    if (formData.image) {
-        data.append('image', formData.image);
-    }
+    // Prepare data to send to the backend
+    const activityData = {
+      studentName: formData.studentName,
+      activityTitle: formData.activityTitle,
+      description: formData.description,
+      targetAudience: formData.targetAudience,
+      eventCategories: formData.eventCategories,
+      image: formData.imageUrl, // Send image URL to the backend
+    };
 
     try {
-        const response = await fetch('http://localhost:5001/api/activities', {
-            method: 'POST',
-            body: JSON.stringify({
-                studentName: formData.studentName,
-                activityTitle: formData.activityTitle,
-                description: formData.description,
-                targetAudience: formData.targetAudience,
-                eventCategories: formData.eventCategories,
-                image: formData.image // Assuming this is a URL or base64 string for now
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+      const response = await axios.post('http://localhost:5001/api/activities', activityData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('Activity created:', response.data);
 
-        const result = await response.json();
-
-        if (response.ok) {
-            console.log('Activity created successfully:', result);
-            // Reset form data
-            setFormData({
-                studentName: '',
-                activityTitle: '',
-                description: '',
-                targetAudience: [],
-                eventCategories: [],
-                image: null,
-            });
-        } else {
-            console.error('Failed to create activity:', result.message);
-        }
+      // Reset form data after successful submission
+      setFormData({
+        studentName: '',
+        activityTitle: '',
+        description: '',
+        targetAudience: [],
+        eventCategories: [],
+        imageUrl: '', // Reset image URL field
+      });
     } catch (error) {
-        console.error('Error submitting form:', error);
+      console.error('Error creating activity:', error);
     }
-};
-
+  };
 
   return (
     <div>
@@ -218,15 +159,19 @@ const SubmitActivity = () => {
           />
         </FormGroup>
 
+        {/* Image URL Input */}
         <FormGroup>
-          <Label for="image">Upload Image</Label>
+          <Label for="imageUrl">Image URL</Label>
           <Input
-            type="file"
-            name="image"
-            id="image"
-            onChange={handleImageChange}
+            type="url"
+            name="imageUrl"
+            id="imageUrl"
+            placeholder="Enter an image URL"
+            value={formData.imageUrl}
+            onChange={handleChange}
           />
         </FormGroup>
+
         <Button color="primary" type="submit">
           Submit Activity
         </Button>
