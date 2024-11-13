@@ -58,19 +58,19 @@ const Profile = () => {
             }}
           />
           <div style= {{ 
-            transform: "translate(-100px, -210px)", 
+            transform: "translate(-70px, -210px)", 
             color: "black", 
             fontSize: "60px", 
             }}>
-            <p>UW Username</p>
+            <p>Jordyn Manning</p>
          {/* Email under the name */}
             <p
             style={{
-              transform: "translate(-115px, -20px)", 
+              transform: "translate(-145px, -20px)", 
               fontSize: "20px" 
             }}
           >
-            UWNetId@uw.edu
+            jordynm@uw.edu
           </p>
           </div>
         </Col>

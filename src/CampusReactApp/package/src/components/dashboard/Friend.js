@@ -8,31 +8,31 @@ import user5 from "../../assets/images/users/user5.jpg";
 const tableData = [
   {
     avatar: user1,
-    name: "Friend1",
-    email: "friend1@gmail.com",
+    name: "Elise Kingston",
+    email: "elisek5@uw.edu",
 
   },
   {
     avatar: user2,
-    name: "Friend2",
-    email: "friend2@gmail.com",
+    name: "Daniel Xu",
+    email: "danielx@uw.edu",
 
   },
   {
     avatar: user3,
-    name: "Friend3",
-    email: "friend3@gmail.com",
+    name: "Eric Nguyen",
+    email: "eric@uw.edu",
 
   },
   {
     avatar: user4,
-    name: "Friend4",
-    email: "friend4@gmail.com",
+    name: "Brigit Parrish",
+    email: "brigitp@uw.edu",
   },
   {
     avatar: user5,
-    name: "Friend5",
-    email: "friend5@gmail.com",
+    name: "Jaden Jung",
+    email: "jaden@uw.edu",
   },
 ];
 
