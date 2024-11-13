@@ -86,7 +86,7 @@ Refer to the GitHub Issues tracker for an up-to-date list of known issues. This 
 ## Available Scripts
 
 ### `npm start`
-
+Must run in src/CampusReactApp/package
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
@@ -122,13 +122,8 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 **Note: This is only to run the backend server to connect with the MongoDB database**
 
-To run the server to connect to MongoDB, you must cd into CampusReactApp -> package -> backend then run the command to run the app.
+To run the server to connect to MongoDB, you must cd into src/CampusReactApp/package/backend then run the command to run the app.
 
-### `mvn spring-boot:run`
-
-**Note: This is only to compile the whole files and run pom.xml**
-
-To run the app, you must cd into CampusNewbie/CampusNewbie and then run the command to run the server.js file.
 
 ## Obtaining the Source Code
 Clone the repository from GitLab:

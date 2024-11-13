@@ -2,7 +2,24 @@ Weekly contents update:
 - [Eric Nguyen] 
 - Week 1 - 5: I used spring boot to create the foundations for the project and implemented the logic for the log in authorization page. Also worked on integrating MongoDB as our database instead of H2 to start streaming data on the cloud.
 - Week 6: Pushed code that implements a working connection between the MongoDB database, and changed the logical requirements for the User and AuthController classes to ensure it is Mongo compatiable. Also added 8 Junit tests to ensure correct functionality for the log in and register states.
-- [Jaden Jung] I worked on two different login authorization pages that have different styles, both back and front-end. I also developed a feature for the website (blank and white version) and set up MongoDB from scratch. Additionally, I took on the responsibility of preparing the team’s documents for each weekly deliverable, ensuring everything was submitted on time and up to the required standards while working closely with teammates to incorporate their input.
-- Week 7:
-  . [Jordyn Manning] I created a working front-end general application with a home screen that displays the different activities. The activity data is sourced
-  from MongoDb which I fetched through an API that I created.
+- Week 7: Worked on refractoring the home page and backend
+
+-[Brigit Parrish]
+- Week 1-5: I worked on overall layout of the buttons and also working on architecture and decideing tech stacks. I was also involved in delegating roles and main forms of communications. I also practiced JS to get up to speed for the project, downloaded source code, worked on testing infrastructure.
+- Week 6: Impelmented basic functioning of submitting an activity oge using JS and connecting to mongodb to have activities be written into the DB.
+- Week 7: 
+[Brigit Parrish]
+Iterated over my implementation of the submission page and added tgs for audience and category. Also implemented the functionality for the user to see just a single activity when clicking the check it out button. Working on adding in more style and better formatting. 
+[Jordyn Manning] 
+I created a working front-end general application with a home screen that displays the different activities. The activity data is sourced
+from MongoDb which I fetched through an API that I created.
+
+
+- [Jaden Jung] 
+Week 1-5: I worked on two different login authorization pages that have different styles, both back and front-end. 
+I also developed a feature for the website (blank and white version) and set up MongoDB from scratch. 
+Additionally, I took on the responsibility of preparing the team’s documents for each weekly deliverable, ensuring everything was submitted on time and up to the required standards while working closely with teammates to incorporate their input.
+Week 6: Integrated MongoDB into the backend, ensuring a stable connection and updating the logic in the User and AuthController classes to align with MongoDB's requirements. 
+Created and ran JUnit tests to verify the login and registration features operate correctly.
+Worked on team’s documents for weekly deliverables.
+Week 7: Redesigned the homepage and reorganized the backend code to improve functionality and maintainability. Worked on team’s documents for weekly deliverables.

@@ -4,12 +4,20 @@ import React, { useEffect, useState } from 'react';
 
 import Blog from "../components/dashboard/Blog";
 
+import { useNavigate } from 'react-router-dom';
+
 import background from "../assets/images/bg/UWCity.jpg";
 import userpic from "../assets/images/users/IMG_1874.jpeg";
 import Friends from "../components/dashboard/Friend";
 
 const Profile = () => {
   const [activities, setActivities] = useState([]);
+  const navigate = useNavigate(); 
+
+  // Define the function to handle "Check it out" click
+  const handleCheckItOutClick = (id) => {
+    navigate(`/activity/${id}`);
+  };
 
   // Fetch activities from the backend
   useEffect(() => {
@@ -17,7 +25,10 @@ const Profile = () => {
         try {
           const response = await fetch('http://localhost:5001/activities');
           const data = await response.json();
-          const userActivities = data.filter(activities => activities.student_name === "Jordyn Manning");
+          const userActivities = data.filter(activities => 
+            activities.student_name === "Jordyn Manning" || activities.activity_type.includes("Food") 
+            || activities.audience.includes("Professors")
+          );
           setActivities(userActivities);
         } catch (error) {
           console.error('Error fetching activities:', error);
@@ -46,8 +57,8 @@ const Profile = () => {
             }}
           />
       
-          {/* Profile picture on top of the background */}
-          <img
+                    {/* Profile picture on top of the background */}
+                    <img
             src={userpic}  
             alt="Profile"
             style={{
