@@ -1,17 +1,12 @@
 import { Col, Row } from "reactstrap";
 import React, { useEffect, useState } from 'react';
-import SalesChart from "../components/dashboard/SalesChart";
-import Feeds from "../components/dashboard/Feeds";
-import ProjectTables from "../components/dashboard/ProjectTable";
+
 
 import Blog from "../components/dashboard/Blog";
-import bg1 from "../assets/images/bg/bg1.jpg";
-import bg2 from "../assets/images/bg/bg2.jpg";
-import bg3 from "../assets/images/bg/bg3.jpg";
-import bg4 from "../assets/images/bg/bg4.jpg";
 
 import background from "../assets/images/bg/UWCity.jpg";
 import userpic from "../assets/images/users/IMG_1874.jpeg";
+import Friends from "../components/dashboard/Friend";
 
 const Profile = () => {
   const [activities, setActivities] = useState([]);
@@ -34,11 +29,7 @@ const Profile = () => {
     // Log activities before rendering
     console.log("Activities in render:", activities);
   return (
-    <div
-    style={{
-      fontFamily: "'Amatic SC', cursive", // Set font family here for all text
-      color: "black", // Set a base color for all text if needed
-    }}>
+    <div>
       {/*** Background Photo w Profile Photo ***/}
       <Row className="mb-4"> {}
         <Col lg="12" className="text-center">
@@ -67,43 +58,53 @@ const Profile = () => {
             }}
           />
           <div style= {{ 
-            transform: "translate(-200px, -200px)", 
+            transform: "translate(-100px, -210px)", 
             color: "black", 
             fontSize: "60px", 
             }}>
-            <p>Your Name</p>
-
+            <p>UW Username</p>
+         {/* Email under the name */}
+            <p
+            style={{
+              transform: "translate(-115px, -20px)", 
+              fontSize: "20px" 
+            }}
+          >
+            UWNetId@uw.edu
+          </p>
           </div>
         </Col>
       </Row>
       
 
-
-
-      <h5 className="mb-3">BookMarked Activities</h5>
-      <Row style={{ marginTop: "-130px" }}>
-        {activities.map((activity, index) => (
-          <Col sm="6" lg="6" xl="3" key={index}>
-            <Blog
-              image={activity.activity_home_image}
-              title={activity.activity_title}
-              subtitle={activity.activity_summary} 
-              text={activity.description}  
-              color="darkerPurple" // Double ensure color         
-            />
-          </Col>
-        ))}
-      </Row>
+      {/* Bookmarked Activities Section */}
+      <div style={{ marginTop: "-130px"}}>
+      <h5 className="text-center mb-4" style={{ fontWeight: "bold" }}>Bookmarked Activities</h5>
+        <Row>
+          {activities.map((activity, index) => (
+            <Col sm="6" lg="6" xl="3" key={index}>
+              <Blog
+                image={activity.activity_home_image}
+                title={activity.activity_title}
+                subtitle={activity.activity_summary}
+                text={activity.description}
+                color="darkerPurple"
+              />
+            </Col>
+          ))}
+        </Row>
+      </div>
 
       <Row >
         <Col lg="12">
-        <div style={{ fontSize: "1.2em" }}>
-          <ProjectTables />
+        <div>
+          <h5 className="text-center mb-4"></h5> {/* Center the title */}
+          <Friends/>
         </div>
         </Col>
       </Row>
-
     </div>
   );
 };
+
 export default Profile;

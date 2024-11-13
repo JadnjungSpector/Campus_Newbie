@@ -83,7 +83,7 @@ const Sidebar = () => {
             <i className="bi bi-x"></i>
           </Button>
         </div>
-        <div className="bg-dark text-white p-2 opacity-75">Jordyn Manning</div>
+        {/* <div className="bg-dark text-white p-2 opacity-75">Jordyn Manning</div> */}
       </div>
       <div className="p-3 mt-2">
         <Nav vertical className="sidebarNav">
