@@ -17,7 +17,8 @@ const Profile = () => {
         try {
           const response = await fetch('http://localhost:5001/activities');
           const data = await response.json();
-          setActivities(data);
+          const userActivities = data.filter(activities => activities.student_name === "Jordyn Manning");
+          setActivities(userActivities);
         } catch (error) {
           console.error('Error fetching activities:', error);
         }
