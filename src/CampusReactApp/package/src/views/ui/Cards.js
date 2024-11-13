@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  // Card,
-  // CardImg,
-  // CardText,
-  // CardBody,
-  // CardTitle,
-  // CardSubtitle,
-  // CardGroup,
-  // Button,
   Row,
   Col,
   Dropdown, 
@@ -16,9 +8,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 import Blog from "../../components/dashboard/Blog";
-// import bg1 from "../../assets/images/bg/bg1.jpg";
-// import bg2 from "../../assets/images/bg/bg2.jpg";
-// import bg3 from "../../assets/images/bg/bg3.jpg";
+import { useNavigate } from 'react-router-dom';
 
 const Cards = () => {
 
@@ -27,7 +17,8 @@ const Cards = () => {
   const [typeDropdownOpen, setTypeDropdownOpen] = useState(false);
   const [audienceDropdownOpen, setAudienceDropdownOpen] = useState(false);
   const [selectedTypes, setSelectedTypes] = useState([]);
-  const [selectedAudiences, setSelectedAudiences] = useState([]);
+  const [selectedAudiences, setSelectedAudiences] = useState([])
+  const navigate = useNavigate();
 
   // Fetch activities from the backend
   useEffect(() => {
@@ -84,6 +75,9 @@ const Cards = () => {
     }
   };
   
+  const handleCheckItOutClick = (id) => {
+    navigate(`/activity/${id}`);
+  };
 
 
 
@@ -161,7 +155,8 @@ const Cards = () => {
               title={activity.activity_title}
               subtitle={activity.activity_summary} 
               text={activity.description}  
-              color="darkerPurple" // Double ensure color         
+              color="darkerPurple" // Double ensure color  
+              onClick={() => handleCheckItOutClick(activity._id)}     
             />
           </Col>
         ))}
