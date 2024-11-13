@@ -172,7 +172,7 @@ const SubmitActivity = () => {
           />
         </FormGroup>
 
-        <Button color="primary" type="submit">
+        <Button color="darkerPurple" type="submit">
           Submit Activity
         </Button>
       </Form>
