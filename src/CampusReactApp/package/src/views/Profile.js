@@ -10,11 +10,19 @@ import bg2 from "../assets/images/bg/bg2.jpg";
 import bg3 from "../assets/images/bg/bg3.jpg";
 import bg4 from "../assets/images/bg/bg4.jpg";
 
+import { useNavigate } from 'react-router-dom';
+
 import background from "../assets/images/bg/UWCity.jpg";
 import userpic from "../assets/images/users/IMG_1874.jpeg";
 
 const Profile = () => {
   const [activities, setActivities] = useState([]);
+  const navigate = useNavigate(); 
+
+  // Define the function to handle "Check it out" click
+  const handleCheckItOutClick = (id) => {
+    navigate(`/activity/${id}`);
+  };
 
   // Fetch activities from the backend
   useEffect(() => {
@@ -89,7 +97,8 @@ const Profile = () => {
               title={activity.activity_title}
               subtitle={activity.activity_summary} 
               text={activity.description}  
-              color="darkerPurple" // Double ensure color         
+              color="darkerPurple" // Double ensure color  
+              onClick={() => handleCheckItOutClick(activity._id)}     
             />
           </Col>
         ))}
