@@ -1,196 +1,133 @@
-# User Information
+Here’s the revised README with the requested directory structure and information:
 
-**Project Information**
+---
 
-Campus Newbie is a student-focused platform that provides personalized activity recommendations, campus hotspots, and event listings with safety ratings and user reviews. It uses a points-based system to encourage student exploration and engagement, while offering filters for tailored suggestions based on group type. By emphasizing community integration and verified events, Campus Newbie aims to enhance the college experience through safe, engaging, and inclusive campus discovery.
-**Most functionalities work in progress**
+# Campus Newbie
 
-## Available Scripts
+## Project Overview
 
-In the project directory(CampusNewbie/CampusNewbie/Front_end_app), you can run:
+**Campus Newbie** is a student-centric platform designed to help users discover campus hotspots, activities, events, and reviews. The platform offers a personalized experience, allowing users to filter based on audience, location, and safety ratings. A points-based system incentivizes engagement, and users can save events or activities for later. The platform includes verified postings and emphasizes community integration, making it a valuable resource for students, campus visitors, and event organizers.
 
-### `npm start`
+### Functionality:
+- Users can explore current events and register for them.
+- Users can filter events based on audience, location, and safety ratings.
+- A points-based system incentivizes engagement with the campus community.
+- Event organizers can submit events for review.
+- The platform currently supports the University of Washington but aims to handle multiple campuses in the future.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installation
 
+### Prerequisites
+Before starting, ensure you have the following installed:
+- **Node.js** (v16.x or higher)
+- **npm** (v8.x or higher)
+- **MongoDB** (version 5.0+ recommended for local development)
+- **Git** for cloning the repository and managing code.
 
-**Functionality**
-User can look at current events as well as register one. However, for the time being, we are missing on the functionality of capable of handling multiple campus other than University of Washington. 
-## Installation (Necessary for User and Developer)
-**Prerequisites**
+### Installation Steps
 
-Node.js (v16.x or higher) and npm (v8.x or higher): Required for running both the frontend (React.js) and backend (Express).
-MongoDB: For local development, MongoDB must be installed and running. Version 5.0+ is recommended.
-Git: Necessary for cloning the repository and managing code.
-##Installation Steps:
-Clone the GitLab repository: Bash copy code
-git clone https://github.com/JadnjungSpector/Campus_Newbie.git
-Navigate to the project folder: bash copy code
-cd Campus_Newbie
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/JadnjungSpector/Campus_Newbie.git
+   cd Campus_Newbie
+   ```
 
-## Backend Setup:
-Install backend dependencies: bash copy code
-cd CampusNewbie
-npm install
-Configure MongoDB by updating the .env file with the MongoDB URI and JWT secret.
-Start the backend server: bash copy code
-	./node server.js
+2. **Backend Setup:**
+   1. Navigate to the backend directory:
+      ```bash
+      cd src/CampusReactApp/package/backend
+      ```
+   2. Install the backend dependencies:
+      ```bash
+      npm install
+      ```
+   3. Start the backend server:
+      ```bash
+      node server.js
+      ```
 
+3. **Frontend Setup:**
+   1. Navigate to the frontend directory:
+      ```bash
+      cd ../src
+      ```
+   2. Install the frontend dependencies:
+      ```bash
+      npm install
+      ```
+   3. Start the frontend server:
+      ```bash
+      npm start
+      ```
 
-## Frontend Setup:
-Install frontend dependencies: bash copy code
-cd CampusReactApp
-npm install
-Start the frontend server: bash copy code
-npm start
-Running the Software
-To start the software:
-Start MongoDB, backend, and frontend servers as detailed in the installation section.
-Open a web browser and navigate to http://localhost:3000 to access the app interface.
-Using the Software
-Login/Register: Access through the login page, using either OAuth or campus credentials (e.g., UW login).
-Explore Events: Use filters on the events page to find relevant campus activities.
-Submit Events: Event organizers can submit events for review from their profile.
-Track Activities: Access the profile page to see bookmarked activities and request completion review for points.
-Reporting Bugs
-Go to the GitHub Issues tracker (link provided on the project’s GitHub page).
-Provide details, including:
-Description of the issue.
-Steps to reproduce.
-Expected and actual results.
-Screenshots or logs if applicable.
-Known Bugs
-Refer to the GitHub Issues tracker for an up-to-date list of known issues. This is regularly updated to reflect the latest development and testing feedback.
+### Running the Software
 
-## Reporting Bugs
-Go to the GitHub Issues tracker (link provided on the project’s GitHub page).
-Provide details, including:
+1. Ensure that MongoDB, the backend, and the frontend servers are running.
+2. Open a web browser and navigate to [http://localhost:3000](http://localhost:3000) to access the app.
 
-Description of the issue.
+### Using the Software
 
-Steps to reproduce.
+- **Login/Register**: Access through the login page, using either OAuth or campus credentials (e.g., UW login).
+- **Explore Events**: Use filters on the events page to find relevant campus activities.
+- **Submit Events**: Event organizers can submit events for review from their profile.
+- **Track Activities**: Users can access the profile page to see bookmarked activities and request completion review for points.
 
-Expected and actual results.
+### Reporting Bugs
+1. Go to the GitHub Issues tracker (link provided on the project’s GitHub page).
+2. Provide the following details:
+   - Description of the issue
+   - Steps to reproduce
+   - Expected and actual results
+   - Screenshots or logs (if applicable)
 
-Screenshots or logs if applicable.
+### Known Bugs
+Refer to the GitHub Issues tracker for an up-to-date list of known issues. This list is regularly updated based on development and testing feedback.
 
-## Known Bugs
-Refer to the GitHub Issues tracker for an up-to-date list of known issues. This is regularly updated to reflect the latest development and testing feedback.
+---
 
+## Developer Documentation
 
----------------------------------------------------------------------------------------------------------------
-
-# Developer Information
-
-## Available Scripts
-
-### `npm start`
-Must run in src/CampusReactApp/package
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-### `node server.js`
-
-**Note: This is only to run the backend server to connect with the MongoDB database**
-
-To run the server to connect to MongoDB, you must cd into src/CampusReactApp/package/backend then run the command to run the app.
-
-
-## Obtaining the Source Code
+### Obtaining the Source Code
 Clone the repository from GitLab:
-bash
-Copy code
+```bash
 git clone https://github.com/JadnjungSpector/Campus_Newbie.git
+```
 
-## Directory Structure
-## Directory Structure
-Campus_Newbie/CampusNewbie/src/main: Main application code for business logic, controllers, models, login infrastructure, etc.
-Campus_Newbie/CampusNewbie/CampusReactApp/package: React application with backend server to mongoDb
-Campus_Newbie/CampusNewbie/src/test: Test cases for each component, organized by package structure.
-frontend: Contains the React.js files and components for the user interface.
-backend: Node.js backend with Express API endpoints.
-Building the Software
-Backend: Use ./node server.js in the backend directory to start the server.
-Frontend: Use npm start in the frontend directory to launch the app interface.
-Testing the Software
-Unit Tests: Located in src/test/java, with tests for individual classes and components.
-System Testing: Use Postman or Selenium for testing interactions between frontend and backend.
-Usability Testing: Conduct user testing sessions and gather feedback.
-Adding New Tests
-Navigate to src/test/java.
-Create a new test file in the appropriate package (e.g., controller, model).
-Follow naming conventions (<ComponentName>Test.java) and structure.
-Building a Release
-Update version numbers in code and documentation if required.
-Run a full test suite to ensure stability.
-Confirm any changes in the README or user documentation.
+### Directory Structure
 
-## Test-Automation Infrastructure
-Tools:
-JUnit: Standard testing framework for Java with Maven integration.
-Mocha: For Node.js backend testing.
-Selenium: For integration testing between frontend and backend.
-Adding a New Test:
-Navigate to src/test/java.
-Create a new class in the corresponding package.
-Follow conventions to maintain organization and alignment with the project structure.
-Continuous Integration (CI) Service: GitHub Actions
-Why GitHub Actions: Integrated with GitHub, large action library, free usage limits.
-CI Build Triggers: Any push to the main branch or new pull request.
-CI Service Comparison
-Service
-Pros
-Cons
-GitHub Actions
-Integrated with GitHub; free usage
-Limited monitoring options
-CircleCI
-High scalability, detailed insights
-Complex setup; paid beyond free tier
-Azure Pipelines
-Extensive language support, scalable
-Complex UI; less intuitive interface
+- **`Campus_Newbie/src/CampusReactApp/package`**: Main application code for business logic, controllers, models, etc.
+- **`Campus_Newbie/src/CampusReactApp/package/src/tests/`**: Test cases for each component, organized by package structure.
+- **`Campus_Newbie/src/CampusReactApp/package/src/views/ui`**: Contains the React.js files and components for the user interface.
+- **`Campus_Newbie/src/CampusReactApp/package/backend`**: Node.js backend with Express API endpoints.
 
-**Reference project design document for further testing information**
+### Building the Software
 
-## Building a Release
-Update version numbers in code and documentation if required.
+1. **Backend**: To start the server, run:
+   ```bash
+   node server.js
+   ```
+2. **Frontend**: To launch the app interface, run:
+   ```bash
+   npm start
+   ```
 
-Run a full test suite to ensure stability.
+### Testing the Software
 
-Confirm any changes in the README or user documentation.
+- **Unit Tests**: Located in `Campus_Newbie/src/CampusReactApp/package/src/tests/` with tests for individual components.
+- **System Testing**: Run the test suite using:
+  ```bash
+  npm test
+  ```
+- **Usability Testing**: Conduct user testing sessions to gather feedback.
 
+### Adding New Tests
 
-## Tests Executed in CI Build
-All backend tests
+1. Navigate to the `src/tests/` directory.
+2. Create a new test file in the appropriate package (e.g., `controller`, `model`).
+3. Follow the naming convention (`<ComponentName>.test.js`) and structure the test cases accordingly.
 
+### Building a Release
 
+1. Update version numbers in code and documentation if needed.
+2. Run the full test suite to ensure everything is stable.
+3. Confirm any changes in the README or user documentation.
