@@ -1,6 +1,4 @@
-Here’s the revised README with the requested directory structure and information:
 
----
 
 # Campus Newbie
 
