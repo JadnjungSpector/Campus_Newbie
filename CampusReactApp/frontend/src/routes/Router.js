@@ -24,7 +24,7 @@ const ThemeRoutes = [
     path: "/",
     element: <FullLayout />,
     children: [
-      { path: "/", element: <Navigate to="/login" /> }, // JORDYN CHANGED HERE
+      { path: "/", element: <Navigate to="/login" /> },
       { path: "/profile", exact: true, element: <Profile /> },
       { path: "/about", exact: true, element: <About /> },
       { path: "/alerts", exact: true, element: <Alerts /> },
