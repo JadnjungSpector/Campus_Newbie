@@ -5,63 +5,56 @@
 Campus Newbie is a student-focused platform that provides personalized activity recommendations, campus hotspots, and event listings with safety ratings and user reviews. It uses a points-based system to encourage student exploration and engagement, while offering filters for tailored suggestions based on group type. By emphasizing community integration and verified events, Campus Newbie aims to enhance the college experience through safe, engaging, and inclusive campus discovery.
 **Most functionalities work in progress**
 
-## Available Scripts
+## Necessary dependencies
+From root directory:
 
-In the project directory(Campus_Newbie/src/CampusReactApp/package), you can run:
+#### Install npm: `npm install`
+#### Install mongo: `npm install mongodb`
 
-### `npm start`
+#### If you don't already have nvm installed:
+#### Run nvm installer. (If you already had it, remember to update to more recent versions.) with either curl or wget, depending on what your computer has available.
+#### `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash`
+#### `wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Then:
+#### `nvm install node`
 
-
-**Functionality**
-User can look at current events as well as register one. However, for the time being, we are missing on the functionality of capable of handling multiple campus other than University of Washington. 
-## Installation (Necessary for User and Developer)
 **Prerequisites**
 
 Node.js (v16.x or higher) and npm (v8.x or higher): Required for running both the frontend (React.js) and backend (Express).
 MongoDB: For local development, MongoDB must be installed and running. Version 5.0+ is recommended.
 Git: Necessary for cloning the repository and managing code.
 ##Installation Steps:
-Clone the GitLab repository: Bash copy code
+Clone the GitLab repository:
 git clone https://github.com/JadnjungSpector/Campus_Newbie.git
-Navigate to the project folder: bash copy code
+Navigate to the project folder:
 cd Campus_Newbie
 
+**Functionality**
+User can look at current events as well as register one. However, for the time being, we are missing on the functionality of capable of handling multiple campus other than University of Washington. 
+## Installation (Necessary for User and Developer)
+
 ## Backend Setup:
-Install backend dependencies: bash copy code
-cd CampusNewbie
-npm install
-Configure MongoDB by updating the .env file with the MongoDB URI and JWT secret.
-Start the backend server: bash copy code
-	./node server.js
+cd (Campus_Newbie/CampusReactApp/backend)
+
+Start the backend server:
+	`node server.js`
 
 
 ## Frontend Setup:
-Install frontend dependencies: bash copy code
-cd CampusReactApp
-npm install
-Start the frontend server: bash copy code
-npm start
-Running the Software
-To start the software:
-Start MongoDB, backend, and frontend servers as detailed in the installation section.
+### cd CampusReactApp
+### `npm install` (if not done already)
+Start the frontend server:
+### `npm start`
+### Running the Software
+#### To start the software:
+Start backend, and frontend servers as detailed in the frontend/backend setup section.
 Open a web browser and navigate to http://localhost:3000 to access the app interface.
-Using the Software
-Login/Register: Access through the login page, using either OAuth or campus credentials (e.g., UW login).
-Explore Events: Use filters on the events page to find relevant campus activities.
-Submit Events: Event organizers can submit events for review from their profile.
-Track Activities: Access the profile page to see bookmarked activities and request completion review for points.
-Reporting Bugs
-Go to the GitHub Issues tracker (link provided on the project’s GitHub page).
-Provide details, including:
-Description of the issue.
-Steps to reproduce.
-Expected and actual results.
-Screenshots or logs if applicable.
-Known Bugs
-Refer to the GitHub Issues tracker for an up-to-date list of known issues. This is regularly updated to reflect the latest development and testing feedback.
+### Using the Software
+##### Login/Register: Access through the login page, using either OAuth or campus credentials (e.g., UW login).
+##### Explore Events: Use filters on the events page to find relevant campus activities.
+##### Submit Events: Event organizers can submit events for review from their profile.
+##### Track Activities: Access the profile page to see bookmarked activities and request completion review for points.
 
 ## Reporting Bugs
 Go to the GitHub Issues tracker (link provided on the project’s GitHub page).
@@ -122,16 +115,14 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 **Note: This is only to run the backend server to connect with the MongoDB database**
 
-To run the server to connect to MongoDB, you must cd into src/CampusReactApp/package/backend then run the command to run the app.
+To run the server to connect to MongoDB, you must cd into Campus_Newbie/CampusReactApp/backend then run the command to run the app.
 
 
 ## Obtaining the Source Code
 Clone the repository from GitLab:
-bash
-Copy code
+
 git clone https://github.com/JadnjungSpector/Campus_Newbie.git
 
-## Directory Structure
 ## Directory Structure
 Campus_Newbie/CampusNewbie/src/main: Main application code for business logic, controllers, models, login infrastructure, etc.
 Campus_Newbie/CampusNewbie/CampusReactApp/package: React application with backend server to mongoDb
