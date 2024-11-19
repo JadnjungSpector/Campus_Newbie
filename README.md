@@ -7,7 +7,7 @@ Campus Newbie is a student-focused platform that provides personalized activity 
 
 ## Available Scripts
 
-In the project directory(CampusNewbie/CampusNewbie/Front_end_app), you can run:
+In the project directory(Campus_Newbie/src/CampusReactApp/package), you can run:
 
 ### `npm start`
 
