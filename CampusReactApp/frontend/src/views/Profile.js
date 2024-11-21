@@ -1,5 +1,7 @@
-import { Col, Row } from "reactstrap";
+import { Col, Row, Button, Card, CardImg, CardBody, CardTitle, CardText  } from "reactstrap";
 import React, { useEffect, useState } from 'react';
+import { FaStar } from "react-icons/fa";
+
 
 
 import Blog from "../components/dashboard/Blog";
@@ -13,12 +15,29 @@ import { useUser } from "../views/ui/UserContext";
 
 const Profile = () => {
   const [activities, setActivities] = useState([]);
-  // const navigate = useNavigate(); 
-  const { user } = useUser();
-  // Define the function to handle "Check it out" click
-  // const handleCheckItOutClick = (id) => {
-  //   navigate(`/activity/${id}`);
-  // };
+
+  const [selectedActivity, setSelectedActivity] = useState(null); // State to manage the selected activity
+  const [loadingActivity, setLoadingActivity] = useState(false);
+  const navigate = useNavigate(); 
+
+  const handleCheckItOutClick = async (activityId) => {
+    setLoadingActivity(true);
+    try {
+      const response = await fetch(`http://localhost:5001/activities/${activityId}`);
+      const data = await response.json();
+      setSelectedActivity(data); // Set the selected activity for the single view
+    } catch (error) {
+      console.error("Error fetching single activity:", error);
+    } finally {
+      setLoadingActivity(false);
+    }
+  };
+
+
+  const handleBackClick = () => {
+    setSelectedActivity(null); // Reset to the list view
+  };
+
 
   // Fetch activities from the backend
   useEffect(() => {
@@ -42,6 +61,81 @@ const Profile = () => {
     // Log activities before rendering
     console.log("Activities in render:", activities);
   return (
+    <div>
+    {selectedActivity ? (
+      // Single Activity View
+      <div>
+        <Button color="secondary" onClick={handleBackClick} className="mb-3">
+          Back to Activities
+        </Button>
+        {loadingActivity ? (
+          <p>Loading...</p>
+        ) : (
+          <Card
+            style={{
+              width: "100%",
+              maxWidth: "800px",
+              padding: "20px",
+              borderRadius: "10px",
+              margin: "0 auto",
+            }}
+          >
+            <CardImg top src={selectedActivity.activity_home_image} alt={selectedActivity.activity_title} />
+            <CardBody>
+              <CardTitle tag="h3" className="text-center">
+                {selectedActivity.activity_title}
+              </CardTitle>
+              <div style={{ display: "flex", justifyContent: "center", margin: "10px 0" }}>
+                {selectedActivity.activity_type.map((type, index) => (
+                  <span
+                    key={index}
+                    style={{
+                      backgroundColor: "#f1f1f1",
+                      padding: "5px 10px",
+                      borderRadius: "15px",
+                      margin: "0 5px",
+                      fontSize: "0.9em",
+                    }}
+                  >
+                    {type}
+                  </span>
+                ))}
+              </div>
+              <CardText className="text-center">
+                <strong>Safety Rating: </strong>
+                {Array.from({ length: selectedActivity.safety_rating || 0 }).map((_, index) => (
+                  <FaStar key={index} color="gold" />
+                ))}
+              </CardText>
+              <CardText className="text-center">{selectedActivity.activity_summary}</CardText>
+              <div style={{ display: "flex", justifyContent: "space-around", marginTop: "15px" }}>
+                <Button color="success">Get Directions</Button>
+                <Button color="primary">Add a Review</Button>
+              </div>
+              <h5 className="mt-4">Reviews:</h5>
+              {selectedActivity.reviews && selectedActivity.reviews.length > 0 ? (
+                selectedActivity.reviews.map((review, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      backgroundColor: "#f9f9f9",
+                      padding: "10px",
+                      borderRadius: "8px",
+                      margin: "10px 0",
+                    }}
+                  >
+                    <strong>{review.user}</strong>
+                    <p>{review.text}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No reviews available</p>
+              )}
+            </CardBody>
+          </Card>
+        )}
+      </div>
+    ) : (
     <div>
       {/*** Background Photo w Profile Photo ***/}
       <Row className="mb-4"> {}
@@ -113,11 +207,13 @@ const Profile = () => {
         <div>
           {/* <h5 className="text-center mb-4"></h5> Center the title */}
           <Friends/>
+          </div>
+            </Col>
+          </Row>
         </div>
-        </Col>
-      </Row>
+      )}
     </div>
   );
 };
-
+        
 export default Profile;
