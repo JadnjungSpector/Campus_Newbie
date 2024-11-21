@@ -1,3 +1,14 @@
+beforeAll(() => {
+    global.MutationObserver = class {
+      constructor(callback) {
+        this.callback = callback;
+      }
+      observe() {}
+      disconnect() {}
+    };
+  });
+// see if above needs to be deleted
+
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
