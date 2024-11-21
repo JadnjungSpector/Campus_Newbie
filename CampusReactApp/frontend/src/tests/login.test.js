@@ -1,9 +1,28 @@
+<<<<<<< HEAD
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Login from '../views/ui/Login';
 import { AuthProvider } from '../contexts/AuthContext';
 import { UserProvider } from '../views/ui/UserContext';
+=======
+// see if above needs to be deleted
+
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import Login from '../components/Login';
+import { AuthProvider } from '../contexts/AuthContext';
+beforeAll(() => {
+    global.MutationObserver = class {
+      constructor(callback) {
+        this.callback = callback;
+      }
+      observe() {}
+      disconnect() {}
+    };
+  }); 
+>>>>>>> 6be43a322 (figuring out lint)
 
 // Mock the useNavigate hook
 const mockNavigate = jest.fn();
