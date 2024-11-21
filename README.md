@@ -29,11 +29,26 @@ Before starting, ensure you have the following installed:
    git clone https://github.com/JadnjungSpector/Campus_Newbie.git
    cd Campus_Newbie
    ```
+2. **Download dependencies**
+   1. Install mongo from root directory:
+      ```
+      npm install mongodb
+      ```
+   2. If you don't already have nvm installed:
 
-2. **Backend Setup:**
+   3. Run nvm installer. (If you already had it, remember to update to more recent versions.) with either curl or wget, depending on what your computer has available:
+      ```
+      1. curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+      2. curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+      3. nvm install node
+      ```
+
+3. **Backend Setup:**
    1. Navigate to the backend directory:
       ```bash
-      cd src/CampusReactApp/package/backend
+      cd src/CampusReactApp/backend
       ```
    2. Install the backend dependencies:
       ```bash
@@ -44,10 +59,10 @@ Before starting, ensure you have the following installed:
       node server.js
       ```
 
-3. **Frontend Setup:**
+4. **Frontend Setup:**
    1. Navigate to the frontend directory:
       ```bash
-      cd ../src
+      cd ../frontend
       ```
    2. Install the frontend dependencies:
       ```bash
@@ -93,10 +108,10 @@ git clone https://github.com/JadnjungSpector/Campus_Newbie.git
 
 ### Directory Structure
 
-- **`Campus_Newbie/src/CampusReactApp/package`**: Main application code for business logic, controllers, models, etc.
-- **`Campus_Newbie/src/CampusReactApp/package/src/tests/`**: Test cases for each component, organized by package structure.
-- **`Campus_Newbie/src/CampusReactApp/package/src/views/ui`**: Contains the React.js files and components for the user interface.
-- **`Campus_Newbie/src/CampusReactApp/package/backend`**: Node.js backend with Express API endpoints.
+- **`Campus_Newbie/src/CampusReactApp/frontend`**: Main application code for business logic, controllers, models, etc.
+- **`Campus_Newbie/src/CampusReactApp/frontend/tests/`**: Test cases for each component, organized by package structure.
+- **`Campus_Newbie/src/CampusReactApp/frontend/src/views/ui`**: Contains the React.js files and components for the user interface.
+- **`Campus_Newbie/src/CampusReactApp/backend`**: Node.js backend with Express API endpoints.
 
 ### Building the Software
 
@@ -111,7 +126,7 @@ git clone https://github.com/JadnjungSpector/Campus_Newbie.git
 
 ### Testing the Software
 
-- **Unit Tests**: Located in `Campus_Newbie/src/CampusReactApp/package/src/tests/` with tests for individual components.
+- **Unit Tests**: Located in `Campus_Newbie/frontend/src/tests/` with tests for individual components.
 - **System Testing**: Run the test suite using:
   ```bash
   npm test
