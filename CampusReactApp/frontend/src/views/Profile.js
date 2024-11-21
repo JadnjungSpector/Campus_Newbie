@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import Blog from "../components/dashboard/Blog";
 
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import background from "../assets/images/bg/UWCity.jpg";
 import userpic from "../assets/images/users/IMG_1874.jpeg";
@@ -13,12 +13,12 @@ import { useUser } from "../views/ui/UserContext";
 
 const Profile = () => {
   const [activities, setActivities] = useState([]);
-  const navigate = useNavigate(); 
+  // const navigate = useNavigate(); 
   const { user } = useUser();
   // Define the function to handle "Check it out" click
-  const handleCheckItOutClick = (id) => {
-    navigate(`/activity/${id}`);
-  };
+  // const handleCheckItOutClick = (id) => {
+  //   navigate(`/activity/${id}`);
+  // };
 
   // Fetch activities from the backend
   useEffect(() => {
@@ -106,7 +106,7 @@ const Profile = () => {
       <Row >
         <Col lg="12">
         <div>
-          <h5 className="text-center mb-4"></h5> {/* Center the title */}
+          {/* <h5 className="text-center mb-4"></h5> Center the title */}
           <Friends/>
         </div>
         </Col>

@@ -1,4 +1,4 @@
-import { Card, CardBody, CardTitle, CardSubtitle, Table, Button } from "reactstrap";
+import { Card, CardBody, CardTitle, Table, Button } from "reactstrap";
 import user1 from "../../assets/images/users/user1.jpg";
 import user2 from "../../assets/images/users/user2.jpg";
 import user3 from "../../assets/images/users/user3.jpg";
