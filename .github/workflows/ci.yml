@@ -24,6 +24,7 @@ jobs:
 
     - name: Run tests
       run: npm test
+      working-directory: Campus_Newbie/CampusReactApp/frontend
 
     - name: Lint code
       run: npm run lint  
