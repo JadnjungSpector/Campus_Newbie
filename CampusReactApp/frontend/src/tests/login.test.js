@@ -1,3 +1,10 @@
+// see if above needs to be deleted
+
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import Login from '../components/Login';
+import { AuthProvider } from '../contexts/AuthContext';
 beforeAll(() => {
     global.MutationObserver = class {
       constructor(callback) {
@@ -6,14 +13,7 @@ beforeAll(() => {
       observe() {}
       disconnect() {}
     };
-  });
-// see if above needs to be deleted
-
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import Login from '../components/Login';
-import { AuthProvider } from '../contexts/AuthContext'; 
+  }); 
 
 test('Login form submits and navigates correctly', async () => {
   render(
