@@ -82,7 +82,7 @@ const Profile = () => {
               fontSize: "20px" 
             }}
           >
-            jordynm@uw.edu
+            jordym2@uw.edu
           </p>
           </div>
         </Col>
