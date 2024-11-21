@@ -100,6 +100,8 @@ const Profile = () => {
                 subtitle={activity.activity_summary}
                 text={activity.description}
                 color="darkerPurple"
+                //to check out the single acitivity-do not remove
+                onClick={() => handleCheckItOutClick(activity._id)} // Pass the activity ID
               />
             </Col>
           ))}
