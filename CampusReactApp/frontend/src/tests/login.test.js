@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> baa32106a (addded review filtering)
 import React from 'react';
@@ -10,6 +11,8 @@ import { AuthProvider } from '../contexts/AuthContext';
 import { UserProvider } from '../views/ui/UserContext';
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> 6be43a322 (figuring out lint)
 // see if above needs to be deleted
 
 import React from 'react';
@@ -26,6 +29,7 @@ beforeAll(() => {
       disconnect() {}
     };
   }); 
+<<<<<<< HEAD
 >>>>>>> 6be43a322 (figuring out lint)
 =======
 >>>>>>> baa32106a (addded review filtering)
@@ -36,6 +40,8 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockNavigate,
 }));
+=======
+>>>>>>> 6be43a322 (figuring out lint)
 
 describe('Login Component', () => {
   it('should display error message on failed login', async () => {
