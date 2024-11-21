@@ -1,55 +1,71 @@
-// see if above needs to be deleted
-
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Login from '../components/Login';
+import Login from '../views/ui/Login';
 import { AuthProvider } from '../contexts/AuthContext';
-beforeAll(() => {
-    global.MutationObserver = class {
-      constructor(callback) {
-        this.callback = callback;
-      }
-      observe() {}
-      disconnect() {}
-    };
-  }); 
+import { UserProvider } from '../views/ui/UserContext';
 
-test('Login form submits and navigates correctly', async () => {
-  render(
-    <AuthProvider>
-      <MemoryRouter>
-        <Login />
-      </MemoryRouter>
-    </AuthProvider>
-  );
+// Mock the useNavigate hook
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate,
+}));
 
-  
-  fireEvent.change(screen.getByPlaceholderText('Username'), {
-    target: { value: 'testUser' },
-  });
-  fireEvent.change(screen.getByPlaceholderText('Password'), {
-    target: { value: 'testPassword' },
-  });
-
-  fireEvent.click(screen.getByText('Login'));
-
-  
-  await waitFor(() => expect(window.location.pathname).toBe('/'));
-});
-
-test('Login form does not submit with empty fields', async () => {
-    render(
-      <AuthProvider>
-        <MemoryRouter>
-          <Login />
-        </MemoryRouter>
-      </AuthProvider>
+describe('Login Component', () => {
+  it('should display error message on failed login', async () => {
+    // Mock the fetch function to simulate a failed login
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: false,
+        json: () => Promise.resolve({ message: 'Login failed' }),
+      })
     );
-  
-    fireEvent.click(screen.getByText('Login'));
-  
-    expect(screen.getByPlaceholderText('Username').value).toBe('');
-    expect(screen.getByPlaceholderText('Password').value).toBe('');
+
+    render(
+      <MemoryRouter>
+        <AuthProvider>
+          <UserProvider>
+            <Login />
+          </UserProvider>
+        </AuthProvider>
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'testuser' } });
+    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password' } });
+    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText('Login failed')).toBeInTheDocument();
+    });
+  });
+
+  it('should navigate to profile on successful login', async () => {
+    // Mock the fetch function to simulate a successful login
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ token: 'fake-token' }),
+      })
+    );
+
+    render(
+      <MemoryRouter>
+        <AuthProvider>
+          <UserProvider>
+            <Login />
+          </UserProvider>
+        </AuthProvider>
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'testuser' } });
+    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password' } });
+    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith('/profile');
+    });
+  });
 });
-  
