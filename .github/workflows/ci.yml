@@ -21,6 +21,11 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      working-directory: CampusReactApp/frontend
+
+    - name: Verify installation
+      run: npm ls reactstrap
+      working-directory: CampusReactApp/frontend
 
     - name: Run tests
       run: npm test
