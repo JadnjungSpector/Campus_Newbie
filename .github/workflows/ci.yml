@@ -30,3 +30,9 @@ jobs:
     - name: Run tests
       run: npm test
       working-directory: CampusReactApp/frontend
+
+    - name: Lint code
+      run: npm run lint
+      working-directory: CampusReactApp/frontend
+
+  
