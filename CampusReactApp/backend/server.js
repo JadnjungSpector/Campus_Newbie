@@ -32,7 +32,7 @@ app.get('/activities', async (req, res) => {
     }
 });
 
-app.post('/api/activities', async (req, res) => {
+app.post('/api/activities', async (req, res) => { 
   try {
     await client.connect();
     const database = client.db('ActivityData');
@@ -59,6 +59,7 @@ app.post('/api/activities', async (req, res) => {
   }
 });
 
+// Retrieves activities JSON
 app.get('/activities/:id', async (req, res) => {
   try {
     await client.connect();
