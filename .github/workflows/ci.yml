@@ -21,12 +21,11 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-
-    - name: Change to project directory
-      run: cd Campus_Newbie ## this is just added
+      working-directory: CampusReactApp/frontend
 
     - name: Run tests
       run: npm test
 
     - name: Lint code
       run: npm run lint  
+      # working-directory: CampusReactApp/frontend
