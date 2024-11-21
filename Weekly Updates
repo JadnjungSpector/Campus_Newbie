@@ -11,8 +11,10 @@ Weekly contents update:
 [Brigit Parrish]
 Iterated over my implementation of the submission page and added tgs for audience and category. Also implemented the functionality for the user to see just a single activity when clicking the check it out button. Working on adding in more style and better formatting. 
 [Jordyn Manning] 
-I created a working front-end general application with a home screen that displays the different activities. The activity data is sourced
+- Week 2-5: I created a working front-end general application with a home screen that displays the different activities. The activity data is sourced
 from MongoDb which I fetched through an API that I created.
+- Week 7-8: I cleaned up the code to be demo ready and worked on remaining functionalities needed for the activity home page
+- Week 9: Updated ReadMe and code from team review feedback
 
 
 - [Jaden Jung] 
