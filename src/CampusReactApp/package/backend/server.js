@@ -134,16 +134,23 @@ app.post('/login', async (req, res) => {
       const database = client.db('ActivityData');
       const usersCollection = database.collection('users');
   
-      const { username, password } = req.body;
+      const { username, password, email } = req.body;
   
       // Check if username already exists
       const existingUser = await usersCollection.findOne({ username });
       if (existingUser) {
         return res.status(400).json({ message: 'Username already exists' });
       }
-  
+      const existingEmail = await usersCollection.findOne({ email });
+      if (existingEmail) {
+        return res.status(400).json({ message: 'Email already exists' });
+      }
+      
+      if (!email.endsWith("@uw.edu")) {
+        return res.status(400).json({ message: 'Email is not a valid UW email' });
+      }
       // Insert new user without hashing the password
-      await usersCollection.insertOne({ username, password });
+      await usersCollection.insertOne({ username, password, email });
   
       res.status(201).json({ message: 'User created successfully' });
     } catch (error) {

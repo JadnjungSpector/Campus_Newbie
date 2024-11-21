@@ -9,11 +9,12 @@ import { useNavigate } from 'react-router-dom';
 import background from "../assets/images/bg/UWCity.jpg";
 import userpic from "../assets/images/users/IMG_1874.jpeg";
 import Friends from "../components/dashboard/Friend";
+import { useUser } from "../views/ui/UserContext";
 
 const Profile = () => {
   const [activities, setActivities] = useState([]);
   const navigate = useNavigate(); 
-
+  const { user } = useUser();
   // Define the function to handle "Check it out" click
   const handleCheckItOutClick = (id) => {
     navigate(`/activity/${id}`);
@@ -69,21 +70,16 @@ const Profile = () => {
               border: "8px solid white",  
             }}
           />
-          <div style= {{ 
-            transform: "translate(-70px, -210px)", 
-            color: "black", 
-            fontSize: "60px", 
+            <div style={{
+              transform: "translate(-70px, -210px)",
+              color: "black",
+              fontSize: "60px",
+              fontWeight: "bold",
+              textShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
+              letterSpacing: "1.5px",
+              fontFamily: "'Roboto', sans-serif" // Set a custom font (optional)
             }}>
-            <p>Jordyn Manning</p>
-         {/* Email under the name */}
-            <p
-            style={{
-              transform: "translate(-145px, -20px)", 
-              fontSize: "20px" 
-            }}
-          >
-            jordynm@uw.edu
-          </p>
+            <p>{user}</p>
           </div>
         </Col>
       </Row>

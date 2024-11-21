@@ -16,7 +16,6 @@ const Login = lazy(() => import("../views/ui/Login.js"));
 const Forms = lazy(() => import("../views/ui/Forms.js"));
 const Breadcrumbs = lazy(() => import("../views/ui/Breadcrumbs.js"));
 const CreateAccount = lazy(() => import("../views/ui/CreateAccount"));
-
 /*****Routes******/
 
 const ThemeRoutes = [
