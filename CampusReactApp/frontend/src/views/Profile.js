@@ -57,9 +57,8 @@ const Profile = () => {
               borderRadius: "10px",
             }}
           />
-      
-                    {/* Profile picture on top of the background */}
-                    <img
+          {/* Profile picture on top of the background */}
+          <img
             src={userpic}  
             alt="Profile"
             style={{
@@ -70,14 +69,18 @@ const Profile = () => {
               border: "8px solid white",  
             }}
           />
-            <div style={{
-              transform: "translate(-70px, -210px)",
+          {/* PUsername set */}
+          <div 
+            style={{
+              position: "absolute", // Ensure positioning relative to the container
+              left: "calc(50% - 450px + 250px)", 
+              top: "calc(50% - 15px)", // Align vertically with the profile picture
               color: "black",
               fontSize: "60px",
               fontWeight: "bold",
               textShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
               letterSpacing: "1.5px",
-              fontFamily: "'Roboto', sans-serif" // Set a custom font (optional)
+              fontFamily: "'Roboto', sans-serif",
             }}>
             <p>{user}</p>
           </div>
@@ -86,7 +89,7 @@ const Profile = () => {
       
 
       {/* Bookmarked Activities Section */}
-      <div style={{ marginTop: "-130px"}}>
+      <div style={{ marginTop: "-30px"}}>
       <h5 className="text-center mb-4" style={{ fontWeight: "bold" }}>Bookmarked Activities</h5>
         <Row>
           {activities.map((activity, index) => (
