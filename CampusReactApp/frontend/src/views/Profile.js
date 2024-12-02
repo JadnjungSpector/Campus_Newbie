@@ -74,7 +74,7 @@ const Profile = () => {
             style={{
               position: "absolute", // Ensure positioning relative to the container
               left: "calc(50% - 450px + 250px)", 
-              top: "calc(50% - 15px)", // Align vertically with the profile picture
+              top: "calc(50% - 40px)", // Align vertically with the profile picture
               color: "black",
               fontSize: "60px",
               fontWeight: "bold",
