@@ -149,8 +149,14 @@ app.post('/login', async (req, res) => {
       if (!email.endsWith("@uw.edu")) {
         return res.status(400).json({ message: 'Email is not a valid UW email' });
       }
-      // Insert new user without hashing the password
-      await usersCollection.insertOne({ username, password, email });
+      const newUser = {
+        username,
+        password, // Consider hashing the password for security
+        email,
+        bookmarkedActivities: [], // Initialize with an empty array
+      };
+  
+      await usersCollection.insertOne(newUser);
   
       res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
@@ -164,3 +170,62 @@ app.post('/login', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+
+app.get('/api/v1/user/:username', async (req, res) => {
+  try {
+    await client.connect();
+    const database = client.db('ActivityData');
+    const usersCollection = database.collection('users');
+
+    const { username } = req.params;
+
+    // Find the user by username
+    const user = await usersCollection.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(user); // Return the user data
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  } finally {
+    await client.close();
+  }
+});
+
+app.get('/api/v1/user/:username/bookmarked-activities', async (req, res) => {
+  try {
+    await client.connect();
+    const database = client.db('ActivityData');
+    const usersCollection = database.collection('users');
+
+    const { username } = req.params;
+    console.log('Username parameter:', username); // Log the username
+
+    // Find the user by username
+    const user = await usersCollection.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (!user.bookmarkedActivities) {
+      return res.status(404).json({ message: 'User has no bookmarked activities' });
+    }
+
+    // Return only the bookmarked activities field
+    res.json({ bookmarkedActivities: user.bookmarkedActivities });
+  } catch (error) {
+    console.error('Error fetching bookmarked activities:', error.message); // Log the error message
+    console.error(error.stack); // Log the stack trace for more details
+    res.status(500).json({ message: 'Internal server error' });
+  } finally {
+    await client.close();
+  }
+});
+
+
+

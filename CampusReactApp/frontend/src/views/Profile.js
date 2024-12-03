@@ -13,35 +13,44 @@ import { useUser } from "../views/ui/UserContext";
 
 const Profile = () => {
   const [activities, setActivities] = useState([]);
-  // const navigate = useNavigate(); 
   const { user } = useUser();
-  // Define the function to handle "Check it out" click
-  // const handleCheckItOutClick = (id) => {
-  //   navigate(`/activity/${id}`);
-  // };
+  const [bookmarkedActivities, setBookmarkedActivities] = useState([]);
 
-  // Fetch activities from the backend
+  // Fetch bookmarked activities for the user
   useEffect(() => {
-      const fetchActivities = async () => {
-        try {
-          const response = await fetch('http://localhost:5001/activities');
-          const data = await response.json();
-          const userActivities = data.filter(activities => 
-            activities.student_name === "Jordyn Manning" || activities.activity_type.includes("Food") 
-            || activities.audience.includes("Professors")
-          );
-          setActivities(userActivities);
-        } catch (error) {
-          console.error('Error fetching activities:', error);
-        }
-      };
+    const fetchData = async () => {
+      try {
+        // Fetch bookmarked activities
+        const bookmarkedResponse = await fetch(`http://localhost:5001/api/v1/user/${user}/bookmarked-activities`);
+        const bookmarkedData = await bookmarkedResponse.json();
+        console.log('Fetched bookmarked activities:', bookmarkedData);
 
-      fetchActivities();
-    }, []);
+        const bookmarkedList = bookmarkedData.bookmarkedActivities || [];
+        setBookmarkedActivities(bookmarkedList);
 
-    // Log activities before rendering
-    console.log("Activities in render:", activities);
-  return (
+        // Fetch all activities
+        const activitiesResponse = await fetch('http://localhost:5001/activities');
+        const allActivities = await activitiesResponse.json();
+
+        // Filter activities based on bookmarked activities
+        const userActivities = allActivities.filter((activity) =>
+          bookmarkedList.includes(activity.activity_title)
+        );
+
+        setActivities(userActivities);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [user]); // Re-fetch when `user` changes
+
+  // Log activities before rendering
+  console.log("Activities in render:", activities);
+  
+    return (
     <div>
       {/*** Background Photo w Profile Photo ***/}
       <Row className="mb-4"> {}
@@ -114,6 +123,7 @@ const Profile = () => {
         </div>
         </Col>
       </Row>
+
     </div>
   );
 };
