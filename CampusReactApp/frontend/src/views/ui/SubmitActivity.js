@@ -23,6 +23,8 @@ const SubmitActivity = () => {
     { value: "Sports", label: "Sports" }
   ];
 
+  const [submissionStatus, setSubmissionStatus] = useState(null);
+
   // State to hold form data
   const [formData, setFormData] = useState({
     studentName: '',
@@ -55,45 +57,62 @@ const SubmitActivity = () => {
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Prepare data to send to the backend
+  
     const activityData = {
       studentName: formData.studentName,
       activityTitle: formData.activityTitle,
       description: formData.description,
       targetAudience: formData.targetAudience,
       eventCategories: formData.eventCategories,
-      image: formData.imageUrl, // Send image URL to the backend
+      image: formData.imageUrl,
     };
-
+  
     try {
       const response = await axios.post('http://localhost:5001/api/activities', activityData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
+  
       console.log('Activity created:', response.data);
-
-      // Reset form data after successful submission
+  
+      // Show success message and reset form
+      setSubmissionStatus('success');
       setFormData({
         studentName: '',
         activityTitle: '',
         description: '',
         targetAudience: [],
         eventCategories: [],
-        imageUrl: '', // Reset image URL field
+        imageUrl: '',
       });
+  
+      // Clear the success message after a timeout (optional)
+      setTimeout(() => setSubmissionStatus(null), 3000);
     } catch (error) {
       console.error('Error creating activity:', error);
+  
+      // Show error message
+      setSubmissionStatus('error');
     }
   };
 
   return (
     <div>
       <h3 className="mb-4">Submit an Activity</h3>
+      {/* Feedback Messages */}
+    {submissionStatus === 'success' && (
+      <div className="alert alert-success" role="alert">
+        Activity submitted successfully!
+      </div>
+    )}
+    {submissionStatus === 'error' && (
+      <div className="alert alert-danger" role="alert">
+        There was an error submitting the activity. Please try again.
+      </div>
+    )}
       <Form onSubmit={handleSubmit}>
         <Row>
           <Col md="6">

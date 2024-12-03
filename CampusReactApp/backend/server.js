@@ -50,7 +50,12 @@ app.post('/api/activities', async (req, res) => {
     };
 
     const result = await collection.insertOne(newActivity);
-    res.status(201).json({ message: 'Activity created successfully', data: result.ops[0] });
+
+    // Instead of `result.ops[0]`, access the insertedId
+    res.status(201).json({
+      message: 'Activity created successfully',
+      data: { ...newActivity, _id: result.insertedId },
+    });
   } catch (error) {
     console.error('Error creating activity:', error);
     res.status(500).json({ message: 'Failed to create activity' });
@@ -58,6 +63,7 @@ app.post('/api/activities', async (req, res) => {
     await client.close();
   }
 });
+
 
 app.get('/activities/:id', async (req, res) => {
   try {
