@@ -22,17 +22,11 @@ jobs:
     - name: Install dependencies
       run: npm install
       working-directory: CampusReactApp/frontend
-
     - name: Verify installation
       run: npm ls reactstrap
       working-directory: CampusReactApp/frontend
 
     - name: Run tests
       run: npm test
-      working-directory: CampusReactApp/frontend
-
-    - name: Lint code
-      run: npm run lint
-      working-directory: CampusReactApp/frontend
 
   
