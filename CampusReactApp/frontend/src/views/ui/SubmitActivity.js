@@ -176,19 +176,6 @@ const SubmitActivity = () => {
             </FormGroup>
             </Col>
           <Col md="6">
-            <FormGroup>
-              <Label for="activityTitle">Activity Title</Label>
-              <Input
-                type="text"
-                name="activityTitle"
-                id="activityTitle"
-                placeholder="Enter the title of the activity"
-                value={formData.activityTitle}
-                onChange={handleChange}
-                invalid={!!errors.activityTitle}
-              />
-              {errors.activityTitle && <small className="text-danger">{errors.activityTitle}</small>}
-            </FormGroup>
           </Col>
         </Row>
         <FormGroup>
