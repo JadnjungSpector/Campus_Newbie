@@ -169,7 +169,7 @@ const Profile = () => {
                   fontFamily: "'Roboto', sans-serif",
                 }}
               >
-                <p>{user.name}</p>
+                <p>{user}</p>
               </div>
             </Col>
           </Row>

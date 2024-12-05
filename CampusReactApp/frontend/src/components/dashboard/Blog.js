@@ -7,8 +7,12 @@ import useBookmarkedActivities from "../../views/ui/BookMarkedActivity";
 const Blog = ({ id, image, title, subtitle, text, color, onClick }) => {
   const { user } = useUser();
   const [bookmarkedActivities, setBookmarkedActivities] = useBookmarkedActivities(user);
+  const [isStarred, setIsStarred] = useState(false); // State to track the star's color
 
-  const isStarred = bookmarkedActivities.includes(title);
+  // Update the star state based on bookmarked activities on initial render or when activities change
+  useEffect(() => {
+    setIsStarred(bookmarkedActivities.includes(title));
+  }, [bookmarkedActivities, title]);
 
   const addBookmarkedActivity = async (username, activity_title) => {
     try {
@@ -17,7 +21,7 @@ const Blog = ({ id, image, title, subtitle, text, color, onClick }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({activity_title}),
+        body: JSON.stringify({ activity_title }),
       });
 
       if (!response.ok) {
@@ -35,7 +39,8 @@ const Blog = ({ id, image, title, subtitle, text, color, onClick }) => {
   const toggleStar = async () => {
     try {
       const updatedActivities = await addBookmarkedActivity(user, title);
-      setBookmarkedActivities([...updatedActivities]); // Force a new array reference
+      setBookmarkedActivities([...updatedActivities]); 
+      setIsStarred(updatedActivities.includes(title)); 
     } catch (error) {
       console.error("Error toggling star:", error);
     }
@@ -52,7 +57,14 @@ const Blog = ({ id, image, title, subtitle, text, color, onClick }) => {
         {user && (
           <FaStar
             onClick={toggleStar}
-            style={{ color: isStarred ? 'yellow' : 'gray', cursor: 'pointer', marginLeft: '10px' }}
+            style={{
+              color: isStarred ? 'yellow' : 'gray',
+              cursor: 'pointer',
+              marginLeft: '80px',
+              fontSize: '20px',
+              stroke: 'black',
+              strokeWidth: '10px',
+            }}
           />
         )}
       </CardBody>
