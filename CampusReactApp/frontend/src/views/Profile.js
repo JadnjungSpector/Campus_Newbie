@@ -6,45 +6,34 @@ import background from "../assets/images/bg/UWCity.jpg";
 import userpic from "../assets/images/users/IMG_1874.jpeg";
 import Friends from "../components/dashboard/Friend";
 import { useUser } from "../views/ui/UserContext"; // Assuming this provides user info
+import useBookmarkedActivities from "../views/ui/BookMarkedActivity";
 
 const Profile = () => {
   const { user } = useUser(); // Extract `user` from context
   const [activities, setActivities] = useState([]);
-  const [bookmarkedActivities, setBookmarkedActivities] = useState([]);
+  const [bookmarkedActivities, setBookmarkedActivities] = useBookmarkedActivities(user);
+  const [selectedActivity, setSelectedActivity] = useState(null);
+  const [loadingActivity, setLoadingActivity] = useState(false);
 
-//   // Fetch bookmarked activities for the user
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch bookmarked activities
-        const bookmarkedResponse = await fetch(`http://localhost:5001/api/v1/user/${user}/bookmarked-activities`);
-        const bookmarkedData = await bookmarkedResponse.json();
-        console.log('Fetched bookmarked activities:', bookmarkedData);
-
-        const bookmarkedList = bookmarkedData.bookmarkedActivities || [];
-        setBookmarkedActivities(bookmarkedList);
-
-        // Fetch all activities
         const activitiesResponse = await fetch('http://localhost:5001/activities');
         const allActivities = await activitiesResponse.json();
-
-        // Filter activities based on bookmarked activities
+  
         const userActivities = allActivities.filter((activity) =>
-          bookmarkedList.includes(activity.activity_title)
+          bookmarkedActivities.includes(activity.activity_title)
         );
-
+  
         setActivities(userActivities);
-
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
+  
     fetchData();
-  }, [user]); // Re-fetch when `user` changes
-
-  const [selectedActivity, setSelectedActivity] = useState(null);
-  const [loadingActivity, setLoadingActivity] = useState(false);
+  }, [bookmarkedActivities]); 
+  
 
   const handleCheckItOutClick = async (activityId) => {
     setLoadingActivity(true);
