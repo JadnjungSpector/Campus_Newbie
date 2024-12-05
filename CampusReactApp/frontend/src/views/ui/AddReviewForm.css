@@ -1,0 +1,71 @@
+/* Parent container for the form */
+.add-review-form {
+    background-color: #f9f9f9; /* Light background for contrast */
+    padding: 20px; /* Space around the form */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    max-width: 600px; /* Limit the width */
+    margin: 0 auto; /* Center the form horizontally */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Form elements */
+  .add-review-form input,
+  .add-review-form textarea,
+  .add-review-form select,
+  .add-review-form button {
+    width: 100%; /* Full width for all elements */
+    margin-bottom: 15px; /* Space between elements */
+    padding: 10px; /* Inner spacing */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 5px; /* Rounded edges */
+    font-size: 1rem; /* Readable font size */
+  }
+  
+  /* Textarea (for review text) */
+  .add-review-form textarea {
+    resize: vertical; /* Allow resizing vertically but not horizontally */
+    min-height: 100px; /* Minimum height for better UX */
+  }
+  
+  /* Labels */
+  .add-review-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Error message */
+  .add-review-form .error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+  }
+  
+  /* Submit button */
+  .add-review-form button {
+    background-color: #007bff; /* Primary button color */
+    color: white; /* White text for contrast */
+    border: none;
+    cursor: pointer; /* Pointer cursor for clarity */
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-review-form button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .add-review-form {
+      padding: 15px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  
+    .add-review-form button {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+  }
+  

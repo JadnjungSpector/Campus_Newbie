@@ -5,6 +5,7 @@ import Blog from "../components/dashboard/Blog";
 import background from "../assets/images/bg/UWCity.jpg";
 import userpic from "../assets/images/users/IMG_1874.jpeg";
 import Friends from "../components/dashboard/Friend";
+import AddReviewForm from "../views/ui/AddReviewForm"; // Import the AddReviewForm component
 import { useUser } from "../views/ui/UserContext"; // Assuming this provides user info
 
 const Profile = () => {
@@ -12,6 +13,7 @@ const Profile = () => {
   const [activities, setActivities] = useState([]);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [loadingActivity, setLoadingActivity] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false); // Toggle state for the review form
 
   const handleCheckItOutClick = async (activityId) => {
     setLoadingActivity(true);
@@ -28,6 +30,12 @@ const Profile = () => {
 
   const handleBackClick = () => {
     setSelectedActivity(null);
+    setShowReviewForm(false); // Ensure the review form is hidden when going back
+  };
+
+  const handleReviewAdded = (updatedActivity) => {
+    setSelectedActivity(updatedActivity); // Update the selected activity with the new review
+    setShowReviewForm(false); // Hide the review form after submission
   };
 
   useEffect(() => {
@@ -103,7 +111,9 @@ const Profile = () => {
                 <CardText className="text-center">{selectedActivity.activity_summary}</CardText>
                 <div style={{ display: "flex", justifyContent: "space-around", marginTop: "15px" }}>
                   <Button color="success">Get Directions</Button>
-                  <Button color="primary">Add a Review</Button>
+                  <Button color="primary" onClick={() => setShowReviewForm(!showReviewForm)}>
+                    {showReviewForm ? "Close Review Form" : "Add a Review"}
+                  </Button>
                 </div>
                 <h5 className="mt-4">Reviews:</h5>
                 {selectedActivity.reviews && selectedActivity.reviews.length > 0 ? (
@@ -125,6 +135,13 @@ const Profile = () => {
                   <p>No reviews available</p>
                 )}
               </CardBody>
+              {/* Conditionally render the AddReviewForm */}
+              {showReviewForm && (
+                <AddReviewForm
+                  activityId={selectedActivity._id}
+                  onReviewAdded={handleReviewAdded}
+                />
+              )}
             </Card>
           )}
         </div>

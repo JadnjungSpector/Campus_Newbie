@@ -15,6 +15,7 @@ import {
 } from "reactstrap";
 import Blog from "../../components/dashboard/Blog";
 import { FaStar } from 'react-icons/fa';
+import AddReviewForm from './AddReviewForm'; // Import the AddReviewForm component
 
 const Cards = () => {
   const [activities, setActivities] = useState([]);
@@ -25,6 +26,7 @@ const Cards = () => {
   const [selectedAudiences, setSelectedAudiences] = useState([]);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [loadingActivity, setLoadingActivity] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false); // Toggle state for the review form
 
   // Fetch all activities for the list view
   useEffect(() => {
@@ -97,6 +99,11 @@ const Cards = () => {
     setSelectedActivity(null); // Reset to list view
   };
 
+  const handleReviewAdded = (updatedActivity) => {
+    setSelectedActivity(updatedActivity); // Update the activity with the new reviews
+    setShowReviewForm(false); // Hide the review form after submission
+  };
+
   return (
     <div>
       {selectedActivity ? (
@@ -134,7 +141,9 @@ const Cards = () => {
                 <CardText className="text-center">{selectedActivity.activity_summary}</CardText>
                 <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px' }}>
                   <Button color="success">Get Directions</Button>
-                  <Button color="primary">Add a Review</Button>
+                  <Button color="primary" onClick={() => setShowReviewForm(!showReviewForm)}>
+                    {showReviewForm ? 'Close Review Form' : 'Add a Review'}
+                  </Button>
                 </div>
                 <h5 className="mt-4">Reviews:</h5>
                 {selectedActivity.reviews && selectedActivity.reviews.length > 0 ? (
@@ -153,6 +162,13 @@ const Cards = () => {
                   <p>No reviews available</p>
                 )}
               </CardBody>
+              {/* Conditionally render AddReviewForm */}
+              {showReviewForm && (
+                <AddReviewForm
+                  activityId={selectedActivity._id}
+                  onReviewAdded={handleReviewAdded}
+                />
+              )}
             </Card>
           )}
         </div>
@@ -205,3 +221,4 @@ const Cards = () => {
 };
 
 export default Cards;
+
