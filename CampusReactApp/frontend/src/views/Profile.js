@@ -6,12 +6,34 @@ import background from "../assets/images/bg/UWCity.jpg";
 import userpic from "../assets/images/users/IMG_1874.jpeg";
 import Friends from "../components/dashboard/Friend";
 import { useUser } from "../views/ui/UserContext"; // Assuming this provides user info
+import useBookmarkedActivities from "../views/ui/BookMarkedActivity";
 
 const Profile = () => {
   const { user } = useUser(); // Extract `user` from context
   const [activities, setActivities] = useState([]);
+  const [bookmarkedActivities, setBookmarkedActivities] = useBookmarkedActivities(user);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [loadingActivity, setLoadingActivity] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const activitiesResponse = await fetch('http://localhost:5001/activities');
+        const allActivities = await activitiesResponse.json();
+  
+        const userActivities = allActivities.filter((activity) =>
+          bookmarkedActivities.includes(activity.activity_title)
+        );
+  
+        setActivities(userActivities);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData();
+  }, [bookmarkedActivities]); 
+  
 
   const handleCheckItOutClick = async (activityId) => {
     setLoadingActivity(true);
@@ -29,26 +51,6 @@ const Profile = () => {
   const handleBackClick = () => {
     setSelectedActivity(null);
   };
-
-  useEffect(() => {
-    const fetchActivities = async () => {
-      try {
-        const response = await fetch("http://localhost:5001/activities");
-        const data = await response.json();
-        const userActivities = data.filter(
-          (activity) =>
-            activity.student_name === user.name || // Check if activity matches user name
-            activity.activity_type.includes("Food") ||
-            activity.audience.includes("Professors")
-        );
-        setActivities(userActivities);
-      } catch (error) {
-        console.error("Error fetching activities:", error);
-      }
-    };
-
-    fetchActivities();
-  }, [user]);
 
   return (
     <div>

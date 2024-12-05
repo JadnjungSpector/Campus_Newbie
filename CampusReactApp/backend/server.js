@@ -181,8 +181,14 @@ app.post('/login', async (req, res) => {
       if (!email.endsWith("@uw.edu")) {
         return res.status(400).json({ message: 'Email is not a valid UW email' });
       }
-      // Insert new user without hashing the password
-      await usersCollection.insertOne({ username, password, email });
+      const newUser = {
+        username,
+        password, // Consider hashing the password for security
+        email,
+        bookmarkedActivities: [], // Initialize with an empty array
+      };
+  
+      await usersCollection.insertOne(newUser);
   
       res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
@@ -193,6 +199,110 @@ app.post('/login', async (req, res) => {
     }
   });
 
+  app.post('/api/v1/user/:username/bookmarked-activities', async (req, res) => {
+    try {
+      await client.connect();
+      const database = client.db('ActivityData');
+      const usersCollection = database.collection('users');
+  
+      const { username } = req.params;
+      const { activity_title } = req.body; // Extract from request body
+  
+      console.log('Username:', username);
+      console.log('Activity title:', activity_title);
+  
+      // Find the user by username
+      const user = await usersCollection.findOne({ username });
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Get current bookmarked activities or initialize empty array
+      let updatedActivities = user.bookmarkedActivities || [];
+  
+      // Toggle the activity: remove if present, add if not
+      if (updatedActivities.includes(activity_title)) {
+        // updatedActivities = updatedActivities.filter(activity => activity !== activity_title);
+        updatedActivities.splice(updatedActivities.indexOf(activity_title), 1);
+      } else {
+        updatedActivities.push(activity_title);
+      }
+  
+      // Update the user document in the database
+      await usersCollection.updateOne(
+        { username },
+        { $set: { bookmarkedActivities: updatedActivities } }
+      );
+  
+      console.log('Updated activities:', updatedActivities);
+  
+      res.status(200).json({ bookmarkedActivities: updatedActivities });
+    } catch (error) {
+      console.error('Error updating bookmarked activity:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    } finally {
+      await client.close();
+    }
+  });
+  
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+
+app.get('/api/v1/user/:username', async (req, res) => {
+  try {
+    await client.connect();
+    const database = client.db('ActivityData');
+    const usersCollection = database.collection('users');
+
+    const { username } = req.params;
+
+    // Find the user by username
+    const user = await usersCollection.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(user); // Return the user data
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  } finally {
+    await client.close();
+  }
+});
+
+app.get('/api/v1/user/:username/bookmarked-activities', async (req, res) => {
+  try {
+    await client.connect();
+    const database = client.db('ActivityData');
+    const usersCollection = database.collection('users');
+
+    const { username } = req.params;
+
+    // Find the user by username
+    const user = await usersCollection.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (!user.bookmarkedActivities) {
+      return res.status(404).json({ message: 'User has no bookmarked activities' });
+    }
+
+    // Return only the bookmarked activities field
+    res.json({ bookmarkedActivities: user.bookmarkedActivities });
+  } catch (error) {
+    console.error('Error fetching bookmarked activities:', error.message); // Log the error message
+    console.error(error.stack); // Log the stack trace for more details
+    res.status(500).json({ message: 'Internal server error' });
+  } finally {
+    await client.close();
+  }
+});
+
