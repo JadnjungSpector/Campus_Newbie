@@ -1,21 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import {
   Navbar,
-  Collapse,
-  Nav,
-  NavItem,
+  // Collapse,
+  // Nav,
+  // NavItem,
   NavbarBrand,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Dropdown,
+  // UncontrolledDropdown,
+  // DropdownToggle,
+  // DropdownMenu,
+  // DropdownItem,
+  // Dropdown,
   Button,
 } from "reactstrap";
 import Logo from "./Logo";
 import { ReactComponent as LogoWhite } from "../assets/images/logos/materialprowhite.svg";
-import user1 from "../assets/images/users/user4.jpg";
+// import user1 from "../assets/images/users/user4.jpg";
 
 // Import the CSS file
 import './css/Header.css';
@@ -23,9 +23,9 @@ import './css/Header.css';
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  // const [dropdownOpen, setDropdownOpen] = React.useState(false);
 
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
+  // const toggle = () => setDropdownOpen((prevState) => !prevState);
   const Handletoggle = () => {
     setIsOpen(!isOpen);
   };

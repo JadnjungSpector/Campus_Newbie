@@ -23,6 +23,10 @@ const SubmitActivity = () => {
     { value: "Sports", label: "Sports" }
   ];
 
+  const [submissionStatus, setSubmissionStatus] = useState(null);
+  const [errors, setErrors] = useState({}); // For tracking validation errors
+
+
   // State to hold form data
   const [formData, setFormData] = useState({
     studentName: '',
@@ -55,18 +59,49 @@ const SubmitActivity = () => {
     });
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.studentName.trim()) {
+      newErrors.studentName = 'Name of student is required.';
+    }
+    if (!formData.activityTitle.trim()) {
+      newErrors.activityTitle = 'Activity title is required.';
+    }
+    if (!formData.description.trim()) {
+      newErrors.description = 'Description is required.';
+    }
+    if (formData.targetAudience.length === 0) {
+      newErrors.targetAudience = 'Please select at least one target audience.';
+    }
+    if (formData.eventCategories.length === 0) {
+      newErrors.eventCategories = 'Please select at least one event category.';
+    }
+    if (!formData.imageUrl.trim()) {
+      newErrors.imageUrl = 'Image URL is required.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Form is valid if there are no errors
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Prepare data to send to the backend
+    // Validate form before submission
+    if (!validateForm()) {
+      setSubmissionStatus('error'); // Show an error message if validation fails
+      return;
+    }
+
     const activityData = {
       studentName: formData.studentName,
       activityTitle: formData.activityTitle,
       description: formData.description,
       targetAudience: formData.targetAudience,
       eventCategories: formData.eventCategories,
-      image: formData.imageUrl, // Send image URL to the backend
+      image: formData.imageUrl,
     };
 
     try {
@@ -75,25 +110,41 @@ const SubmitActivity = () => {
           'Content-Type': 'application/json',
         },
       });
+
       console.log('Activity created:', response.data);
 
-      // Reset form data after successful submission
+      setSubmissionStatus('success');
       setFormData({
         studentName: '',
         activityTitle: '',
         description: '',
         targetAudience: [],
         eventCategories: [],
-        imageUrl: '', // Reset image URL field
+        imageUrl: '',
       });
+
+      // Clear the success message after a timeout (optional)
+      setTimeout(() => setSubmissionStatus(null), 3000);
     } catch (error) {
       console.error('Error creating activity:', error);
+      setSubmissionStatus('error');
     }
   };
 
   return (
     <div>
       <h3 className="mb-4">Submit an Activity</h3>
+       {/* Feedback Messages */}
+       {submissionStatus === 'success' && (
+        <div className="alert alert-success" role="alert">
+          Activity submitted successfully!
+        </div>
+      )}
+      {submissionStatus === 'error' && (
+        <div className="alert alert-danger" role="alert">
+          Please fix the highlighted errors before submitting.
+        </div>
+      )}
       <Form onSubmit={handleSubmit}>
         <Row>
           <Col md="6">
@@ -106,6 +157,7 @@ const SubmitActivity = () => {
                 placeholder="Enter your name"
                 value={formData.studentName}
                 onChange={handleChange}
+                invalid={!!errors.studentName} // Highlight field if invalid
               />
             </FormGroup>
           </Col>
@@ -120,7 +172,10 @@ const SubmitActivity = () => {
                 value={formData.activityTitle}
                 onChange={handleChange}
               />
+              {errors.studentName && <small className="text-danger">{errors.studentName}</small>}
             </FormGroup>
+            </Col>
+          <Col md="6">
           </Col>
         </Row>
         <FormGroup>
@@ -132,10 +187,11 @@ const SubmitActivity = () => {
             placeholder="Enter a description of the activity"
             value={formData.description}
             onChange={handleChange}
+            invalid={!!errors.description}
           />
+          {errors.description && <small className="text-danger">{errors.description}</small>}
         </FormGroup>
-        
-        {/* Target Audience Multi-Select Dropdown */}
+
         <FormGroup>
           <Label>Target Audience</Label>
           <Select
@@ -145,9 +201,9 @@ const SubmitActivity = () => {
             onChange={handleAudienceChange}
             placeholder="Select target audience..."
           />
+          {errors.targetAudience && <small className="text-danger">{errors.targetAudience}</small>}
         </FormGroup>
 
-        {/* Event Categories Multi-Select Dropdown */}
         <FormGroup>
           <Label>Event Categories</Label>
           <Select
@@ -157,9 +213,9 @@ const SubmitActivity = () => {
             onChange={handleCategoryChange}
             placeholder="Select event categories..."
           />
+          {errors.eventCategories && <small className="text-danger">{errors.eventCategories}</small>}
         </FormGroup>
 
-        {/* Image URL Input */}
         <FormGroup>
           <Label for="imageUrl">Image URL</Label>
           <Input
@@ -169,10 +225,12 @@ const SubmitActivity = () => {
             placeholder="Enter an image URL"
             value={formData.imageUrl}
             onChange={handleChange}
+            invalid={!!errors.imageUrl}
           />
+          {errors.imageUrl && <small className="text-danger">{errors.imageUrl}</small>}
         </FormGroup>
 
-        <Button color="darkerPurple" type="submit">
+        <Button color="primary" type="submit">
           Submit Activity
         </Button>
       </Form>

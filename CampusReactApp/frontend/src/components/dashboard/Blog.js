@@ -1,7 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { FaStar } from 'react-icons/fa';
+import { useUser } from "../../views/ui/UserContext";
+import useBookmarkedActivities from "../../views/ui/BookMarkedActivity";
 
 const Blog = ({ id, image, title, subtitle, text, color, onClick }) => {
+  const { user } = useUser();
+  const [bookmarkedActivities, setBookmarkedActivities] = useBookmarkedActivities(user);
+
+  const isStarred = bookmarkedActivities.includes(title);
+
+  const addBookmarkedActivity = async (username, activity_title) => {
+    try {
+      const response = await fetch(`http://localhost:5001/api/v1/user/${username}/bookmarked-activities`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({activity_title}),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add bookmarked activity');
+      }
+      const data = await response.json();
+      console.log('Updated bookmarked activities:', data.bookmarkedActivities);
+      return data.bookmarkedActivities;
+    } catch (error) {
+      console.error('Error adding bookmarked activity:', error);
+      throw error;
+    }
+  };
+
+  const toggleStar = async () => {
+    try {
+      const updatedActivities = await addBookmarkedActivity(user, title);
+      setBookmarkedActivities([...updatedActivities]); // Force a new array reference
+    } catch (error) {
+      console.error("Error toggling star:", error);
+    }
+  };
+
   return (
     <Card>
       <CardImg alt="Card image cap" src={image} />
@@ -9,14 +48,16 @@ const Blog = ({ id, image, title, subtitle, text, color, onClick }) => {
         <CardTitle tag="h5">{title}</CardTitle>
         <CardSubtitle>{subtitle}</CardSubtitle>
         <CardText className="mt-3">{text}</CardText>
-        <Button color={color} onClick={onClick}>Check it out</Button> {/* Use onClick as is */}
+        <Button color={color} onClick={onClick}>Check it out</Button>
+        {user && (
+          <FaStar
+            onClick={toggleStar}
+            style={{ color: isStarred ? 'yellow' : 'gray', cursor: 'pointer', marginLeft: '10px' }}
+          />
+        )}
       </CardBody>
     </Card>
   );
 };
 
 export default Blog;
-
-
-
- 

@@ -1,25 +1,8 @@
-// // src/App.js
-// import { useRoutes } from "react-router-dom";
-// import { AuthProvider } from "./contexts/AuthContext";
-// import Themeroutes from "./routes/Router";
-
-// const App = () => {
-//   const routing = useRoutes(Themeroutes);
-
-//   return (
-//     <AuthProvider>
-//       <div className="dark">{routing}</div>
-//     </AuthProvider>
-//   );
-// };
-
-// export default App;
-
 import { useRoutes } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import Themeroutes from "./routes/Router";
 import SingleActivity from "./views/ui/SingleActivity"; // Import SingleActivity
-
+import {UserProvider} from "./views/ui/UserContext";
 const App = () => {
   const routing = useRoutes([
     ...Themeroutes, // Existing routes from Themeroutes
@@ -28,7 +11,9 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <div className="dark">{routing}</div>
+      <UserProvider>
+          <div className="dark">{routing}</div>
+      </UserProvider>
     </AuthProvider>
   );
 };

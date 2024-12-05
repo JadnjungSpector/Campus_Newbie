@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Card, CardTitle, CardBody, Form, FormGroup, Label, Input, Button } from "reactstrap";
-import { useAuth } from '../../contexts/AuthContext'; // Assuming you have an AuthContext
-
+import { useAuth } from '../../contexts/AuthContext'; 
+import { useUser } from "./UserContext";
 const Login = () => {
+  const { setUser } = useUser();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -24,6 +25,7 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
+        setUser(username);
         login(data.token);
         navigate('/profile');
       } else {
