@@ -171,8 +171,9 @@ const SubmitActivity = () => {
                 placeholder="Enter the title of the activity"
                 value={formData.activityTitle}
                 onChange={handleChange}
+                invalid={!!errors.activityTitle}
               />
-              {errors.studentName && <small className="text-danger">{errors.studentName}</small>}
+              {errors.activityTitle && <small className="text-danger">{errors.activityTitle}</small>}
             </FormGroup>
             </Col>
           <Col md="6">

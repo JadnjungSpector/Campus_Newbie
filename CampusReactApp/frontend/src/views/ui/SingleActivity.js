@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardImg, CardBody, CardTitle, CardText, Button } from "reactstrap";
 import { FaStar } from 'react-icons/fa';
+import AddReviewForm from './AddReviewForm'; // Import the AddReviewForm component
 
 const SingleActivity = () => {
   const { id } = useParams();
   const [activity, setActivity] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showReviewForm, setShowReviewForm] = useState(false); // State to toggle the review form
 
   useEffect(() => {
     const fetchActivity = async () => {
@@ -23,6 +25,12 @@ const SingleActivity = () => {
     fetchActivity();
   }, [id]);
 
+  const handleReviewAdded = (updatedActivity) => {
+    // Update the activity with the new reviews after submission
+    setActivity(updatedActivity);
+    setShowReviewForm(false); // Close the review form after successful submission
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -32,7 +40,7 @@ const SingleActivity = () => {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px' }}>
       <Card style={{ width: '100%', maxWidth: '800px', padding: '20px', borderRadius: '10px' }}>
         <CardImg top src={activity.activity_home_image} alt={activity.activity_title} />
         <CardBody>
@@ -52,14 +60,19 @@ const SingleActivity = () => {
           </div>
           <CardText className="text-center">
             <strong>Safety Rating: </strong>
-            {Array.from({ length: activity.safety_rating }).map((_, index) => (
+            {Array.from({ length: Math.round(activity.safety_rating) }).map((_, index) => (
               <FaStar key={index} color="gold" />
             ))}
           </CardText>
           <CardText className="text-center">{activity.activity_summary}</CardText>
           <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px' }}>
             <Button color="success">Get Directions</Button>
-            <Button color="primary">Add a Review</Button>
+            <Button
+              color="primary"
+              onClick={() => setShowReviewForm(!showReviewForm)} // Toggle the review form
+            >
+              {showReviewForm ? 'Close Review Form' : 'Add a Review'}
+            </Button>
           </div>
           <h5 className="mt-4">Reviews:</h5>
           {activity.reviews && activity.reviews.length > 0 ? (
@@ -79,10 +92,16 @@ const SingleActivity = () => {
           )}
         </CardBody>
       </Card>
+
+      {/* Conditional rendering of the AddReviewForm */}
+      {showReviewForm && (
+        <div style={{ width: '100%', maxWidth: '800px', marginTop: '20px' }}>
+          <AddReviewForm activityId={id} onReviewAdded={handleReviewAdded} />
+        </div>
+      )}
     </div>
   );
 };
 
 export default SingleActivity;
-
 

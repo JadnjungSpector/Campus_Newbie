@@ -15,6 +15,7 @@ import {
 } from "reactstrap";
 import Blog from "../../components/dashboard/Blog";
 import { FaStar } from 'react-icons/fa';
+import AddReviewForm from './AddReviewForm'; // Import the AddReviewForm component
 
 const Cards = () => {
   const [activities, setActivities] = useState([]);
@@ -26,6 +27,7 @@ const Cards = () => {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [loadingActivity, setLoadingActivity] = useState(false);
   const [isFlagged, setFlagged] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false); // Toggle state for the review form
 
   // Fetch all activities for the list view
   useEffect(() => {
@@ -123,6 +125,9 @@ const Cards = () => {
     } catch (error) {
       console.error('Error updating flagged status:', error);
     }
+  const handleReviewAdded = (updatedActivity) => {
+    setSelectedActivity(updatedActivity); // Update the activity with the new reviews
+    setShowReviewForm(false); // Hide the review form after submission
   };
 
   return (
@@ -164,6 +169,9 @@ const Cards = () => {
                   <Button color="success">Get Directions</Button>
                   <Button color="primary">Add a Review</Button>
                   <Button color="warning" onClick={handleFlagging}>{isFlagged ? ("Reported") : ("Report")}</Button>
+                  <Button color="primary" onClick={() => setShowReviewForm(!showReviewForm)}>
+                    {showReviewForm ? 'Close Review Form' : 'Add a Review'}
+                  </Button>
                 </div>
                 <h5 className="mt-4">Reviews:</h5>
                 {selectedActivity.reviews && selectedActivity.reviews.length > 0 ? (
@@ -182,6 +190,13 @@ const Cards = () => {
                   <p>No reviews available</p>
                 )}
               </CardBody>
+              {/* Conditionally render AddReviewForm */}
+              {showReviewForm && (
+                <AddReviewForm
+                  activityId={selectedActivity._id}
+                  onReviewAdded={handleReviewAdded}
+                />
+              )}
             </Card>
           )}
         </div>
@@ -232,5 +247,7 @@ const Cards = () => {
     </div>
   );
 };
+};
 
 export default Cards;
+

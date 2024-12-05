@@ -5,6 +5,7 @@ import Blog from "../components/dashboard/Blog";
 import background from "../assets/images/bg/UWCity.jpg";
 import userpic from "../assets/images/users/IMG_1874.jpeg";
 import Friends from "../components/dashboard/Friend";
+import AddReviewForm from "../views/ui/AddReviewForm"; // Import the AddReviewForm component
 import { useUser } from "../views/ui/UserContext"; // Assuming this provides user info
 import useBookmarkedActivities from "../views/ui/BookMarkedActivity";
 
@@ -35,6 +36,7 @@ const Profile = () => {
     fetchData();
   }, [bookmarkedActivities]); 
   
+  const [showReviewForm, setShowReviewForm] = useState(false); // Toggle state for the review form
 
   const handleCheckItOutClick = async (activityId) => {
     setLoadingActivity(true);
@@ -52,6 +54,12 @@ const Profile = () => {
 
   const handleBackClick = () => {
     setSelectedActivity(null);
+    setShowReviewForm(false); // Ensure the review form is hidden when going back
+  };
+
+  const handleReviewAdded = (updatedActivity) => {
+    setSelectedActivity(updatedActivity); // Update the selected activity with the new review
+    setShowReviewForm(false); // Hide the review form after submission
   };
 
   const handleFlagging = async () => {
@@ -135,6 +143,9 @@ const Profile = () => {
                   <Button color="success">Get Directions</Button>
                   <Button color="primary">Add a Review</Button>
                   <Button color="warning" onClick={handleFlagging}>{isFlagged ? ("Reported") : ("Report")}</Button>
+                  <Button color="primary" onClick={() => setShowReviewForm(!showReviewForm)}>
+                    {showReviewForm ? "Close Review Form" : "Add a Review"}
+                  </Button>
                 </div>
                 <h5 className="mt-4">Reviews:</h5>
                 {selectedActivity.reviews && selectedActivity.reviews.length > 0 ? (
@@ -156,6 +167,13 @@ const Profile = () => {
                   <p>No reviews available</p>
                 )}
               </CardBody>
+              {/* Conditionally render the AddReviewForm */}
+              {showReviewForm && (
+                <AddReviewForm
+                  activityId={selectedActivity._id}
+                  onReviewAdded={handleReviewAdded}
+                />
+              )}
             </Card>
           )}
         </div>

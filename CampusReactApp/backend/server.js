@@ -92,6 +92,77 @@ app.post('/api/activities', async (req, res) => {
   }
 });
 
+const { ObjectId } = require('mongodb'); // Ensure ObjectId is imported at the top of your file
+
+app.post('/activities/:id/reviews', async (req, res) => {
+  try {
+    await client.connect();
+    const database = client.db('ActivityData');
+    const collection = database.collection('home_screen'); // Ensure this is the correct collection
+
+    const { id } = req.params;
+    const { user, text, safety_rating, general_rating, image } = req.body;
+
+    // Validate the input
+    if (!user || !text || !safety_rating || !general_rating || !image) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    if (text.split(' ').length < 50) {
+      return res.status(400).json({ message: 'Review must be at least 50 words long.' });
+    }
+
+    // Find the activity by ID
+    const activity = await collection.findOne({ _id: new ObjectId(id) });
+
+    if (!activity) {
+      return res.status(404).json({ message: 'Activity not found' });
+    }
+
+    // Create a new review object
+    const newReview = {
+      user,
+      text,
+      safety_rating: parseInt(safety_rating, 10),
+      general_rating: parseInt(general_rating, 10),
+      image, // Assuming the image is a URL or Base64 string
+    };
+
+    // Add the review to the activity's reviews array
+    const updatedReviews = activity.reviews ? [...activity.reviews, newReview] : [newReview];
+
+    // Calculate updated safety and general ratings
+    const updatedSafetyRating = updatedReviews.reduce((sum, review) => sum + review.safety_rating, 0) / updatedReviews.length;
+    const updatedGeneralRating = updatedReviews.reduce((sum, review) => sum + review.general_rating, 0) / updatedReviews.length;
+
+    // Update the activity in the database
+    const result = await collection.updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          reviews: updatedReviews,
+          safety_rating: updatedSafetyRating,
+          general_rating: updatedGeneralRating,
+        },
+      }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(500).json({ message: 'Failed to update activity with the new review.' });
+    }
+
+    // Return the updated activity
+    const updatedActivity = await collection.findOne({ _id: new ObjectId(id) });
+    res.status(200).json(updatedActivity);
+  } catch (error) {
+    console.error('Error adding review:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  } finally {
+    await client.close();
+  }
+});
+
+
 app.get('/activities/:id', async (req, res) => {
   try {
     await client.connect();
