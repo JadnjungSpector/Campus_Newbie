@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import './AddReviewForm.css'; // Import the CSS file
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 
-const AddReviewForm = ({ id, onReviewAdded }) => {
-    console.log('Reviewing activity with ID:', id); // Debugging
-
+const AddReviewForm = ({ activityId, onReviewAdded }) => {
   const [review, setReview] = useState({
-    
     user: '',
     text: '',
     safety_rating: 0,
@@ -20,8 +17,8 @@ const AddReviewForm = ({ id, onReviewAdded }) => {
     e.preventDefault();
 
     // Validate the review fields
-    if (review.text.split(' ').length < 20) {
-      setError('Review must be at least 20 words long.');
+    if (review.text.split(' ').length < 50) {
+      setError('Review must be at least 50 words long.');
       return;
     }
     if (!review.image) {
@@ -42,17 +39,12 @@ const AddReviewForm = ({ id, onReviewAdded }) => {
     formData.append('general_rating', review.general_rating);
     formData.append('image', review.image);
 
-    for (const [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-      }
-      
-      
     try {
       // Submit the form data to the backend
-      const response = await fetch(`http://localhost:5001/activities/${id}/reviews`, {
+      const response = await fetch(`http://localhost:5001/activities/${activityId}/reviews`, {
         method: 'POST',
         body: formData,
-     });
+      });
 
       if (response.ok) {
         const updatedActivity = await response.json();
@@ -64,8 +56,6 @@ const AddReviewForm = ({ id, onReviewAdded }) => {
       console.error('Error adding review:', error);
     }
   };
-
-
 
   return (
     <Form onSubmit={handleSubmit} className="add-review-form">
@@ -87,7 +77,7 @@ const AddReviewForm = ({ id, onReviewAdded }) => {
           id="text"
           value={review.text}
           onChange={(e) => setReview({ ...review, text: e.target.value })}
-          placeholder="Write your review (at least 20 words)"
+          placeholder="Write your review (at least 50 words)"
           required
         />
       </FormGroup>
