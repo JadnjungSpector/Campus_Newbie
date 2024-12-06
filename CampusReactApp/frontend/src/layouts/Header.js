@@ -2,15 +2,7 @@ import React from "react";
 // import { Link } from "react-router-dom";
 import {
   Navbar,
-  // Collapse,
-  // Nav,
-  // NavItem,
   NavbarBrand,
-  // UncontrolledDropdown,
-  // DropdownToggle,
-  // DropdownMenu,
-  // DropdownItem,
-  // Dropdown,
   Button,
 } from "reactstrap";
 import Logo from "./Logo";
