@@ -108,8 +108,8 @@ app.post('/activities/:id/reviews', async (req, res) => {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    if (text.split(' ').length < 50) {
-      return res.status(400).json({ message: 'Review must be at least 50 words long.' });
+    if (text.split(' ').length < 20) {
+      return res.status(400).json({ message: 'Review must be at least 20 words long.' });
     }
 
     // Find the activity by ID
