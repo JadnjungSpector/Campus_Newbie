@@ -25,6 +25,17 @@ const SubmitActivity = () => {
 
   const [submissionStatus, setSubmissionStatus] = useState(null);
   const [errors, setErrors] = useState({}); // For tracking validation errors
+  const [isExpirationNever, setIsExpirationNever] = useState(false);
+
+  // Handle changes for the "Never" checkbox
+  const handleNeverChange = () => {
+    setIsExpirationNever(!isExpirationNever);
+    if (!isExpirationNever) {
+      setFormData({ ...formData, expirationDate: 'Never' }); // Set expirationDate to "Never"
+    } else {
+      setFormData({ ...formData, expirationDate: '' }); // Clear expirationDate
+    }
+  };
 
 
   // State to hold form data
@@ -35,6 +46,8 @@ const SubmitActivity = () => {
     targetAudience: [],
     eventCategories: [],
     imageUrl: '', // Use imageUrl instead of image file
+    locationString: '',
+    expirationDate: '', 
   });
 
   // Handle input changes for text fields
@@ -80,6 +93,12 @@ const SubmitActivity = () => {
     if (!formData.imageUrl.trim()) {
       newErrors.imageUrl = 'Image URL is required.';
     }
+    if (!formData.locationString.trim()) {
+      newErrors.locationString = 'Location is required.';
+    }
+    if (!isExpirationNever && !formData.expirationDate.trim()) {
+      newErrors.expirationDate = 'Expiration date is required.';
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Form is valid if there are no errors
@@ -102,6 +121,8 @@ const SubmitActivity = () => {
       targetAudience: formData.targetAudience,
       eventCategories: formData.eventCategories,
       image: formData.imageUrl,
+      location: formData.locationString,
+      expirationDate: isExpirationNever ? null : formData.expirationDate,
     };
 
     try {
@@ -121,6 +142,8 @@ const SubmitActivity = () => {
         targetAudience: [],
         eventCategories: [],
         imageUrl: '',
+        location: '', 
+        expirationDate: '',
       });
 
       // Clear the success message after a timeout (optional)
@@ -230,8 +253,40 @@ const SubmitActivity = () => {
           />
           {errors.imageUrl && <small className="text-danger">{errors.imageUrl}</small>}
         </FormGroup>
-
-        <Button color="primary" type="submit">
+        <FormGroup>
+          <Label for="locationString">Location</Label>
+          <Input
+            type="text"
+            name="locationString"
+            id="locationString"
+            placeholder="Enter the location"
+            value={formData.locationString}
+            onChange={handleChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="expirationDate">Expiration Date</Label>
+          <Input
+            type="date"
+            name="expirationDate"
+            id="expirationDate"
+            value={formData.expirationDate}
+            onChange={handleChange}
+            disabled={isExpirationNever} // Disable the date picker if "Never" is selected
+          />
+          {errors.expirationDate && <small className="text-danger">{errors.expirationDate}</small>}
+        </FormGroup>
+        <FormGroup check>
+          <Label check>
+            <Input
+              type="checkbox"
+              checked={isExpirationNever}
+              onChange={handleNeverChange}
+            />
+            Never
+          </Label>
+        </FormGroup>
+        <Button className="text-white" style={{ backgroundColor: '#A78BFA', borderColor: '#A78BFA' }} type="submit">
           Submit Activity
         </Button>
       </Form>

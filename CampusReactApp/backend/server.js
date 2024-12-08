@@ -42,21 +42,33 @@ app.post('/api/activities', async (req, res) => {
     const database = client.db('ActivityData');
     const collection = database.collection('home_screen');
 
-    const { studentName, activityTitle, description, targetAudience, eventCategories, image } = req.body;
+    const {
+      studentName,
+      activityTitle,
+      description,
+      targetAudience,
+      eventCategories,
+      image,
+      location,
+      expirationDate,
+    } = req.body;
 
+    // Create the new activity object
     const newActivity = {
       student_name: studentName,
       activity_title: activityTitle,
       activity_summary: description,
-      activity_home_image: image, // Save the Base64 image string
+      activity_home_image: image, // Save the image URL
       activity_type: eventCategories,
       audience: targetAudience,
       flagged: false,
+      location: location,
+      // Store null if "Never" is selected
+      expiration_date: expirationDate === 'Never' ? null : expirationDate, 
     };
 
     const result = await collection.insertOne(newActivity);
 
-    // Instead of `result.ops[0]`, access the insertedId
     res.status(201).json({
       message: 'Activity created successfully',
       data: { ...newActivity, _id: result.insertedId },

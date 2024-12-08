@@ -75,7 +75,7 @@ const SingleActivity = () => {
           <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px' }}>
             <Button color="success">Get Directions</Button>
             <Button
-              color="primary"
+              color="#A78BFA"
               onClick={() => setShowReviewForm(!showReviewForm)} // Toggle the review form
             >
               {showReviewForm ? 'Close Review Form' : 'Add a Review'}
