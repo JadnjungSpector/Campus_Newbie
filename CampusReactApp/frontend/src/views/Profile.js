@@ -23,9 +23,11 @@ const Profile = () => {
         const activitiesResponse = await fetch('http://localhost:5001/activities');
         const allActivities = await activitiesResponse.json();
   
-        const userActivities = allActivities.filter((activity) =>
-          bookmarkedActivities.includes(activity.activity_title)
-        );
+        const userActivities = allActivities
+        
+        // filter((activity) =>
+        //   bookmarkedActivities.includes(activity.activity_title)
+        // );
   
         setActivities(userActivities);
       } catch (error) {
@@ -146,45 +148,25 @@ const Profile = () => {
                   ))}
                 </CardText>
                 <CardText className="text-center">{selectedActivity.activity_summary}</CardText>
-                {/* <div style={{ display: "flex", justifyContent: "space-around", marginTop: "15px" }}>
+                <div style={{ display: "flex", justifyContent: "space-around", marginTop: "15px" }}>
                   <Button color="success">Get Directions</Button>
-                  <Button color="primary">Add a Review</Button>
-                  <Button color="warning" onClick={handleFlagging}>{isFlagged ? ("Reported") : ("Report")}</Button>
-                  <Button color="primary" onClick={() => setShowReviewForm(!showReviewForm)}>
-                    {showReviewForm ? "Close Review Form" : "Add a Review"}
+                  <Button
+                    color="warning"
+                    onClick={handleFlagging}
+                  >
+                    {isFlagged ? "Reported" : "Report"}
+                  </Button>
                   <Button
                     style={{
-                      backgroundColor: '#A78BFA',
-                      color: 'white',
-                      border: 'none',
+                      backgroundColor: "#A78BFA",
+                      color: "white",
+                      border: "none",
                     }}
                     onClick={() => setShowReviewForm(!showReviewForm)}
                   >
-                    {showReviewForm ? 'Close Review Form' : 'Add a Review'}
-                  </Button> */}
-                  <div style={{ display: "flex", justifyContent: "space-around", marginTop: "15px" }}>
-                    <Button color="success">Get Directions</Button>
-                    <Button color="primary">Add a Review</Button>
-                    <Button color="warning" onClick={handleFlagging}>
-                      {isFlagged ? "Reported" : "Report"}
-                    </Button>
-                    <Button
-                      color="primary"
-                      onClick={() => setShowReviewForm(!showReviewForm)}
-                    >
-                      {showReviewForm ? "Close Review Form" : "Add a Review"}
-                    </Button>
-                    <Button
-                      style={{
-                        backgroundColor: "#A78BFA",
-                        color: "white",
-                        border: "none",
-                      }}
-                      onClick={() => setShowReviewForm(!showReviewForm)}
-                    >
-                      Styled Add Review
-                    </Button>
-                  </div>
+                    {showReviewForm ? "Close Review Form" : "Add a Review"}
+                  </Button>
+                </div>
                 <h5 className="mt-4">Reviews:</h5>
                 {selectedActivity.reviews && selectedActivity.reviews.length > 0 ? (
                   selectedActivity.reviews.map((review, index) => (

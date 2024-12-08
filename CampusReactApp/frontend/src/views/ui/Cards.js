@@ -15,7 +15,7 @@ import {
 } from "reactstrap";
 import Blog from "../../components/dashboard/Blog";
 import { FaStar } from 'react-icons/fa';
-import AddReviewForm from './AddReviewForm'; // Import the AddReviewForm component
+import AddReviewForm from './AddReviewForm'; 
 
 const Cards = () => {
   const [activities, setActivities] = useState([]);
@@ -28,6 +28,8 @@ const Cards = () => {
   const [loadingActivity, setLoadingActivity] = useState(false);
   const [isFlagged, setFlagged] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false); // Toggle state for the review form
+
+
 
   // Fetch all activities for the list view
   useEffect(() => {
@@ -84,22 +86,24 @@ const Cards = () => {
   };
 
   const handleCheckItOutClick = async (activityId) => {
-    setLoadingActivity(true);
     try {
       const response = await fetch(`http://localhost:5001/activities/${activityId}`);
-      const data = await response.json();
-      setSelectedActivity(data); // Load the detailed activity
-      setFlagged(selectedActivity.flagged);
+      if (!response.ok) {
+        throw new Error('Failed to fetch activity details');
+      }
+      const activityDetails = await response.json();
+      console.log('Activity details:', activityDetails);
+      // Implement navigation or modal display logic here
     } catch (error) {
-      console.error('Error fetching single activity:', error);
-    } finally {
-      setLoadingActivity(false);
+      console.error('Error fetching activity details:', error);
     }
   };
 
   const handleBackClick = () => {
     setSelectedActivity(null); // Reset to list view
+    setShowReviewForm(false); 
   };
+
 
   const handleFlagging = async () => {
     setFlagged(!isFlagged);
@@ -125,6 +129,8 @@ const Cards = () => {
     } catch (error) {
       console.error('Error updating flagged status:', error);
     }
+  };
+
   const handleReviewAdded = (updatedActivity) => {
     console.log("Updated activity with new review:", updatedActivity);
     setSelectedActivity(updatedActivity);
@@ -172,44 +178,25 @@ const Cards = () => {
                   ))}
                 </CardText>
                 <CardText className="text-center">{selectedActivity.activity_summary}</CardText>
-                {/* <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px' }}>
                   <Button color="success">Get Directions</Button>
-                  <Button color="primary">Add a Review</Button>
-                  <Button color="warning" onClick={handleFlagging}>{isFlagged ? ("Reported") : ("Report")}</Button>
-                  <Button color="primary" onClick={() => setShowReviewForm(!showReviewForm)}>
+                  <Button
+                    color="warning"
+                    onClick={handleFlagging}
+                  >
+                    {isFlagged ? "Reported" : "Report"}
+                  </Button>
+                  <Button
                     style={{
                       backgroundColor: '#A78BFA',
                       color: 'white',
                       border: 'none',
                     }}
                     onClick={() => setShowReviewForm(!showReviewForm)}
-                  
+                  >
                     {showReviewForm ? 'Close Review Form' : 'Add a Review'}
-                  </Button> */}
-                  <div style={{ display: "flex", justifyContent: "space-around", marginTop: "15px" }}>
-                    <Button color="success">Get Directions</Button>
-                    <Button color="primary">Add a Review</Button>
-                    <Button color="warning" onClick={handleFlagging}>
-                      {isFlagged ? "Reported" : "Report"}
-                    </Button>
-                    <Button
-                      color="primary"
-                      onClick={() => setShowReviewForm(!showReviewForm)}
-                    >
-                      {showReviewForm ? "Close Review Form" : "Add a Review"}
-                    </Button>
-                    <Button
-                      style={{
-                        backgroundColor: "#A78BFA",
-                        color: "white",
-                        border: "none",
-                      }}
-                      onClick={() => setShowReviewForm(!showReviewForm)}
-                    >
-                      Styled Add Review
-                    </Button>
+                  </Button>
                   </div>
-                
                 <h5 className="mt-4">Reviews:</h5>
                 {selectedActivity.reviews && selectedActivity.reviews.length > 0 ? (
                   selectedActivity.reviews.map((review, index) => (
@@ -314,7 +301,7 @@ const Cards = () => {
     </div>
   );
 };
-};
 
 export default Cards;
+
 
