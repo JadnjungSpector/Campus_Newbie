@@ -60,6 +60,12 @@ const SingleActivity = () => {
             ))}
           </div>
           <CardText className="text-center">
+            <strong>Overall Rating: </strong>
+            {Array.from({ length: Math.round(activity.general_rating) }).map((_, index) => (
+              <FaStar key={index} color="gold" />
+            ))}
+          </CardText>
+          <CardText className="text-center">
             <strong>Safety Rating: </strong>
             {Array.from({ length: Math.round(activity.safety_rating) }).map((_, index) => (
               <FaStar key={index} color="gold" />

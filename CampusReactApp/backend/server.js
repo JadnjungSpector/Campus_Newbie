@@ -84,7 +84,8 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
 
     const { id } = req.params; // Extract activity ID
     const { user, text, safety_rating, general_rating } = req.body; // Extract fields from body
-    const image = req.file; // Access the uploaded file
+    // Convert the image to Base64
+    const imageBase64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
 
     // Validate input fields
     if (!user || !text || !safety_rating || !general_rating || !image) {
@@ -107,7 +108,7 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
       text,
       safety_rating: parseInt(safety_rating, 10),
       general_rating: parseInt(general_rating, 10),
-      image: req.file.originalname, // Save the original file name
+      image: imageBase64,
     };
 
     // Update the reviews array and calculate new ratings

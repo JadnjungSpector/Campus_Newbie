@@ -134,6 +134,12 @@ const Profile = () => {
                   ))}
                 </div>
                 <CardText className="text-center">
+                  <strong>Overall Rating: </strong>
+                  {Array.from({ length: selectedActivity.general_rating || 0 }).map((_, index) => (
+                    <FaStar key={index} color="gold" />
+                  ))}
+                </CardText>
+                <CardText className="text-center">
                   <strong>Safety Rating: </strong>
                   {Array.from({ length: selectedActivity.safety_rating || 0 }).map((_, index) => (
                     <FaStar key={index} color="gold" />
@@ -151,17 +157,44 @@ const Profile = () => {
                 <h5 className="mt-4">Reviews:</h5>
                 {selectedActivity.reviews && selectedActivity.reviews.length > 0 ? (
                   selectedActivity.reviews.map((review, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        backgroundColor: "#f9f9f9",
-                        padding: "10px",
-                        borderRadius: "8px",
-                        margin: "10px 0",
-                      }}
-                    >
-                      <strong>{review.user}</strong>
-                      <p>{review.text}</p>
+                    <div key={index} style={{
+                      backgroundColor: '#f9f9f9',
+                      padding: '10px',
+                      borderRadius: '8px',
+                      margin: '10px 0'
+                    }}>
+                      <strong style={{ display: 'block', marginBottom: '5px' }}>
+                        {review.user}
+                      </strong>
+                      <p>
+                        <strong>General Rating:</strong>{' '}
+                        {Array.from({ length: review.general_rating }, (_, i) => (
+                          <span key={i} style={{ color: 'gold', fontSize: '16px' }}>★</span>
+                        ))}
+                      </p>
+                      <p>
+                        <strong>Safety Rating:</strong>{' '}
+                        {Array.from({ length: review.safety_rating }, (_, i) => (
+                          <span key={i} style={{ color: 'gold', fontSize: '16px' }}>★</span>
+                        ))}
+                      </p>
+                      <p><strong>Review:</strong> {review.text}</p>
+                      {review.image && (
+                        <div style={{ marginTop: '10px' }}>
+                          <strong>Image:</strong>
+                          <img
+                            src={typeof review.image === 'string' ? review.image : URL.createObjectURL(review.image)}
+                            alt="Review"
+                            style={{
+                              maxWidth: '100%',
+                              height: 'auto',
+                              marginTop: '5px',
+                              borderRadius: '8px',
+                              border: '1px solid #ccc',
+                            }}
+                          />
+                        </div>
+                      )}
                     </div>
                   ))
                 ) : (
