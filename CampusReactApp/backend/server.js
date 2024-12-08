@@ -74,6 +74,7 @@ app.post('/api/activities', async (req, res) => {
       activity_home_image: image, // Save the Base64 image string
       activity_type: eventCategories,
       audience: targetAudience,
+      flagged: false,
     };
 
     const result = await collection.insertOne(newActivity);
@@ -306,3 +307,20 @@ app.get('/api/v1/user/:username/bookmarked-activities', async (req, res) => {
   }
 });
 
+app.post('/activities/:id/flagged', async (req, res) => {
+  try {
+    await client.connect();
+    const database = client.db('ActivityData');
+    const collection = database.collection('home_screen');
+    
+    const { id } = req.params;
+    const { isFlagged } = req.body
+
+    await collection.updateOne(
+      { id },
+      { $set: { flagged: isFlagged } }
+    );
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update activity' });
+  }
+});
