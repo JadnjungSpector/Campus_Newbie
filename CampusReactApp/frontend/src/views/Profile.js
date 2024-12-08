@@ -14,6 +14,7 @@ const Profile = () => {
   const [bookmarkedActivities, setBookmarkedActivities] = useBookmarkedActivities(user);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [loadingActivity, setLoadingActivity] = useState(false);
+  const [isFlagged, setFlagged] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +42,7 @@ const Profile = () => {
       const response = await fetch(`http://localhost:5001/activities/${activityId}`);
       const data = await response.json();
       setSelectedActivity(data);
+      setFlagged(selectedActivity.flagged);
     } catch (error) {
       console.error("Error fetching single activity:", error);
     } finally {
@@ -50,6 +52,32 @@ const Profile = () => {
 
   const handleBackClick = () => {
     setSelectedActivity(null);
+  };
+
+  const handleFlagging = async () => {
+    setFlagged(!isFlagged);
+    try {
+      // Make the update request to the server
+      const response = await fetch(`http://localhost:5001/activities/${selectedActivity.id}/flagged`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ isFlagged }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update activity');
+      }
+
+      const updatedActivity = await response.json();
+
+      // Update the local state
+      setSelectedActivity(updatedActivity);
+      console.log('Flagged status successfully updated');
+    } catch (error) {
+      console.error('Error updating flagged status:', error);
+    }
   };
 
   return (
@@ -106,6 +134,7 @@ const Profile = () => {
                 <div style={{ display: "flex", justifyContent: "space-around", marginTop: "15px" }}>
                   <Button color="success">Get Directions</Button>
                   <Button color="primary">Add a Review</Button>
+                  <Button color="warning" onClick={handleFlagging}>{isFlagged ? ("Reported") : ("Report")}</Button>
                 </div>
                 <h5 className="mt-4">Reviews:</h5>
                 {selectedActivity.reviews && selectedActivity.reviews.length > 0 ? (
