@@ -23,11 +23,9 @@ const Profile = () => {
         const activitiesResponse = await fetch('http://localhost:5001/activities');
         const allActivities = await activitiesResponse.json();
   
-        const userActivities = allActivities
-        
-        // filter((activity) =>
-        //   bookmarkedActivities.includes(activity.activity_title)
-        // );
+        const userActivities = allActivities.filter((activity) =>
+          bookmarkedActivities.includes(activity.activity_title)
+        );
   
         setActivities(userActivities);
       } catch (error) {
