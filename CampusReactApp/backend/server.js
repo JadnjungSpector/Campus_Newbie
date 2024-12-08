@@ -3,6 +3,9 @@ const { MongoClient } = require('mongodb');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');// For password hashing
 const jwt = require('jsonwebtoken'); // For generating JWT tokens
+const multer = require('multer');
+const upload = multer();
+
 
 const app = express();
 const port = 5001; // or any port of your choice
@@ -32,32 +35,6 @@ app.get('/activities', async (req, res) => {
     }
 });
 
-// app.post('/api/activities', async (req, res) => {
-//   try {
-//     await client.connect();
-//     const database = client.db('ActivityData');
-//     const collection = database.collection('home_screen');
-
-//     const { studentName, activityTitle, description, targetAudience, eventCategories, image } = req.body;
-
-//     const newActivity = {
-//       student_name: studentName,
-//       activity_title: activityTitle,
-//       activity_summary: description,
-//       activity_home_image: image, // Save the Base64 image string
-//       activity_type: eventCategories,
-//       audience: targetAudience,
-//     };
-
-//     const result = await collection.insertOne(newActivity);
-//     res.status(201).json({ message: 'Activity created successfully', data: result.ops[0] });
-//   } catch (error) {
-//     console.error('Error creating activity:', error);
-//     res.status(500).json({ message: 'Failed to create activity' });
-//   } finally {
-//     await client.close();
-//   }
-// });
 
 app.post('/api/activities', async (req, res) => {
   try {
@@ -92,18 +69,24 @@ app.post('/api/activities', async (req, res) => {
   }
 });
 
-const { ObjectId } = require('mongodb'); // Ensure ObjectId is imported at the top of your file
+const { ObjectId } = require('mongodb');
 
-app.post('/activities/:id/reviews', async (req, res) => {
+console.log("Initializing /activities/:id/reviews route");
+
+app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => {
+  console.log('Received review data:', req.body);
+  console.log('Received file:', req.file);
+
   try {
-    await client.connect();
+    await client.connect(); // Connect to the MongoDB client
     const database = client.db('ActivityData');
-    const collection = database.collection('home_screen'); // Ensure this is the correct collection
+    const collection = database.collection('home_screen'); // Ensure this is defined here
 
-    const { id } = req.params;
-    const { user, text, safety_rating, general_rating, image } = req.body;
+    const { id } = req.params; // Extract activity ID
+    const { user, text, safety_rating, general_rating } = req.body; // Extract fields from body
+    const image = req.file; // Access the uploaded file
 
-    // Validate the input
+    // Validate input fields
     if (!user || !text || !safety_rating || !general_rating || !image) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
@@ -112,30 +95,29 @@ app.post('/activities/:id/reviews', async (req, res) => {
       return res.status(400).json({ message: 'Review must be at least 20 words long.' });
     }
 
-    // Find the activity by ID
+    // Convert ID to ObjectId and find the activity
     const activity = await collection.findOne({ _id: new ObjectId(id) });
-
     if (!activity) {
       return res.status(404).json({ message: 'Activity not found' });
     }
 
-    // Create a new review object
+    // Create the new review object
     const newReview = {
       user,
       text,
       safety_rating: parseInt(safety_rating, 10),
       general_rating: parseInt(general_rating, 10),
-      image, // Assuming the image is a URL or Base64 string
+      image: req.file.originalname, // Save the original file name
     };
 
-    // Add the review to the activity's reviews array
-    const updatedReviews = activity.reviews ? [...activity.reviews, newReview] : [newReview];
+    // Update the reviews array and calculate new ratings
+    const updatedReviews = [...(activity.reviews || []), newReview];
+    const updatedSafetyRating =
+      updatedReviews.reduce((sum, review) => sum + review.safety_rating, 0) / updatedReviews.length;
+    const updatedGeneralRating =
+      updatedReviews.reduce((sum, review) => sum + review.general_rating, 0) / updatedReviews.length;
 
-    // Calculate updated safety and general ratings
-    const updatedSafetyRating = updatedReviews.reduce((sum, review) => sum + review.safety_rating, 0) / updatedReviews.length;
-    const updatedGeneralRating = updatedReviews.reduce((sum, review) => sum + review.general_rating, 0) / updatedReviews.length;
-
-    // Update the activity in the database
+    // Update the activity document in MongoDB
     const result = await collection.updateOne(
       { _id: new ObjectId(id) },
       {
@@ -158,7 +140,7 @@ app.post('/activities/:id/reviews', async (req, res) => {
     console.error('Error adding review:', error);
     res.status(500).json({ message: 'Internal server error' });
   } finally {
-    await client.close();
+    await client.close(); // Ensure the client is closed
   }
 });
 

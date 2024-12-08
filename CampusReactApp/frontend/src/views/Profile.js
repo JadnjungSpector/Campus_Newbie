@@ -58,8 +58,9 @@ const Profile = () => {
   };
 
   const handleReviewAdded = (updatedActivity) => {
-    setSelectedActivity(updatedActivity); // Update the selected activity with the new review
-    setShowReviewForm(false); // Hide the review form after submission
+    console.log("Updated activity with new review:", updatedActivity);
+    setSelectedActivity(updatedActivity);
+    setShowReviewForm(false);
   };
 
   const handleFlagging = async () => {
@@ -170,7 +171,7 @@ const Profile = () => {
               {/* Conditionally render the AddReviewForm */}
               {showReviewForm && (
                 <AddReviewForm
-                  activityId={selectedActivity._id}
+                  id={selectedActivity._id}
                   onReviewAdded={handleReviewAdded}
                 />
               )}

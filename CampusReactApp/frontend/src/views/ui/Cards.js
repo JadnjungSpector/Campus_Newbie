@@ -126,8 +126,9 @@ const Cards = () => {
       console.error('Error updating flagged status:', error);
     }
   const handleReviewAdded = (updatedActivity) => {
-    setSelectedActivity(updatedActivity); // Update the activity with the new reviews
-    setShowReviewForm(false); // Hide the review form after submission
+    console.log("Updated activity with new review:", updatedActivity);
+    setSelectedActivity(updatedActivity);
+    setShowReviewForm(false);
   };
 
   return (
@@ -192,11 +193,11 @@ const Cards = () => {
               </CardBody>
               {/* Conditionally render AddReviewForm */}
               {showReviewForm && (
-                <AddReviewForm
-                  activityId={selectedActivity._id}
-                  onReviewAdded={handleReviewAdded}
-                />
-              )}
+              <AddReviewForm
+                id={selectedActivity._id} // Pass activityId properly
+                onReviewAdded={handleReviewAdded}
+              />
+            )}
             </Card>
           )}
         </div>

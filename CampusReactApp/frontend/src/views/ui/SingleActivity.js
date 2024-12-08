@@ -9,6 +9,7 @@ const SingleActivity = () => {
   const [activity, setActivity] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showReviewForm, setShowReviewForm] = useState(false); // State to toggle the review form
+  const [selectedActivity, setSelectedActivity] = useState(null);
 
   useEffect(() => {
     const fetchActivity = async () => {
@@ -26,9 +27,9 @@ const SingleActivity = () => {
   }, [id]);
 
   const handleReviewAdded = (updatedActivity) => {
-    // Update the activity with the new reviews after submission
-    setActivity(updatedActivity);
-    setShowReviewForm(false); // Close the review form after successful submission
+    console.log("Updated activity with new review:", updatedActivity);
+    setSelectedActivity(updatedActivity);
+    setShowReviewForm(false);
   };
 
   if (loading) {
@@ -95,10 +96,11 @@ const SingleActivity = () => {
 
       {/* Conditional rendering of the AddReviewForm */}
       {showReviewForm && (
-        <div style={{ width: '100%', maxWidth: '800px', marginTop: '20px' }}>
-          <AddReviewForm activityId={id} onReviewAdded={handleReviewAdded} />
-        </div>
-      )}
+  <AddReviewForm
+    id={selectedActivity._id} // Pass activityId properly
+    onReviewAdded={handleReviewAdded}
+  />
+)}
     </div>
   );
 };

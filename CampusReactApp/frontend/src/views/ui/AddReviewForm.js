@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import './AddReviewForm.css'; // Import the CSS file
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 
-const AddReviewForm = ({ activityId, onReviewAdded }) => {
+const AddReviewForm = ({ id, onReviewAdded }) => {
+    console.log('Reviewing activity with ID:', id); // Debugging
+
   const [review, setReview] = useState({
+    
     user: '',
     text: '',
     safety_rating: 0,
@@ -39,12 +42,17 @@ const AddReviewForm = ({ activityId, onReviewAdded }) => {
     formData.append('general_rating', review.general_rating);
     formData.append('image', review.image);
 
+    for (const [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+      
+      
     try {
       // Submit the form data to the backend
-      const response = await fetch(`http://localhost:5001/activities/${activityId}/reviews`, {
+      const response = await fetch(`http://localhost:5001/activities/${id}/reviews`, {
         method: 'POST',
         body: formData,
-      });
+     });
 
       if (response.ok) {
         const updatedActivity = await response.json();
@@ -56,6 +64,8 @@ const AddReviewForm = ({ activityId, onReviewAdded }) => {
       console.error('Error adding review:', error);
     }
   };
+
+
 
   return (
     <Form onSubmit={handleSubmit} className="add-review-form">
