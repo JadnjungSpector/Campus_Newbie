@@ -19,9 +19,6 @@ app.get('/activities', async (req, res) => {
         const database = client.db('ActivityData');
         const collection = database.collection('home_screen');
         const activities = await collection.find({}).toArray();
-
-        // Log the activities to the console
-        console.log('Fetched activities:', activities);
         
         res.json(activities);
     } catch (error) {
