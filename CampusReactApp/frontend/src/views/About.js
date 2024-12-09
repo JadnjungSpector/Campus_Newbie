@@ -10,21 +10,19 @@ const About = () => {
         <Card>
           <CardTitle tag="h6" className="border-bottom p-3 mb-0">
             <i className="bi bi-bell me-2"> </i>
-            About Material Pro React
+            About Campus Newbie
           </CardTitle>
           <CardBody className="p-4">
             <Row >
               <Col lg="8">
-                <h2 className="mt-4">Material React Admin Pro Version</h2>
+                <h2 className="mt-4">Terms and Conditions</h2>
                 <h5 className=" mb-4">
-                  5 premium and highly customizable demo variations included in
-                  the package, with React Router 6, Redux Toolkit, Axios nd much
-                  more...
+                Acknowledgment and Agreement before proceeding, please read  the following:
+	1	User Responsibility: You acknowledge that all information provided during this process is accurate, truthful, and complete to the best of your knowledge.
+	2	Verification Requirement: You understand that your submission may be subject to verification, and any discrepancies may result in delays or disqualification.
+	3	Liability Disclaimer: By continuing, you agree to assume full responsibility for the accuracy of the provided information. We are not liable for any errors or omissions resulting from incorrect or incomplete submissions.
                 </h5>
-                <img
-                  src="https://demos.wrappixel.com/free-admin-templates/angular/landingpage-styles/assets/images/screenshots/materialpro-react-pro-lp-img.jpg"
-                  alt="my"
-                />
+
                 <br />
                 <Button
                   className="mt-3"
@@ -32,7 +30,7 @@ const About = () => {
                   href="https://wrappixel.com/templates/materialpro-react-admin/?ref=33"
                   target="_blank"
                 >
-                  Check Pro Version
+                  By proceeding you ackowledge these terms and conditions.
                 </Button>
               </Col>
             </Row>

@@ -14,6 +14,7 @@ import {
   CardText,
 } from "reactstrap";
 import Blog from "../../components/dashboard/Blog";
+import './Cards.css';
 import { FaStar } from 'react-icons/fa';
 import AddReviewForm from './AddReviewForm'; 
 
@@ -28,6 +29,13 @@ const Cards = () => {
   const [loadingActivity, setLoadingActivity] = useState(false);
   const [isFlagged, setFlagged] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false); 
+
+  // States for activity rating and safety rating filters
+  const [activityRating, setActivityRating] = useState(null);
+  const [safetyRating, setSafetyRating] = useState(null);
+  const [activityRatingDropdownOpen, setActivityRatingDropdownOpen] = useState(false);
+  const [safetyRatingDropdownOpen, setSafetyRatingDropdownOpen] = useState(false);
+
 
   // Fetch all activities for the list view
   useEffect(() => {
@@ -48,39 +56,64 @@ const Cards = () => {
   // Generate filter options based on activity types and audiences
   const typeOptions = [...new Set(activities.flatMap(activity => activity.activity_type || []))];
   const audienceOptions = [...new Set(activities.flatMap(activity => activity.audience || []))];
+  
 
+  // Toggles the activity type filter dropdown visibility by inverting the current state
   const toggleTypeDropdown = () => setTypeDropdownOpen((prevState) => !prevState);
+  // Toggles the audience filter dropdown visibility by inverting the current state
   const toggleAudienceDropdown = () => setAudienceDropdownOpen((prevState) => !prevState);
+  const toggleActivityRatingDropdown = () => setActivityRatingDropdownOpen((prevState) => !prevState);
+  const toggleSafetyRatingDropdown = () => setSafetyRatingDropdownOpen((prevState) => !prevState);
 
+  // Handles changes to the selected activity type filter
   const handleTypeChange = (selectedType) => {
     const updatedTypes = selectedTypes.includes(selectedType)
       ? selectedTypes.filter((type) => type !== selectedType)
       : [...selectedTypes, selectedType];
 
     setSelectedTypes(updatedTypes);
-    filterActivities(updatedTypes, selectedAudiences);
+    filterActivities(updatedTypes, selectedAudiences, activityRating, safetyRating);
   };
 
+  // Handles changes to the selected audience filter
   const handleAudienceChange = (selectedAudience) => {
     const updatedAudiences = selectedAudiences.includes(selectedAudience)
       ? selectedAudiences.filter((audience) => audience !== selectedAudience)
       : [...selectedAudiences, selectedAudience];
 
     setSelectedAudiences(updatedAudiences);
-    filterActivities(selectedTypes, updatedAudiences);
+    filterActivities(selectedTypes, updatedAudiences, activityRating, safetyRating);
   };
 
-  const filterActivities = (types, audiences) => {
-    if (types.length === 0 && audiences.length === 0) {
-      setFilteredActivities(activities);
-    } else {
-      const filtered = activities.filter(
-        (activity) =>
-          (types.length === 0 || activity.activity_type.some((type) => types.includes(type))) &&
-          (audiences.length === 0 || activity.audience.some((audience) => audiences.includes(audience)))
-      );
-      setFilteredActivities(filtered);
-    }
+  // Handles changes to the minimum activity rating filter
+  const handleActivityRatingClick = (index) => {
+    const newRating = activityRating === index ? null : index; // Toggle or set new rating
+    setActivityRating(newRating); // Update state with new rating
+    filterActivities(selectedTypes, selectedAudiences, newRating, safetyRating); // Apply filter
+  };
+   
+  // Handles changes to the minimum safety rating filter
+  const handleSafetyRatingClick = (index) => {
+    const newRating = safetyRating === index ? null : index; // Toggle or set new rating
+    setSafetyRating(newRating); // Update state with new rating
+    filterActivities(selectedTypes, selectedAudiences, activityRating, newRating); // Apply filter
+  };
+
+  // Function to apply all filters: types, audiences, activity rating, and safety rating
+  const filterActivities = (types, audiences, activityRating, safetyRating) => {
+    const filtered = activities.filter((activity) =>
+      // Filter by activity type
+      (types.length === 0 || activity.activity_type.some((type) => types.includes(type))) &&
+      // Filter by audience
+      (audiences.length === 0 || activity.audience.some((audience) => audiences.includes(audience))) &&
+      // Filter by activity rating: show activities with rating >= selected rating
+      (activityRating === null || activity.activity_rating >= activityRating) &&
+      // Filter by safety rating: show activities with safety rating >= selected rating
+      (safetyRating === null || activity.safety_rating >= safetyRating)
+    );
+
+    // If no filters are applied, show all activities
+    setFilteredActivities(filtered.length === activities.length ? activities : filtered);
   };
 
   const handleCheckItOutClick = async (activityId) => {
@@ -265,13 +298,40 @@ const Cards = () => {
                   ))}
                 </DropdownMenu>
               </Dropdown>
-              <Dropdown isOpen={audienceDropdownOpen} toggle={toggleAudienceDropdown}>
+              <Dropdown isOpen={audienceDropdownOpen} toggle={toggleAudienceDropdown} className="me-2">
                 <DropdownToggle caret>Filter by audience</DropdownToggle>
                 <DropdownMenu>
                   {audienceOptions.map((audience, index) => (
                     <DropdownItem key={index} onClick={() => handleAudienceChange(audience)}>
                       <input type="checkbox" checked={selectedAudiences.includes(audience)} readOnly /> {audience}
                     </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+              {/* Activity Rating Filter */}
+              <Dropdown isOpen={activityRatingDropdownOpen} toggle={toggleActivityRatingDropdown} className="me-2">
+                <DropdownToggle caret>Filter by Activity Rating</DropdownToggle>
+                <DropdownMenu>
+                  {[...Array(6)].map((_, index) => (
+                    <DropdownItem key={index} onClick={() => handleActivityRatingClick(index)}>
+                    {index} {Array.from({ length: index }, (_, i) => (
+                      <FaStar key={i} color={activityRating === index ? 'gold' : 'gray'} />
+                    ))}
+                  </DropdownItem>            
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+
+              {/* Safety Rating Filter */}
+              <Dropdown isOpen={safetyRatingDropdownOpen} toggle={toggleSafetyRatingDropdown} className="me-2">
+                <DropdownToggle caret>Filter by Safety Rating</DropdownToggle>
+                <DropdownMenu>
+                  {[...Array(6)].map((_, index) => (
+                    <DropdownItem key={index} onClick={() => handleSafetyRatingClick(index)}>
+                    {index} {Array.from({ length: index }, (_, i) => (
+                      <FaStar key={i} color={safetyRating >= index ? 'gold' : 'gray'} />
+                    ))}
+                  </DropdownItem>
                   ))}
                 </DropdownMenu>
               </Dropdown>

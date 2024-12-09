@@ -21,9 +21,6 @@ app.get('/activities', async (req, res) => {
         const database = client.db('ActivityData');
         const collection = database.collection('home_screen');
         const activities = await collection.find({}).toArray();
-
-        // Log the activities to the console
-        console.log('Fetched activities:', activities);
         
         res.json(activities);
     } catch (error) {
@@ -35,7 +32,7 @@ app.get('/activities', async (req, res) => {
 });
 
 
-app.post('/api/activities', async (req, res) => {
+app.post('/api/activities', async (req, res) => { 
   try {
     await client.connect();
     const database = client.db('ActivityData');
@@ -89,7 +86,7 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
   try {
     await client.connect(); // Connect to the MongoDB client
     const database = client.db('ActivityData');
-    const collection = database.collection('home_screen'); // Ensure this is defined here
+    const collection = database.collection('home_screen'); 
 
     const { id } = req.params; // Extract activity ID
     const { user, text, safety_rating, general_rating } = req.body; // Extract fields from body
@@ -153,6 +150,7 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
 });
 
 
+// Retrieves activities JSON
 app.get('/activities/:id', async (req, res) => {
   try {
     await client.connect();
