@@ -1,10 +1,14 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> baa32106a (addded review filtering)
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Login from '../views/ui/Login';
 import { AuthProvider } from '../contexts/AuthContext';
 import { UserProvider } from '../views/ui/UserContext';
+<<<<<<< HEAD
 =======
 // see if above needs to be deleted
 
@@ -23,6 +27,8 @@ beforeAll(() => {
     };
   }); 
 >>>>>>> 6be43a322 (figuring out lint)
+=======
+>>>>>>> baa32106a (addded review filtering)
 
 // Mock the useNavigate hook
 const mockNavigate = jest.fn();
