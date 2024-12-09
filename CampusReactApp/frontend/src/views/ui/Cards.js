@@ -132,7 +132,7 @@ const Cards = () => {
 
   const handleDirections = () => {
     if (selectedActivity) {
-      const destination = selectedActivity.locationString;
+      const destination = selectedActivity.activity_title;
       const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
       window.open(url, '_blank');
     }

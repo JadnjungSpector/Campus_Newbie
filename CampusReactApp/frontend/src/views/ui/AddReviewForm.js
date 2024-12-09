@@ -17,8 +17,8 @@ const AddReviewForm = ({ activityId, onReviewAdded }) => {
     e.preventDefault();
 
     // Validate the review fields
-    if (review.text.split(' ').length < 50) {
-      setError('Review must be at least 50 words long.');
+    if (review.text.split(' ').length < 20) {
+      setError('Review must be at least 20 words long.');
       return;
     }
     if (!review.image) {
@@ -77,7 +77,7 @@ const AddReviewForm = ({ activityId, onReviewAdded }) => {
           id="text"
           value={review.text}
           onChange={(e) => setReview({ ...review, text: e.target.value })}
-          placeholder="Write your review (at least 50 words)"
+          placeholder="Write your review (at least 20 words)"
           required
         />
       </FormGroup>
