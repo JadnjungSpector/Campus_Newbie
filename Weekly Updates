@@ -25,3 +25,6 @@ Week 6: Integrated MongoDB into the backend, ensuring a stable connection and up
 Created and ran JUnit tests to verify the login and registration features operate correctly.
 Worked on team’s documents for weekly deliverables.
 Week 7: Redesigned the homepage and reorganized the backend code to improve functionality and maintainability. Worked on team’s documents for weekly deliverables.
+Weeks 8–11: Focused on implementing the remaining features listed in our project documentation, incorporating feedback received during the demo. 
+Successfully integrated Google API to connect and manage events, replacing several hard-coded features identified during the demo for improved functionality and scalability.
+Additionally, updated the README file, documentation, and other supporting materials to reflect the current version of the project, ensuring consistency and clarity.
