@@ -1,0 +1,18 @@
+/* Change background color and text color of the dropdown button */
+.me-2 .dropdown-toggle {
+    background-color: #A886DE !important;  /* Use your custom purple */
+    color: #fff !important;  /* Ensure the text stays white */
+    border: none;  /* Keep the border style intact */
+  }
+  
+  /* Hover effect for the dropdown button */
+  .me-2 .dropdown-toggle:hover {
+    background-color: #8A6BCF !important; /* Slightly lighter purple on hover */
+  }
+  
+  /* Focus effect for the dropdown button */
+  .me-2 .dropdown-toggle:focus {
+    outline: none;
+    box-shadow: 0 0 4px 2px rgba(168, 134, 222, 0.5);
+  }
+  

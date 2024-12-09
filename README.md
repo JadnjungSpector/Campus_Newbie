@@ -1,5 +1,3 @@
-
-
 # Campus Newbie
 
 ## Project Overview
@@ -53,6 +51,7 @@ Before starting, ensure you have the following installed:
    2. Install the backend dependencies:
       ```bash
       npm install
+      npm install multer
       ```
    3. Start the backend server:
       ```bash

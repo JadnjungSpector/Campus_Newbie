@@ -33,6 +33,8 @@
         ]
     },
     "devDependencies": {
+        "eslint": "^8.57.1",
+        "eslint-config-react-app": "^7.0.1",
         "jsdom": "^25.0.1",
         "mutation-observer": "^1.0.3"
     }

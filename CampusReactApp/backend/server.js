@@ -3,6 +3,9 @@ const { MongoClient } = require('mongodb');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');// For password hashing
 const jwt = require('jsonwebtoken'); // For generating JWT tokens
+const multer = require('multer');
+const upload = multer();
+
 
 const app = express();
 const port = 5001; // or any port of your choice
@@ -19,9 +22,6 @@ app.get('/activities', async (req, res) => {
         const database = client.db('ActivityData');
         const collection = database.collection('home_screen');
         const activities = await collection.find({}).toArray();
-
-        // Log the activities to the console
-        console.log('Fetched activities:', activities);
         
         res.json(activities);
     } catch (error) {
@@ -32,53 +32,40 @@ app.get('/activities', async (req, res) => {
     }
 });
 
-// app.post('/api/activities', async (req, res) => {
-//   try {
-//     await client.connect();
-//     const database = client.db('ActivityData');
-//     const collection = database.collection('home_screen');
 
-//     const { studentName, activityTitle, description, targetAudience, eventCategories, image } = req.body;
-
-//     const newActivity = {
-//       student_name: studentName,
-//       activity_title: activityTitle,
-//       activity_summary: description,
-//       activity_home_image: image, // Save the Base64 image string
-//       activity_type: eventCategories,
-//       audience: targetAudience,
-//     };
-
-//     const result = await collection.insertOne(newActivity);
-//     res.status(201).json({ message: 'Activity created successfully', data: result.ops[0] });
-//   } catch (error) {
-//     console.error('Error creating activity:', error);
-//     res.status(500).json({ message: 'Failed to create activity' });
-//   } finally {
-//     await client.close();
-//   }
-// });
-
-app.post('/api/activities', async (req, res) => {
+app.post('/api/activities', async (req, res) => { 
   try {
     await client.connect();
     const database = client.db('ActivityData');
     const collection = database.collection('home_screen');
 
-    const { studentName, activityTitle, description, targetAudience, eventCategories, image } = req.body;
+    const {
+      studentName,
+      activityTitle,
+      description,
+      targetAudience,
+      eventCategories,
+      image,
+      location,
+      expirationDate,
+    } = req.body;
 
+    // Create the new activity object
     const newActivity = {
       student_name: studentName,
       activity_title: activityTitle,
       activity_summary: description,
-      activity_home_image: image, // Save the Base64 image string
+      activity_home_image: image, // Save the image URL
       activity_type: eventCategories,
       audience: targetAudience,
+      flagged: false,
+      location: location,
+      // Store null if "Never" is selected
+      expiration_date: expirationDate === 'Never' ? null : expirationDate, 
     };
 
     const result = await collection.insertOne(newActivity);
 
-    // Instead of `result.ops[0]`, access the insertedId
     res.status(201).json({
       message: 'Activity created successfully',
       data: { ...newActivity, _id: result.insertedId },
@@ -91,6 +78,84 @@ app.post('/api/activities', async (req, res) => {
   }
 });
 
+const { ObjectId } = require('mongodb');
+
+console.log("Initializing /activities/:id/reviews route");
+
+app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => {
+  console.log('Received review data:', req.body);
+  console.log('Received file:', req.file);
+
+  try {
+    await client.connect(); // Connect to the MongoDB client
+    const database = client.db('ActivityData');
+    const collection = database.collection('home_screen'); // Ensure this is defined here
+
+    const { id } = req.params; // Extract activity ID
+    const { user, text, safety_rating, general_rating } = req.body; // Extract fields from body
+    // Convert the image to Base64
+    const imageBase64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+
+    // Validate input fields
+    if (!user || !text || !safety_rating || !general_rating || !image) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    if (text.split(' ').length < 20) {
+      return res.status(400).json({ message: 'Review must be at least 20 words long.' });
+    }
+
+    // Convert ID to ObjectId and find the activity
+    const activity = await collection.findOne({ _id: new ObjectId(id) });
+    if (!activity) {
+      return res.status(404).json({ message: 'Activity not found' });
+    }
+
+    // Create the new review object
+    const newReview = {
+      user,
+      text,
+      safety_rating: parseInt(safety_rating, 10),
+      general_rating: parseInt(general_rating, 10),
+      image: imageBase64,
+    };
+
+    // Update the reviews array and calculate new ratings
+    const updatedReviews = [...(activity.reviews || []), newReview];
+    const updatedSafetyRating =
+      updatedReviews.reduce((sum, review) => sum + review.safety_rating, 0) / updatedReviews.length;
+    const updatedGeneralRating =
+      updatedReviews.reduce((sum, review) => sum + review.general_rating, 0) / updatedReviews.length;
+
+    // Update the activity document in MongoDB
+    const result = await collection.updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          reviews: updatedReviews,
+          safety_rating: updatedSafetyRating,
+          general_rating: updatedGeneralRating,
+        },
+      }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(500).json({ message: 'Failed to update activity with the new review.' });
+    }
+
+    // Return the updated activity
+    const updatedActivity = await collection.findOne({ _id: new ObjectId(id) });
+    res.status(200).json(updatedActivity);
+  } catch (error) {
+    console.error('Error adding review:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  } finally {
+    await client.close(); // Ensure the client is closed
+  }
+});
+
+
+// Retrieves activities JSON
 app.get('/activities/:id', async (req, res) => {
   try {
     await client.connect();
@@ -306,3 +371,20 @@ app.get('/api/v1/user/:username/bookmarked-activities', async (req, res) => {
   }
 });
 
+app.post('/activities/:id/flagged', async (req, res) => {
+  try {
+    await client.connect();
+    const database = client.db('ActivityData');
+    const collection = database.collection('home_screen');
+    
+    const { id } = req.params;
+    const { isFlagged } = req.body
+
+    await collection.updateOne(
+      { id },
+      { $set: { flagged: isFlagged } }
+    );
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update activity' });
+  }
+});
