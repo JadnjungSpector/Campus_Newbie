@@ -88,7 +88,7 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
   try {
     await client.connect(); // Connect to the MongoDB client
     const database = client.db('ActivityData');
-    const collection = database.collection('home_screen'); // Ensure this is defined here
+    const collection = database.collection('home_screen'); 
 
     const { id } = req.params; // Extract activity ID
     const { user, text, safety_rating, general_rating } = req.body; // Extract fields from body
