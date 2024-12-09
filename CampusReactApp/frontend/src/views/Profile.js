@@ -4,7 +4,6 @@ import { FaStar } from "react-icons/fa";
 import Blog from "../components/dashboard/Blog";
 import background from "../assets/images/bg/UWCity.jpg";
 import userpic from "../assets/images/users/IMG_1874.jpeg";
-import Friends from "../components/dashboard/Friend";
 import AddReviewForm from "../views/ui/AddReviewForm"; // Import the AddReviewForm component
 import { useUser } from "../views/ui/UserContext";
 import useBookmarkedActivities from "../views/ui/BookMarkedActivity";
@@ -301,11 +300,6 @@ const Profile = () => {
               ))}
             </Row>
           </div>
-          <Row>
-            <Col lg="12">
-              <Friends />
-            </Col>
-          </Row>
         </div>
       )}
     </div>
