@@ -84,17 +84,20 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
   console.log('Received file:', req.file);
 
   try {
-    await client.connect(); // Connect to the MongoDB client
+    await client.connect();
     const database = client.db('ActivityData');
-    const collection = database.collection('home_screen'); 
+    const collection = database.collection('home_screen');
 
-    const { id } = req.params; // Extract activity ID
-    const { user, text, safety_rating, general_rating } = req.body; // Extract fields from body
-    // Convert the image to Base64
-    const imageBase64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+    const { id } = req.params;
+    const { user, text, safety_rating, general_rating } = req.body;
+
+    // Validate ObjectId
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid activity ID format.' });
+    }
 
     // Validate input fields
-    if (!user || !text || !safety_rating || !general_rating || !image) {
+    if (!user || !text || !safety_rating || !general_rating || !req.file) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
@@ -102,6 +105,9 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
       return res.status(400).json({ message: 'Review must be at least 20 words long.' });
     }
 
+    const imageBase64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+
+    // Find the activity
     const activity = await collection.findOne({ _id: new ObjectId(id) });
     if (!activity) {
       return res.status(404).json({ message: 'Activity not found' });
@@ -115,14 +121,13 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
       image: imageBase64,
     };
 
-    // Update the reviews array and calculate new ratings
     const updatedReviews = [...(activity.reviews || []), newReview];
     const updatedSafetyRating =
       updatedReviews.reduce((sum, review) => sum + review.safety_rating, 0) / updatedReviews.length;
     const updatedGeneralRating =
       updatedReviews.reduce((sum, review) => sum + review.general_rating, 0) / updatedReviews.length;
 
-    // Update the activity document in MongoDB
+    // Update the activity
     const result = await collection.updateOne(
       { _id: new ObjectId(id) },
       {
@@ -138,14 +143,13 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
       return res.status(500).json({ message: 'Failed to update activity with the new review.' });
     }
 
-    // Return the updated activity
     const updatedActivity = await collection.findOne({ _id: new ObjectId(id) });
     res.status(200).json(updatedActivity);
   } catch (error) {
     console.error('Error adding review:', error);
     res.status(500).json({ message: 'Internal server error' });
   } finally {
-    await client.close(); // Ensure the client is closed
+    await client.close();
   }
 });
 
