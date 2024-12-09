@@ -3,8 +3,16 @@ const { MongoClient } = require('mongodb');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');// For password hashing
 const jwt = require('jsonwebtoken'); // For generating JWT tokens
-
-const app = express();
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Ensure this directory exists
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Unique filename
+  }
+});
+const upload = multer({ dest: "uploads/" });const app = express();
 const port = 5001; // or any port of your choice
 
 app.use(cors()); // Allow cross-origin requests
@@ -13,6 +21,31 @@ app.use(express.json()); // For parsing application/json
 const uri = "mongodb+srv://jordym2:KWeCDwrZq8RPAAFM@activityinfo.s2cr2.mongodb.net/ActivityData?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 
+app.post("/updateProfile", upload.single("profile_picture"), async (req, res) => {
+  const { password } = req.body;
+  const { file } = req;
+
+  try {
+    // Update password if it's provided
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
+      // Here you should update the password in the database
+      // await User.updateOne({ _id: req.user.id }, { password: hashedPassword });
+    }
+
+    // Update profile picture if it's provided
+    if (file) {
+      const newProfilePicPath = path.join(__dirname, "uploads", file.filename);
+      // Here you should update the profile picture in the database
+      // await User.updateOne({ _id: req.user.id }, { profile_picture: newProfilePicPath });
+    }
+
+    res.status(200).send("Profile updated successfully.");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating profile.");
+  }
+});
 app.get('/activities', async (req, res) => {
     try {
         await client.connect();
@@ -31,33 +64,6 @@ app.get('/activities', async (req, res) => {
         await client.close();
     }
 });
-
-// app.post('/api/activities', async (req, res) => {
-//   try {
-//     await client.connect();
-//     const database = client.db('ActivityData');
-//     const collection = database.collection('home_screen');
-
-//     const { studentName, activityTitle, description, targetAudience, eventCategories, image } = req.body;
-
-//     const newActivity = {
-//       student_name: studentName,
-//       activity_title: activityTitle,
-//       activity_summary: description,
-//       activity_home_image: image, // Save the Base64 image string
-//       activity_type: eventCategories,
-//       audience: targetAudience,
-//     };
-
-//     const result = await collection.insertOne(newActivity);
-//     res.status(201).json({ message: 'Activity created successfully', data: result.ops[0] });
-//   } catch (error) {
-//     console.error('Error creating activity:', error);
-//     res.status(500).json({ message: 'Failed to create activity' });
-//   } finally {
-//     await client.close();
-//   }
-// });
 
 app.post('/api/activities', async (req, res) => {
   try {

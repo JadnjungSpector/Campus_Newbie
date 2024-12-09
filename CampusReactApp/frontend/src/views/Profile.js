@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Button, Card, CardImg, CardBody, CardTitle, CardText } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from "reactstrap"; // Added the missing imports
 import { FaStar } from "react-icons/fa";
 import Blog from "../components/dashboard/Blog";
 import background from "../assets/images/bg/UWCity.jpg";
@@ -7,13 +8,16 @@ import userpic from "../assets/images/users/IMG_1874.jpeg";
 import Friends from "../components/dashboard/Friend";
 import { useUser } from "../views/ui/UserContext"; // Assuming this provides user info
 import useBookmarkedActivities from "../views/ui/BookMarkedActivity";
-
+import { FaCamera } from "react-icons/fa";
 const Profile = () => {
   const { user } = useUser(); // Extract `user` from context
   const [activities, setActivities] = useState([]);
   const [bookmarkedActivities, setBookmarkedActivities] = useBookmarkedActivities(user);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [loadingActivity, setLoadingActivity] = useState(false);
+  const [modal, setModal] = useState(false);  // Added missing state definition for modal
+  const [newPassword, setNewPassword] = useState(""); // Added missing state definition for password
+  const [newProfilePic, setNewProfilePic] = useState(null);  // Added missing state definition for profile picture
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +38,44 @@ const Profile = () => {
     fetchData();
   }, [bookmarkedActivities]); 
   
+  const toggleModal = () => setModal(!modal);
+
+  const handlePasswordChange = (e) => setNewPassword(e.target.value);
+
+  const handleProfilePicChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewProfilePic(URL.createObjectURL(file)); // Preview the new image
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Create FormData to send data to the backend
+    const formData = new FormData();
+    formData.append("password", newPassword);
+    if (newProfilePic) {
+      formData.append("profile_picture", newProfilePic); // Append the file if it's selected
+    }
+
+    try {
+      const response = await fetch("http://localhost:5001/updateProfile", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update profile");
+      }
+
+      alert("Profile updated successfully!");
+      toggleModal(); // Close modal on success
+    } catch (error) {
+      console.error(error);
+      alert("Error updating profile. Please try again.");
+    }
+  };
 
   const handleCheckItOutClick = async (activityId) => {
     setLoadingActivity(true);
@@ -52,6 +94,13 @@ const Profile = () => {
     setSelectedActivity(null);
   };
 
+  const handleDirections = () => {
+    if (selectedActivity) {
+      const destination = selectedActivity.activity_title;
+      const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+      window.open(url, '_blank');
+    }
+  };
   return (
     <div>
       {selectedActivity ? (
@@ -104,7 +153,7 @@ const Profile = () => {
                 </CardText>
                 <CardText className="text-center">{selectedActivity.activity_summary}</CardText>
                 <div style={{ display: "flex", justifyContent: "space-around", marginTop: "15px" }}>
-                  <Button color="success">Get Directions</Button>
+                  <Button color="success" onClick={handleDirections}>Get Directions</Button>
                   <Button color="primary">Add a Review</Button>
                 </div>
                 <h5 className="mt-4">Reviews:</h5>
@@ -170,7 +219,21 @@ const Profile = () => {
                 }}
               >
                 <p>{user}</p>
+                <Button
+                color="primary"
+                onClick={toggleModal}
+                style={{
+                  marginTop: "20px",
+                  padding: "10px 20px",
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                  borderRadius: "5px",
+                }}
+              >
+                Update Profile
+              </Button>
               </div>
+              
             </Col>
           </Row>
           <div style={{ marginTop: "-30px" }}>

@@ -1,5 +1,6 @@
 import { Button, Nav, NavItem } from "reactstrap";
 import { Link, useLocation } from "react-router-dom";
+import { useUser } from "../views/ui/UserContext"; // Assuming this provides user info
 import user1 from "../assets/images/users/IMG_1874.jpeg";
 // import probg from "../assets/images/bg/download.jpg";
 import probg2 from "../assets/images/bg/pastelbg.jpg";
@@ -61,6 +62,7 @@ const navigation = [
 ];
 
 const Sidebar = () => {
+  const { user } = useUser();
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
@@ -83,7 +85,7 @@ const Sidebar = () => {
             <i className="bi bi-x"></i>
           </Button>
         </div>
-        <div className="bg-dark text-white p-2 opacity-75">User name</div>
+        <div className="bg-dark text-white p-2 opacity-75"><p>User: {user}</p></div>
       </div>
       <div className="p-3 mt-2">
         <Nav vertical className="sidebarNav">

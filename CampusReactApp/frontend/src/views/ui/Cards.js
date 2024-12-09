@@ -97,6 +97,13 @@ const Cards = () => {
     setSelectedActivity(null); // Reset to list view
   };
 
+  const handleDirections = () => {
+    if (selectedActivity) {
+      const destination = selectedActivity.activity_title;
+      const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+      window.open(url, '_blank');
+    }
+  };
   return (
     <div>
       {selectedActivity ? (
@@ -133,7 +140,7 @@ const Cards = () => {
                 </CardText>
                 <CardText className="text-center">{selectedActivity.activity_summary}</CardText>
                 <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px' }}>
-                  <Button color="success">Get Directions</Button>
+                  <Button color="success" onClick={handleDirections}>Get Directions</Button>
                   <Button color="primary">Add a Review</Button>
                 </div>
                 <h5 className="mt-4">Reviews:</h5>
