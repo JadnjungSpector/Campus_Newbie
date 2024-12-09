@@ -1,6 +1,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> baa32106a (addded review filtering)
 =======
 >>>>>>> baa32106a (addded review filtering)
 import React from 'react';
@@ -9,6 +12,7 @@ import { MemoryRouter } from 'react-router-dom';
 import Login from '../views/ui/Login';
 import { AuthProvider } from '../contexts/AuthContext';
 import { UserProvider } from '../views/ui/UserContext';
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 =======
@@ -31,6 +35,8 @@ beforeAll(() => {
   }); 
 <<<<<<< HEAD
 >>>>>>> 6be43a322 (figuring out lint)
+=======
+>>>>>>> baa32106a (addded review filtering)
 =======
 >>>>>>> baa32106a (addded review filtering)
 

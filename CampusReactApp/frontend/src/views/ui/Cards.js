@@ -37,11 +37,6 @@ const Cards = () => {
   const [safetyRatingDropdownOpen, setSafetyRatingDropdownOpen] = useState(false);
 
 
-  // States for activity rating and safety rating filters
-  const [activityRating, setActivityRating] = useState(null);
-  const [safetyRating, setSafetyRating] = useState(null);
-  const [activityRatingDropdownOpen, setActivityRatingDropdownOpen] = useState(false);
-  const [safetyRatingDropdownOpen, setSafetyRatingDropdownOpen] = useState(false);
 
 
   // Fetch all activities for the list view
