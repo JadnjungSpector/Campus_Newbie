@@ -15,7 +15,7 @@ import {
 } from "reactstrap";
 import Blog from "../../components/dashboard/Blog";
 import { FaStar } from 'react-icons/fa';
-import AddReviewForm from './AddReviewForm'; // Import the AddReviewForm component
+import AddReviewForm from './AddReviewForm'; 
 
 const Cards = () => {
   const [activities, setActivities] = useState([]);
@@ -27,7 +27,7 @@ const Cards = () => {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [loadingActivity, setLoadingActivity] = useState(false);
   const [isFlagged, setFlagged] = useState(false);
-  const [showReviewForm, setShowReviewForm] = useState(false); // Toggle state for the review form
+  const [showReviewForm, setShowReviewForm] = useState(false); 
 
   // Fetch all activities for the list view
   useEffect(() => {
@@ -104,7 +104,6 @@ const Cards = () => {
   const handleFlagging = async () => {
     setFlagged(!isFlagged);
     try {
-      // Make the update request to the server
       const response = await fetch(`http://localhost:5001/activities/${selectedActivity.id}/flagged`, {
         method: 'POST',
         headers: {
@@ -119,13 +118,13 @@ const Cards = () => {
 
       const updatedActivity = await response.json();
 
-      // Update the local state
       setSelectedActivity(updatedActivity);
       console.log('Flagged status successfully updated');
     } catch (error) {
       console.error('Error updating flagged status:', error);
     }
   };
+
   const handleReviewAdded = (updatedActivity) => {
     setSelectedActivity(updatedActivity); // Update the activity with the new reviews
     setShowReviewForm(false); // Hide the review form after submission
@@ -133,11 +132,12 @@ const Cards = () => {
 
   const handleDirections = () => {
     if (selectedActivity) {
-      const destination = selectedActivity.activity_title;
+      const destination = selectedActivity.locationString;
       const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
       window.open(url, '_blank');
     }
   };
+
   return (
     <div>
       {selectedActivity ? (
@@ -180,7 +180,7 @@ const Cards = () => {
                 </CardText>
                 <CardText className="text-center">{selectedActivity.activity_summary}</CardText>
                 <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px' }}>
-                  <Button color="success">Get Directions</Button>
+                  <Button color="success" onClick={handleDirections}>Get Directions</Button>
                   <Button color="warning" onClick={handleFlagging}>{isFlagged ? ("Reported") : ("Report")}</Button>
                   <Button
                     style={{
@@ -299,4 +299,3 @@ const Cards = () => {
 };
 
 export default Cards;
-

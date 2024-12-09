@@ -110,7 +110,7 @@ const SubmitActivity = () => {
 
     // Validate form before submission
     if (!validateForm()) {
-      setSubmissionStatus('error'); // Show an error message if validation fails
+      setSubmissionStatus('error'); 
       return;
     }
 
@@ -146,7 +146,6 @@ const SubmitActivity = () => {
         expirationDate: '',
       });
 
-      // Clear the success message after a timeout (optional)
       setTimeout(() => setSubmissionStatus(null), 3000);
     } catch (error) {
       console.error('Error creating activity:', error);
@@ -180,7 +179,7 @@ const SubmitActivity = () => {
                 placeholder="Enter your name"
                 value={formData.studentName}
                 onChange={handleChange}
-                invalid={!!errors.studentName} // Highlight field if invalid
+                invalid={!!errors.studentName}
               />
             </FormGroup>
           </Col>

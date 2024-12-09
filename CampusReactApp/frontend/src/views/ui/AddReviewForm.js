@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AddReviewForm.css'; // Import the CSS file
+import './AddReviewForm.css'; 
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 
 const AddReviewForm = ({ activityId, onReviewAdded }) => {
@@ -29,7 +29,7 @@ const AddReviewForm = ({ activityId, onReviewAdded }) => {
       setError('Both safety and general ratings are required.');
       return;
     }
-    setError(''); // Clear the error
+    setError('');
 
     // Prepare the form data
     const formData = new FormData();

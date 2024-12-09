@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Button, Card, CardImg, CardBody, CardTitle, CardText } from "reactstrap";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from "reactstrap"; // Added the missing imports
 import { FaStar } from "react-icons/fa";
 import Blog from "../components/dashboard/Blog";
 import background from "../assets/images/bg/UWCity.jpg";
 import userpic from "../assets/images/users/IMG_1874.jpeg";
 import Friends from "../components/dashboard/Friend";
 import AddReviewForm from "../views/ui/AddReviewForm"; // Import the AddReviewForm component
-import { useUser } from "../views/ui/UserContext"; // Assuming this provides user info
+import { useUser } from "../views/ui/UserContext";
 import useBookmarkedActivities from "../views/ui/BookMarkedActivity";
-import { FaCamera } from "react-icons/fa";
+
 const Profile = () => {
-  const { user } = useUser(); // Extract `user` from context
+  const { user, setUser, setIsLoggedIn } = useUser();
   const [activities, setActivities] = useState([]);
   const [bookmarkedActivities, setBookmarkedActivities] = useBookmarkedActivities(user);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [loadingActivity, setLoadingActivity] = useState(false);
   const [isFlagged, setFlagged] = useState(false);
+
+  const handleLogOut = () => {
+    setUser(null);
+    setIsLoggedIn(false);
+    sessionStorage.removeItem("user");
+    // Optionally redirect to the login page
+    window.location.href = "/login";
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,10 +59,17 @@ const Profile = () => {
       setLoadingActivity(false);
     }
   };
+  const handleDirections = () => {
+    if (selectedActivity) {
+      const destination = selectedActivity.activity_title;
+      const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+      window.open(url, '_blank');
+    }
+  };
 
   const handleBackClick = () => {
     setSelectedActivity(null);
-    setShowReviewForm(false); // Ensure the review form is hidden when going back
+    setShowReviewForm(false);
   };
 
   const handleReviewAdded = (updatedActivity) => {
@@ -67,7 +81,6 @@ const Profile = () => {
   const handleFlagging = async () => {
     setFlagged(!isFlagged);
     try {
-      // Make the update request to the server
       const response = await fetch(`http://localhost:5001/activities/${selectedActivity.id}/flagged`, {
         method: 'POST',
         headers: {
@@ -82,7 +95,6 @@ const Profile = () => {
 
       const updatedActivity = await response.json();
 
-      // Update the local state
       setSelectedActivity(updatedActivity);
       console.log('Flagged status successfully updated');
     } catch (error) {
@@ -148,7 +160,7 @@ const Profile = () => {
                 </CardText>
                 <CardText className="text-center">{selectedActivity.activity_summary}</CardText>
                 <div style={{ display: "flex", justifyContent: "space-around", marginTop: "15px" }}>
-                  <Button color="success">Get Directions</Button>
+                  <Button color="success" onClick={handleDirections}>Get Directions</Button>
                   <Button
                     color="warning"
                     onClick={handleFlagging}
@@ -250,34 +262,24 @@ const Profile = () => {
                 }}
               />
               <div
-                style={{
-                  position: "absolute",
-                  left: "calc(50% - 450px + 250px)",
-                  top: "calc(50% - 40px)",
-                  color: "black",
-                  fontSize: "60px",
-                  fontWeight: "bold",
-                  textShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
-                  letterSpacing: "1.5px",
-                  fontFamily: "'Roboto', sans-serif",
-                }}
-              >
-                <p>{user}</p>
-                <Button
-                color="primary"
-                onClick={toggleModal}
-                style={{
-                  marginTop: "20px",
-                  padding: "10px 20px",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  borderRadius: "5px",
-                }}
-              >
-                Update Profile
-              </Button>
-              </div>
-              
+              style={{
+                position: "absolute",
+                left: "55%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+                color: "black",
+                fontSize: "60px",
+                fontWeight: "bold",
+                textShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
+                letterSpacing: "1.5px",
+                fontFamily: "'Roboto', sans-serif",
+              }}
+            >
+              <p>{user}'s profile</p>
+            </div>
+            <Button color="danger" onClick={handleLogOut} style={{ marginTop: "20px" }}>
+              Log Out
+            </Button>
             </Col>
           </Row>
           <div style={{ marginTop: "-30px" }}>

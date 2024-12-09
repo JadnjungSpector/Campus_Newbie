@@ -1,14 +1,13 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
-const bcrypt = require('bcryptjs');// For password hashing
-const jwt = require('jsonwebtoken'); // For generating JWT tokens
+const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const upload = multer();
 
 
 const app = express();
-const port = 5001; // or any port of your choice
+const port = 5001;
 
 app.use(cors()); // Allow cross-origin requests
 app.use(express.json()); // For parsing application/json
@@ -16,31 +15,6 @@ app.use(express.json()); // For parsing application/json
 const uri = "mongodb+srv://jordym2:KWeCDwrZq8RPAAFM@activityinfo.s2cr2.mongodb.net/ActivityData?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 
-app.post("/updateProfile", upload.single("profile_picture"), async (req, res) => {
-  const { password } = req.body;
-  const { file } = req;
-
-  try {
-    // Update password if it's provided
-    if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
-      // Here you should update the password in the database
-      // await User.updateOne({ _id: req.user.id }, { password: hashedPassword });
-    }
-
-    // Update profile picture if it's provided
-    if (file) {
-      const newProfilePicPath = path.join(__dirname, "uploads", file.filename);
-      // Here you should update the profile picture in the database
-      // await User.updateOne({ _id: req.user.id }, { profile_picture: newProfilePicPath });
-    }
-
-    res.status(200).send("Profile updated successfully.");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error updating profile.");
-  }
-});
 app.get('/activities', async (req, res) => {
     try {
         await client.connect();
@@ -78,7 +52,6 @@ app.post('/api/activities', async (req, res) => {
       expirationDate,
     } = req.body;
 
-    // Create the new activity object
     const newActivity = {
       student_name: studentName,
       activity_title: activityTitle,
@@ -88,7 +61,6 @@ app.post('/api/activities', async (req, res) => {
       audience: targetAudience,
       flagged: false,
       location: location,
-      // Store null if "Never" is selected
       expiration_date: expirationDate === 'Never' ? null : expirationDate, 
     };
 
@@ -133,13 +105,11 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
       return res.status(400).json({ message: 'Review must be at least 20 words long.' });
     }
 
-    // Convert ID to ObjectId and find the activity
     const activity = await collection.findOne({ _id: new ObjectId(id) });
     if (!activity) {
       return res.status(404).json({ message: 'Activity not found' });
     }
 
-    // Create the new review object
     const newReview = {
       user,
       text,
@@ -190,7 +160,7 @@ app.get('/activities/:id', async (req, res) => {
     const collection = database.collection('home_screen');
     
     const { id } = req.params;
-    const ObjectId = require('mongodb').ObjectId; // Make sure to import ObjectId
+    const ObjectId = require('mongodb').ObjectId;
     
     const activity = await collection.findOne({ _id: new ObjectId(id) });
     
@@ -275,9 +245,9 @@ app.post('/login', async (req, res) => {
       }
       const newUser = {
         username,
-        password, // Consider hashing the password for security
+        password,
         email,
-        bookmarkedActivities: [], // Initialize with an empty array
+        bookmarkedActivities: [],
       };
   
       await usersCollection.insertOne(newUser);
@@ -298,7 +268,7 @@ app.post('/login', async (req, res) => {
       const usersCollection = database.collection('users');
   
       const { username } = req.params;
-      const { activity_title } = req.body; // Extract from request body
+      const { activity_title } = req.body; 
   
       console.log('Username:', username);
       console.log('Activity title:', activity_title);
@@ -315,7 +285,6 @@ app.post('/login', async (req, res) => {
   
       // Toggle the activity: remove if present, add if not
       if (updatedActivities.includes(activity_title)) {
-        // updatedActivities = updatedActivities.filter(activity => activity !== activity_title);
         updatedActivities.splice(updatedActivities.indexOf(activity_title), 1);
       } else {
         updatedActivities.push(activity_title);
