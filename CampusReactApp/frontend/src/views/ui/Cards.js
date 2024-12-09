@@ -37,6 +37,8 @@ const Cards = () => {
   const [safetyRatingDropdownOpen, setSafetyRatingDropdownOpen] = useState(false);
 
 
+
+
   // Fetch all activities for the list view
   useEffect(() => {
     const fetchActivities = async () => {
@@ -159,9 +161,30 @@ const Cards = () => {
       console.error('Error updating flagged status:', error);
     }
   };
+
   const handleReviewAdded = (updatedActivity) => {
     setSelectedActivity(updatedActivity); // Update the activity with the new reviews
     setShowReviewForm(false); // Hide the review form after submission
+  };
+
+  // const handleDirections = () => {
+  //   if (selectedActivity) {
+  //     const destination = selectedActivity.locationString;
+  //     const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+  //     window.open(url, '_blank');
+  //   }
+  // };
+
+  const handleDirections = () => {
+    if (selectedActivity && selectedActivity.locationString) {
+      const destination = selectedActivity.locationString.trim();
+      if (destination) {
+        const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+        window.open(url, '_blank');
+      } else {
+        console.error("Invalid location string.");
+      }
+    }
   };
 
   return (
@@ -206,7 +229,7 @@ const Cards = () => {
                 </CardText>
                 <CardText className="text-center">{selectedActivity.activity_summary}</CardText>
                 <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px' }}>
-                  <Button color="success">Get Directions</Button>
+                  <Button color="success" onClick={handleDirections}>Get Directions</Button>
                   <Button color="warning" onClick={handleFlagging}>{isFlagged ? ("Reported") : ("Report")}</Button>
                   <Button
                     style={{
@@ -352,4 +375,3 @@ const Cards = () => {
 };
 
 export default Cards;
-

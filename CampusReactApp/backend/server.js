@@ -32,8 +32,7 @@ app.get('/activities', async (req, res) => {
     }
 });
 
-
-app.post('/api/activities', async (req, res) => { 
+app.post('/api/activities', async (req, res) => {
   try {
     await client.connect();
     const database = client.db('ActivityData');
@@ -155,7 +154,6 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
 });
 
 
-// Retrieves activities JSON
 app.get('/activities/:id', async (req, res) => {
   try {
     await client.connect();
@@ -341,9 +339,9 @@ app.get('/api/v1/user/:username', async (req, res) => {
   }
 });
 
+// Route handler for fetching bookmarked activities
 app.get('/api/v1/user/:username/bookmarked-activities', async (req, res) => {
   try {
-    await client.connect();
     const database = client.db('ActivityData');
     const usersCollection = database.collection('users');
 
@@ -366,9 +364,14 @@ app.get('/api/v1/user/:username/bookmarked-activities', async (req, res) => {
     console.error('Error fetching bookmarked activities:', error.message); // Log the error message
     console.error(error.stack); // Log the stack trace for more details
     res.status(500).json({ message: 'Internal server error' });
-  } finally {
-    await client.close();
   }
+});
+
+// Close the MongoDB client when the process exits
+process.on('SIGINT', async () => {
+  console.log('Closing MongoDB connection...');
+  await client.close();
+  process.exit(0);
 });
 
 app.post('/activities/:id/flagged', async (req, res) => {

@@ -6,11 +6,11 @@ import background from "../assets/images/bg/UWCity.jpg";
 import userpic from "../assets/images/users/IMG_1874.jpeg";
 import Friends from "../components/dashboard/Friend";
 import AddReviewForm from "../views/ui/AddReviewForm"; // Import the AddReviewForm component
-import { useUser } from "../views/ui/UserContext"; // Assuming this provides user info
+import { useUser } from "../views/ui/UserContext";
 import useBookmarkedActivities from "../views/ui/BookMarkedActivity";
 
 const Profile = () => {
-  const { user } = useUser(); // Extract `user` from context
+  const { user } = useUser();
   const [activities, setActivities] = useState([]);
   const [bookmarkedActivities, setBookmarkedActivities] = useBookmarkedActivities(user);
   const [selectedActivity, setSelectedActivity] = useState(null);
@@ -49,6 +49,26 @@ const Profile = () => {
       console.error("Error fetching single activity:", error);
     } finally {
       setLoadingActivity(false);
+    }
+  };
+
+  // const handleDirections = () => {
+  //   if (selectedActivity) {
+  //     const destination = selectedActivity.locationString;
+  //     const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+  //     window.open(url, '_blank');
+  //   }
+  // };
+
+  const handleDirections = () => {
+    if (selectedActivity && selectedActivity.locationString) {
+      const destination = selectedActivity.locationString.trim();
+      if (destination) {
+        const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+        window.open(url, '_blank');
+      } else {
+        console.error("Invalid location string.");
+      }
     }
   };
 
@@ -147,7 +167,7 @@ const Profile = () => {
                 </CardText>
                 <CardText className="text-center">{selectedActivity.activity_summary}</CardText>
                 <div style={{ display: "flex", justifyContent: "space-around", marginTop: "15px" }}>
-                  <Button color="success">Get Directions</Button>
+                  <Button color="success" onClick={handleDirections}>Get Directions</Button>
                   <Button
                     color="warning"
                     onClick={handleFlagging}

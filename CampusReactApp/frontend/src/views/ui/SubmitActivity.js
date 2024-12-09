@@ -3,6 +3,7 @@ import axios from 'axios';
 import Select from 'react-select';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 
+
 const SubmitActivity = () => {
   const audienceOptions = [
     { value: "Family Friendly", label: "Family Friendly" },
@@ -36,6 +37,15 @@ const SubmitActivity = () => {
       setFormData({ ...formData, expirationDate: '' }); // Clear expirationDate
     }
   };
+
+  // const [locationString, setLocationString] = useState('');
+
+  // const handlePlaceSelect = (autocomplete) => {
+  //   const place = autocomplete.getPlace();
+  //   if (place && place.formatted_address) {
+  //     setLocationString(place.formatted_address);
+  //   }
+  // };
 
 
   // State to hold form data
