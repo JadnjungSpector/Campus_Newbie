@@ -1,5 +1,3 @@
-
-
 # Campus Newbie
 
 ## Project Overview
