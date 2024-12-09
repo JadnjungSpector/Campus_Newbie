@@ -34,10 +34,3 @@ jobs:
       run: npm test
       working-directory: CampusReactApp/frontend
 
-
-<<<<<<< HEAD
-    - name: Lint code
-      run: npm run lint  
-=======
-  
->>>>>>> cbaeadb69664be713d49558df22b6f02c48f3384
