@@ -1,14 +1,13 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
-const bcrypt = require('bcryptjs');// For password hashing
-const jwt = require('jsonwebtoken'); // For generating JWT tokens
+const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const upload = multer();
 
 
 const app = express();
-const port = 5001; // or any port of your choice
+const port = 5001;
 
 app.use(cors()); // Allow cross-origin requests
 app.use(express.json()); // For parsing application/json
@@ -50,7 +49,6 @@ app.post('/api/activities', async (req, res) => {
       expirationDate,
     } = req.body;
 
-    // Create the new activity object
     const newActivity = {
       student_name: studentName,
       activity_title: activityTitle,
@@ -60,7 +58,6 @@ app.post('/api/activities', async (req, res) => {
       audience: targetAudience,
       flagged: false,
       location: location,
-      // Store null if "Never" is selected
       expiration_date: expirationDate === 'Never' ? null : expirationDate, 
     };
 
@@ -87,17 +84,20 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
   console.log('Received file:', req.file);
 
   try {
-    await client.connect(); // Connect to the MongoDB client
+    await client.connect();
     const database = client.db('ActivityData');
-    const collection = database.collection('home_screen'); // Ensure this is defined here
+    const collection = database.collection('home_screen');
 
-    const { id } = req.params; // Extract activity ID
-    const { user, text, safety_rating, general_rating } = req.body; // Extract fields from body
-    // Convert the image to Base64
-    const imageBase64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+    const { id } = req.params;
+    const { user, text, safety_rating, general_rating } = req.body;
+
+    // Validate ObjectId
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid activity ID format.' });
+    }
 
     // Validate input fields
-    if (!user || !text || !safety_rating || !general_rating || !image) {
+    if (!user || !text || !safety_rating || !general_rating || !req.file) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
@@ -105,13 +105,14 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
       return res.status(400).json({ message: 'Review must be at least 20 words long.' });
     }
 
-    // Convert ID to ObjectId and find the activity
+    const imageBase64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+
+    // Find the activity
     const activity = await collection.findOne({ _id: new ObjectId(id) });
     if (!activity) {
       return res.status(404).json({ message: 'Activity not found' });
     }
 
-    // Create the new review object
     const newReview = {
       user,
       text,
@@ -120,14 +121,13 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
       image: imageBase64,
     };
 
-    // Update the reviews array and calculate new ratings
     const updatedReviews = [...(activity.reviews || []), newReview];
     const updatedSafetyRating =
       updatedReviews.reduce((sum, review) => sum + review.safety_rating, 0) / updatedReviews.length;
     const updatedGeneralRating =
       updatedReviews.reduce((sum, review) => sum + review.general_rating, 0) / updatedReviews.length;
 
-    // Update the activity document in MongoDB
+    // Update the activity
     const result = await collection.updateOne(
       { _id: new ObjectId(id) },
       {
@@ -143,14 +143,13 @@ app.post('/activities/:id/reviews', upload.single('image'), async (req, res) => 
       return res.status(500).json({ message: 'Failed to update activity with the new review.' });
     }
 
-    // Return the updated activity
     const updatedActivity = await collection.findOne({ _id: new ObjectId(id) });
     res.status(200).json(updatedActivity);
   } catch (error) {
     console.error('Error adding review:', error);
     res.status(500).json({ message: 'Internal server error' });
   } finally {
-    await client.close(); // Ensure the client is closed
+    await client.close();
   }
 });
 
@@ -163,7 +162,7 @@ app.get('/activities/:id', async (req, res) => {
     const collection = database.collection('home_screen');
     
     const { id } = req.params;
-    const ObjectId = require('mongodb').ObjectId; // Make sure to import ObjectId
+    const ObjectId = require('mongodb').ObjectId;
     
     const activity = await collection.findOne({ _id: new ObjectId(id) });
     
@@ -248,9 +247,9 @@ app.post('/login', async (req, res) => {
       }
       const newUser = {
         username,
-        password, // Consider hashing the password for security
+        password,
         email,
-        bookmarkedActivities: [], // Initialize with an empty array
+        bookmarkedActivities: [],
       };
   
       await usersCollection.insertOne(newUser);
@@ -271,7 +270,7 @@ app.post('/login', async (req, res) => {
       const usersCollection = database.collection('users');
   
       const { username } = req.params;
-      const { activity_title } = req.body; // Extract from request body
+      const { activity_title } = req.body; 
   
       console.log('Username:', username);
       console.log('Activity title:', activity_title);
@@ -288,7 +287,6 @@ app.post('/login', async (req, res) => {
   
       // Toggle the activity: remove if present, add if not
       if (updatedActivities.includes(activity_title)) {
-        // updatedActivities = updatedActivities.filter(activity => activity !== activity_title);
         updatedActivities.splice(updatedActivities.indexOf(activity_title), 1);
       } else {
         updatedActivities.push(activity_title);

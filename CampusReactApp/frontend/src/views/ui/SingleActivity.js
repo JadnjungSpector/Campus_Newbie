@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardImg, CardBody, CardTitle, CardText, Button } from "reactstrap";
 import { FaStar } from 'react-icons/fa';
-import AddReviewForm from './AddReviewForm'; // Import the AddReviewForm component
+import AddReviewForm from './AddReviewForm';
 
 const SingleActivity = () => {
   const { id } = useParams();

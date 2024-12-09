@@ -4,7 +4,7 @@ import { Row, Col, Card, CardTitle, CardBody, Form, FormGroup, Label, Input, But
 import { useAuth } from '../../contexts/AuthContext'; 
 import { useUser } from "./UserContext";
 const Login = () => {
-  const { setUser } = useUser();
+  const { setUser, setIsLoggedIn } = useUser();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -27,6 +27,7 @@ const Login = () => {
         const data = await response.json();
         setUser(username);
         login(data.token);
+        setIsLoggedIn(true);
         navigate('/profile');
       } else {
         const errorData = await response.json();
