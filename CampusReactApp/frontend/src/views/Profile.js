@@ -174,9 +174,14 @@ const Profile = () => {
             </Col>
           </Row>
           <div style={{ marginTop: "-30px" }}>
-            <h5 className="text-center mb-4" style={{ fontWeight: "bold" }}>
+          <h5 className="text-center mb-4" style={{ fontWeight: "bold" }}>
               Bookmarked Activities
             </h5>
+            {activities.length === 0 ? (
+              <p className="text-center" style={{ fontStyle: "italic", color: "gray" }}>
+                No bookmarked activities yet! 
+              </p>
+            ) : (
             <Row>
               {activities.map((activity, index) => (
                 <Col sm="6" lg="6" xl="3" key={index}>
@@ -191,6 +196,7 @@ const Profile = () => {
                 </Col>
               ))}
             </Row>
+            )}
           </div>
           <Row>
             <Col lg="12">
