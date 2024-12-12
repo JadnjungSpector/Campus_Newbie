@@ -122,7 +122,7 @@ const Cards = () => {
       const response = await fetch(`http://localhost:5001/activities/${activityId}`);
       const data = await response.json();
       setSelectedActivity(data); // Load the detailed activity
-      setFlagged(selectedActivity.flagged);
+      // setFlagged(selectedActivity.flagged);
     } catch (error) {
       console.error('Error fetching single activity:', error);
     } finally {
