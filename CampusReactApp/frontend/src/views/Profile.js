@@ -276,7 +276,7 @@ const Profile = () => {
             >
               <p>{user}'s profile</p>
             </div>
-            <Button color="danger" onClick={handleLogOut} style={{ marginTop: "20px" }}>
+            <Button color="danger" onClick={handleLogOut} style={{ marginTop: "80px" }}>
               Log Out
             </Button>
             </Col>
