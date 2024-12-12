@@ -107,7 +107,7 @@ const Cards = () => {
       // Filter by audience
       (audiences.length === 0 || activity.audience.some((audience) => audiences.includes(audience))) &&
       // Filter by activity rating: show activities with rating >= selected rating
-      (activityRating === null || activity.activity_rating >= activityRating) &&
+      (activityRating === null || activity.general_rating >= activityRating) &&
       // Filter by safety rating: show activities with safety rating >= selected rating
       (safetyRating === null || activity.safety_rating >= safetyRating)
     );
