@@ -50,6 +50,8 @@ const SubmitActivity = () => {
     expirationDate: '', 
   });
 
+ 
+
   // Handle input changes for text fields
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -142,7 +144,7 @@ const SubmitActivity = () => {
         targetAudience: [],
         eventCategories: [],
         imageUrl: '',
-        location: '', 
+        locationString: '', 
         expirationDate: '',
       });
 
