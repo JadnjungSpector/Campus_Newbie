@@ -287,7 +287,7 @@ const Profile = () => {
             </h5>
             {activities.length === 0 ? (
               <p className="text-center" style={{ fontStyle: "italic", color: "gray" }}>
-                No bookmarked activities yet! 
+              No bookmarked activities yet! 
               </p>
             ) : (
             <Row>
