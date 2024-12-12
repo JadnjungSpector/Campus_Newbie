@@ -13,7 +13,7 @@ const Sidebar = () => {
   };
   let location = useLocation();
 
-  const navigation = [
+  const baseNavigation = [
     {
       title: "Profile",
       href: isLoggedIn ? "/profile" : "/login",
@@ -24,12 +24,17 @@ const Sidebar = () => {
       href: "/cards",
       icon: "bi bi-house",
     },
-    {
-      title: "Submit Activity",
-      href: "/submitActivity",
-      icon: "bi bi-lightbulb",
-    },
   ];
+  
+   // Add Submit Activity only if user is logged in
+   const navigation = isLoggedIn 
+   ? [...baseNavigation, {
+       title: "Submit Activity",
+       href: "/submitActivity",
+       icon: "bi bi-lightbulb",
+     }]
+   : baseNavigation;
+
 
   return (
     <div className="custom-sidebar">
